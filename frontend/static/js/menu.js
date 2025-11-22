@@ -8,7 +8,6 @@ import { getAllMenu, getMenuById } from "./services/menuService.js";
 import { createMenuCard } from "./components/menuCard.js";
 import { renderItemDetail } from './ui/modalRenderer.js';
 import { renderMenuPage } from './ui/menuRenderer.js';
-import { renderSimpleMenu } from './ui/simpleMenuRenderer.js';
 import { createModal } from './components/modal.js';
 import { initCartUI } from "./cart.js";
 /**
@@ -40,7 +39,8 @@ async function loadMenu() {
 
     // Render highlights using the full renderer so the highlight section
     // is preserved, but render the main menu list using the simple renderer.
-    const { highlightsNode } = renderMenuPage(items, {
+    // Use the unified simple renderer (menuRenderer.js) which returns both highlights and the menu fragment
+    const { highlightsNode, menuFragment } = renderMenuPage(items, {
       highlightOptions: { preferCategoryOrder: ['Main','Dessert','Starter'] },
       menuOptions: { order: ['Starter','Main','Dessert','Side','Drink'], uppercase: false }
     });
@@ -51,9 +51,12 @@ async function loadMenu() {
       if (highlightsNode) highlightRoot.appendChild(highlightsNode);
     }
 
-    // Simple menu list for quick testing
     el.innerHTML = '';
-    renderSimpleMenu(items, el);
+    if (menuFragment) {
+      el.appendChild(menuFragment);
+    } else {
+      el.textContent = 'No items in the menu';
+    }
 
     /*
     // Full renderer (original) - kept for reference
