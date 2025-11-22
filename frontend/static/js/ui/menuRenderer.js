@@ -1,10 +1,17 @@
 // Simple unified menu renderer
-// - Provides a tiny `renderMenuPage(items, options)` which returns
-//   `{ highlightsNode, menuFragment }`.
-// - Reuses the existing `createMenuCard` so behavior (Details/Add) is preserved.
+//
+// Purpose:
+// - Provide a single, minimal renderer that builds the "Today's Highlights"
+//   block and a categorized menu fragment.
 
 import { createMenuCard } from "../components/menuCard.js";
 
+/**
+ * Group a flat list of menu items by their raw `category` property.
+ 
+ * @param {Array<Object>} items
+ * @returns {Object<string, Array<Object>>} mapping category -> items[]
+ */
 function groupByCategory(items) {
   const groups = {};
   (items || []).forEach(item => {
@@ -15,6 +22,17 @@ function groupByCategory(items) {
   return groups;
 }
 
+/**
+ * Pick a small set of highlight items.
+ *
+ * Behavior:
+ * - Prefer items marked `featured`; if none exist, fall back to the first
+ *   N items from the list. 
+ 
+ * @param {Array<Object>} items
+ * @param {number} count
+ * @returns {Array<Object>} up to `count` highlighted items
+ */
 function pickHighlights(items = [], count = 3) {
   if (!Array.isArray(items)) return [];
   const featured = items.filter(i => i && i.featured);
@@ -22,6 +40,21 @@ function pickHighlights(items = [], count = 3) {
   return items.slice(0, count);
 }
 
+/**
+ * Build and return the DOM nodes for highlights and the categorized menu.
+ *
+ * API:
+ * - `renderMenuPage(items, options)` returns an object with:
+ *     - `highlightsNode` -> HTMLElement (grid of highlight cards)
+ *     - `menuFragment` -> DocumentFragment (grouped category sections)
+ *
+ * Options (simple):
+ * - `options.highlightsCount` - how many highlight slots to build (default 3)
+ *
+ * @param {Array<Object>} items - array of menu item objects
+ * @param {Object} options
+ * @returns {{highlightsNode: HTMLElement, menuFragment: DocumentFragment}}
+ */
 export function renderMenuPage(items = [], options = {}) {
   const highlightsArr = pickHighlights(items, options.highlightsCount || 3);
 
