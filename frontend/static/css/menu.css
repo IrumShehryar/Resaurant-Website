@@ -111,15 +111,17 @@
 
 /* If createMenuCard output has an img inside the card - make it cover the card */
 .highlight-card img {
-  /* Keep highlight-card images in normal flow with a fixed visual height
-     (removed absolute positioning to ensure the container height is consistent
-     across all highlight items). Use contain so the image is fully visible. */
-  position: relative;
+  /* Make highlight images cover the full highlight-card area. Position
+     absolute so the image fills the container and the inner overlay can sit
+     above it. Use `object-fit: cover` to preserve aspect ratio while filling. */
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 9rem;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
   display: block;
   z-index: 0;
+  border-radius: inherit;
 }
 
 /* Ensure any image variant used inside highlight items (thumb, menu-card img) behaves the same
@@ -132,8 +134,9 @@
 .highlight-item .highlight-thumb,
 .highlight-item .menu-card__image,
 .highlight-item .menu-card img {
-  /* Use normal document flow for highlight images so the parent .highlight-item
-     height is determined consistently. Keep object-fit to preserve cover behavior. */
+  /* These are fallbacks for non-fullbleed variants. The absolute-filled
+     .highlight-card img above will visually cover the card; keep these
+     values so thumbnails and placeholders render consistently when used. */
   position: relative;
   width: 100%;
   height: 9rem;
