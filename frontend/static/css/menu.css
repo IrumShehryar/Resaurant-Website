@@ -39,6 +39,9 @@
 .filter-btn:focus { background: rgba(0,0,0,.04); outline: none; }
 .filter-btn.active { background: var(--accent,#2b8a3e); color: #fff; }
 
+/* Ensure diet filter labels are capitalized for display (e.g. 'vegan' -> 'Vegan') */
+.filter-btn.diet { text-transform: capitalize !important; }
+
 
 /* Group titles and spacing */
 .filter-group { margin-bottom: .75rem; }

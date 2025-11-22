@@ -9,8 +9,6 @@ function normalizeKey(s) {
 function applyFilters() {
     const cards = document.querySelectorAll('.menu-card');
     const activeDietKey = state.diet ? normalizeKey(state.diet) : null;
-    // Debug: show which diet is active (helps track mismatches)
-    if (activeDietKey) console.log('[menuFilters] activeDietKey=', activeDietKey);
 
     const menuList = document.getElementById('menuList');
     const existingResults = document.getElementById('dietResults');
@@ -21,22 +19,19 @@ function applyFilters() {
         const grid = document.createElement('div');
         grid.className = 'menu-grid diet-results-grid';
 
+        let matchCount = 0;
         cards.forEach(c => {
             const diets = (c.dataset.diet || '')
                 .split(',')
                 .map(s => s.trim())
                 .filter(Boolean)
                 .map(normalizeKey);
-
-            // Debug: print card's diet keys to help diagnose missing items
-            const title = c.querySelector('.menu-card__title')?.textContent || c.dataset.id || '<unknown>';
-            console.log('[menuFilters] card:', title, '-> diets=', diets, 'dataset.diet=', c.dataset.diet);
-
             if (diets.includes(activeDietKey)) {
                 // Prefer cloning the wrapping card container so styles are preserved
                 const wrapper = c.closest('.menu-row__card') || c;
                 const clone = wrapper.cloneNode(true);
                 grid.appendChild(clone);
+                matchCount += 1;
             }
         });
 
@@ -47,7 +42,10 @@ function applyFilters() {
         resultsRoot.className = 'menu-category menu-category--filtered';
         const heading = document.createElement('h3');
         heading.className = 'menu-category__heading';
-        heading.textContent = `${state.diet}`.toWellFormed();
+        const activeDietBtn = document.querySelector('.filter-btn.diet.active');
+        // Use the button's visible text for the heading so Title Case labels are preserved
+        const displayDiet = activeDietBtn ? activeDietBtn.textContent.trim() : state.diet || '';
+        heading.textContent = `${displayDiet} (${matchCount})`;
         resultsRoot.appendChild(heading);
         resultsRoot.appendChild(grid);
 
@@ -73,7 +71,6 @@ function applyFilters() {
 function attachCategoryListeners() {
     document.querySelectorAll('.filter-btn.category').forEach(btn => {
         btn.addEventListener('click', () => {
-            console.log('[menuFilters] category clicked ->', btn.dataset.category);
             document.querySelectorAll('.filter-btn.category').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             // update state.category for potential future use but do NOT use it to hide cards
@@ -87,7 +84,10 @@ function attachCategoryListeners() {
             const sectionId = state.category === 'all' ? null : `${state.category}s-section`;
             if (sectionId) {
                 const el = document.getElementById(sectionId);
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    try { el.focus(); } catch (e) { /* ignore focus errors */ }
+                }
             }
         });
     });
@@ -96,7 +96,6 @@ function attachCategoryListeners() {
 function attachDietListeners() {
     document.querySelectorAll('.filter-btn.diet').forEach(btn => {
         btn.addEventListener('click', () => {
-            console.log('[menuFilters] diet clicked ->', btn.dataset.diet);
             // Toggle behaviour: clicking the already-active diet clears the filter
             const clickedDiet = (btn.dataset.diet || '').toLowerCase().trim() || null;
             const wasActive = btn.classList.contains('active');
@@ -112,6 +111,15 @@ function attachDietListeners() {
                 state.diet = clickedDiet;
             }
             applyFilters();
+            // If a grouped diet-results block was created, scroll to its heading and focus it
+            const resultsRoot = document.getElementById('dietResults');
+            if (resultsRoot) {
+                const heading = resultsRoot.querySelector('.menu-category__heading') || resultsRoot;
+                try {
+                    heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    heading.focus();
+                } catch (e) { /* ignore */ }
+            }
         });
     });
 }
