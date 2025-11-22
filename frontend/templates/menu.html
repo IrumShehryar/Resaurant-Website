@@ -57,7 +57,10 @@ endblock %} {% block styles %}
         <!-- Highlight of the Day (moved inside main so it shares the right-hand column with the menu)
              This keeps the left `diet-panel` column visually separate from the highlights. -->
         <div class="highlight-wrapper">
-            <h3 class="highlight-heading">Today's Highlights</h3>
+            <h3 class="highlight-heading">
+                {% if highlight_day %}{{ highlight_day }} Highlights{% else
+                %}Today's Highlights{% endif %}
+            </h3>
             <section
                 id="highlight-root"
                 class="page-highlight"
@@ -75,4 +78,5 @@ endblock %} {% block styles %}
     type="module"
     src="{{ url_for('static', filename='js/menu.js') }}"
 ></script>
+<!-- highlight heading provided by server: `highlight_day` -->
 {% endblock %}

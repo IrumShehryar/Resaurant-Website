@@ -23,12 +23,34 @@
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, opacity 0.12s ease;
-  box-shadow: 0 0.35rem 0.6rem rgba(0,0,0,0.28);
+     box-shadow: 0 0.35rem 0.6rem rgba(0,0,0,0.28);
+     position: relative;
+     z-index: 1;
+}
+
+/* Neon outline for buttons (uses site accent green) */
+.btn::after {
+     content: '';
+     position: absolute;
+     left: -0.5rem;
+     top: -0.5rem;
+     right: -0.5rem;
+     bottom: -0.5rem;
+     border-radius: calc(0.25rem + 0.5rem);
+     pointer-events: none;
+     box-shadow: 0 0 0.875rem rgba(var(--modal-accent-rgb), 0.12);
+     transition: box-shadow 220ms ease, opacity 220ms ease;
+     opacity: 1;
+}
+
+.btn:hover::after,
+.btn:focus::after {
+     box-shadow: 0 0 2.5rem rgba(var(--modal-accent-rgb), 0.22), 0 0 0.5rem rgba(var(--modal-accent-rgb), 0.08) inset;
 }
 
 
 /* Primary = match cart remove button (danger) */
-.btn-primary {
+.btn-primary, .filter-btn.active {
      background: var(--danger);
      color: #ffffff;
      border: none;
@@ -40,10 +62,10 @@
      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
      box-shadow: 0 0.35rem 0.6rem rgba(0,0,0,0.28);
 }
-.btn-primary:hover { filter: brightness(0.95); transform: translateY(-2px); }
+.btn-primary:hover, .filter-btn.active:hover { filter: brightness(0.95); transform: translateY(-2px); }
 
 /* Secondary = match cart Continue / Continue shopping */
-.btn-secondary {
+.btn-secondary, .filter-btn {
      background: transparent;
      color: var(--modal-accent);
      border: 1px solid var(--modal-accent);
@@ -54,7 +76,7 @@
      cursor: pointer;
      transition: background 0.12s ease, transform 0.12s ease;
 }
-.btn-secondary:hover {
+.btn-secondary:hover, .filter-btn:hover {
      background: rgba(var(--modal-accent-rgb), 0.08);
      color: #0b0b0b;
 }
@@ -75,7 +97,7 @@
 .btn-accent:hover { background: rgba(var(--modal-accent-rgb), 0.85); transform: translateY(-2px); }
 
 /* Focus accessibility */
-.btn:focus { outline: 3px solid rgba(0,255,136,0.14); outline-offset: 2px; }
+.btn:focus, .filter-btn:focus { outline: 3px solid rgba(0,255,136,0.14); outline-offset: 2px; }
 
 .container{
     max-width: 100%;
@@ -140,6 +162,7 @@ nav{
     width: 100%;
     z-index: 1001;
     pointer-events: auto;
+
 }
 
 .nav-links li:first-child { margin-left:2rem; }
