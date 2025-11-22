@@ -6,9 +6,11 @@
  *   and renderMenuPage(items, options) which returns both nodes.
  */
 
+// Utilities and components used to build DOM for menu cards and highlights
 import { createMenuCard } from "../components/menuCard.js";
 import { resolveImageUrl } from "../utils/image-resolver.js";
 
+// Basic sanity check for a menu item before rendering.
 export function validateItem(item) {
 	if (!item || typeof item !== 'object') return false;
 	if (!item.id && !item._id) return false;
@@ -18,6 +20,7 @@ export function validateItem(item) {
 	return true;
 }
 
+// Map common category synonyms to canonical display labels.
 const CATEGORY_ALIASES = {
 	'starter': 'Starter',
 	'starters': 'Starter',
@@ -41,16 +44,20 @@ const CATEGORY_ALIASES = {
 	'beverages': 'Drink'
 };
 
+// Normalize a raw category string into a display label (uses aliases).
 function normalizeCategoryName(value) {
 	const raw = (value && typeof value === 'string') ? value.trim() : 'Uncategorized';
 	const key = raw.toLowerCase();
 	return CATEGORY_ALIASES[key] || raw;
 }
 
+// Create a stable object key from a display label (lowercased).
 function normalizedKey(displayLabel) {
 	return String(displayLabel || '').trim().toLowerCase();
 }
 
+// Group a flat array of items into an object keyed by normalized category.
+// Each entry has { displayLabel, items: [...] } ready for rendering.
 function groupItemsByCategory(items) {
 	const groupsByKey = {};
 	items.forEach(it => {
@@ -63,6 +70,8 @@ function groupItemsByCategory(items) {
 	return groupsByKey;
 }
 
+// Pick one item for a category. Preference: featured -> today -> first available.
+// `usedIds` is a Set used to avoid duplicate picks for multiple highlight slots.
 function pickFirstByCategory(items, categoryLabel, usedIds) {
 	const key = normalizedKey(normalizeCategoryName(categoryLabel));
 	const todayName = new Date().toLocaleString(undefined, { weekday: 'long' }).toLowerCase();        
