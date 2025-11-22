@@ -74,6 +74,9 @@ export function renderMenuPage(items = [], options = {}) {
   Object.keys(groups).forEach(cat => {
     const section = document.createElement('section');
     section.className = 'menu-category';
+    // give a stable id for category sections so filters can scroll to them
+    const normalized = String(cat || 'category').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+    section.id = `${normalized}s-section`;
 
     const heading = document.createElement('h3');
     heading.className = 'menu-category__heading';

@@ -10,6 +10,8 @@ import { renderItemDetail } from './ui/modalRenderer.js';
 import { renderMenuPage } from './ui/menuRenderer.js';
 import { createModal } from './components/modal.js';
 import { initCartUI } from "./cart.js";
+import { initMenuFilters } from "./ui/menuFilters.js";
+
 /**
  * Load the menu list into the #menuList container.
  * 
@@ -54,9 +56,16 @@ async function loadMenu() {
     el.innerHTML = '';
     if (menuFragment) {
       el.appendChild(menuFragment);
+
+      try {
+        initMenuFilters()
+      } catch (err){
+          console.warn('Menu filters init failed:', err);
+      }
     } else {
       el.textContent = 'No items in the menu';
     }
+   
 
     /*
     // Full renderer (original) - kept for reference

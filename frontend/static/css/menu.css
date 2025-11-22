@@ -1,5 +1,84 @@
 /* Menu page styles extracted from style.css */
 
+/* Layout: panel across the top, content below */
+.menu-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+/* Panel visual & vertical layout */
+.diet-panel {
+  display: flex;
+  flex-direction: column; /* stack groups vertically */
+  gap: .5rem;
+  padding: .75rem;
+  background: rgba(255,255,255,0.98);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,.06);
+  position: sticky;
+  top: 5rem; /* adjust to sit below the main header */
+  z-index: 40;
+}
+/* Button styling */
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: .45rem .6rem;
+  border-radius: 0.375rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-weight: 500;
+}
+
+.filter-btn:hover,
+.filter-btn:focus { background: rgba(0,0,0,.04); outline: none; }
+.filter-btn.active { background: var(--accent,#2b8a3e); color: #fff; }
+
+
+/* Group titles and spacing */
+.filter-group { margin-bottom: .75rem; }
+.group-title { font-size: .85rem; margin: 0 0 .25rem 0; color: #333; }
+
+/* Responsive: collapse to single column on small screens */
+@media (max-width: 1024px) {
+  .menu-layout { grid-template-columns: 1fr; }
+  .diet-panel { position: static; flex-direction: row; overflow-x: auto; gap: .5rem; padding: .5rem; width: 100%; }
+  .filter-group { display: flex; gap: .5rem; align-items: center; margin-bottom: 0; }
+  .filter-btn { flex: 0 0 auto; }
+}
+
+@media (min-width: 1025px) {
+  /* On wide screens: make layout two columns — compact left panel + content */
+  .menu-layout {
+    grid-template-columns: 16rem 1fr;
+    grid-template-rows: 1fr;
+    align-items: start;
+    gap: 1.5rem;
+  }
+
+  /* keep groups visually separated inside the narrow panel */
+  .filter-group { margin: 0 0 0.75rem 0; display: block; }
+
+  /* constrain the panel to a small width column (fills the grid column) */
+  .diet-panel { width: 100%; max-width: 16rem; }
+  .diet-panel { position: sticky; top: 5rem; align-self: start; }
+}
+/* Keep filter groups stacked; show single column list (one item per line) */
+.filter-group { display: block; margin: 0; }
+.filter-group .group-title { margin-bottom: 0.25rem; }
+.filter-btn { display: block; width: 100%; text-align: left; padding: 0.5rem 0.75rem; }
+.filter-btn + .filter-btn { margin-top: 0.25rem; }
+
+@media (max-width: 480px) {
+  /* slightly more compact on very small screens */
+  .diet-panel { padding: 0.5rem; }
+  .filter-btn { padding: 0.45rem 0.6rem; }
+}
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
@@ -20,7 +99,7 @@
 
 .menu-card {
   /* use the site accent (neon) as the visible card border */
-  border: 1px solid rgba(var(--modal-accent-rgb), 0.16);
+  border: 0.0625rem solid rgba(var(--modal-accent-rgb), 0.16);
   border-radius: 0.625rem;
   padding: 1rem;
   background-color: rgba(12, 12, 22, 0.88);
@@ -359,9 +438,9 @@
 }
 
 @keyframes highlight-float {
-  0% { transform: translateY(0); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
-  50% { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(var(--modal-accent-rgb), 0.08); }
-  100% { transform: translateY(0); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+  0% { transform: translateY(0); box-shadow: 0 0.375rem 1.125rem rgba(0,0,0,0.12); }
+  50% { transform: translateY(-0.3125rem); box-shadow: 0 0.75rem 1.875rem rgba(var(--modal-accent-rgb), 0.08); }
+  100% { transform: translateY(0); box-shadow: 0 0.375rem 1.125rem rgba(0,0,0,0.12); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -563,8 +642,8 @@
   scroll-snap-type: x proximity;
 }
 
-.menu-row::-webkit-scrollbar { height: 8px; }
-.menu-row::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.04); border-radius: 4px; }
+.menu-row::-webkit-scrollbar { height: 0.5rem; }
+.menu-row::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.04); border-radius: 0.25rem; }
 
 .menu-row__card {
   min-width: 16rem;
