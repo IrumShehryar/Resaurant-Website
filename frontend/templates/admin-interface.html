@@ -1,0 +1,129 @@
+{% extends "base.html"%} {%block title%}Admin Interface - Revontulet
+Flamehouse{% endblock%} {%block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/admin-interface.css') }}"
+/>
+{% endblock %} {%block content%}
+
+<section class="admin-section">
+    <h1>Menu Management</h1>
+    <button id="btn-add-item" class="btn-accent">Add New Item</button>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price (€)</th>
+                <th>Dietary Info</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody id="menu-tbody">
+            <tr>
+                <td colspan="5">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<div id="admin-modal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close">&times;</button>
+        <h3 id="form-title">Add New Item</h3>
+
+        <form id="item-form">
+            <label>Name: <input type="text" name="name" required /></label>
+            <label
+                >Price: <input type="number" name="price" step="0.01" required
+            /></label>
+            <label
+                >Category:
+                <select name="category" required>
+                    <option value="">Select</option>
+                    <option value="Starter">Starter</option>
+                    <option value="Main">Main</option>
+                    <option value="Dessert">Dessert</option>
+                    <option value="Side">Side</option>
+                    <option value="Drink">Drink</option>
+                </select>
+            </label>
+            <label
+                >Description:<textarea name="description" rows="3"></textarea>
+            </label>
+            <label>Image URL:<input type="text" name="image" /></label>
+            <label
+                >Allergens:
+                <input
+                    type="text"
+                    name="allergens"
+                    placeholder="e.g., nuts, dairy, gluten"
+            /></label>
+            <label
+                >Ingredients:
+                <input
+                    type="text"
+                    name="ingredients"
+                    placeholder="e.g., salmon, dill, cream"
+            /></label>
+            <fieldset>
+                <legend>Dietary:</legend>
+                <label
+                    ><input
+                        type="checkbox"
+                        name="dietary"
+                        value="vegetarian"
+                    />Vegetarian</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="dietary"
+                        value="vegan"
+                    />Vegan</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="dietary"
+                        value="gluten-free"
+                    />Gluten-Free</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="dietary"
+                        value="dairy-free"
+                    />Dairy-Free</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="dietary"
+                        value="pescatarian"
+                    />Pescatarian</label
+                >
+            </fieldset>
+            <label
+                >Active:
+                <input type="checkbox" name="active" />
+            </label>
+            <label
+                >Days of Week:
+                <input
+                    type="text"
+                    name="days_of_week"
+                    placeholder="e.g., Monday, Tuesday, Wednesday"
+            /></label>
+            <button type="submit" class="btn-accent">Save</button>
+        </form>
+    </div>
+</div>
+
+{%endblock%} {% block scripts %}
+<script
+    type="module"
+    src="{{ url_for('static', filename='js/admin.js') }}"
+></script>
+{% endblock %}

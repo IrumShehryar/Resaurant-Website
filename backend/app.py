@@ -116,6 +116,15 @@ def cart_page():
     item_id = request.args.get('item')
     return render_template('cart.html',added_item_id=item_id)
 
+@app.get("/admin-login")
+def admin_login():
+    return render_template("admin-login.html")
+
+
+@app.get("/admin-interface")
+def admin_interface():
+    return render_template("admin-interface.html")
+
 
 if __name__ == "__main__":
     # When run directly, read run settings from environment variables.

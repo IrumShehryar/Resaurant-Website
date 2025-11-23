@@ -376,12 +376,12 @@ footer {
   background: transparent;
   color: #e0f4ff;
   padding: 2rem;
-  margin-top: 2rem;
+  margin-top: 0;
   border-top: none;
-  position: relative;
+  position:relative;
   z-index: 10;
   display: flex;
-  flex-direction: column;
+  flex-direction:initial;
 }
 
 .footer-content {
@@ -424,6 +424,21 @@ footer {
   font-size: 0.9rem;
   color: #7dd3e0;
   align-self: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-bottom a {
+  color: #a8d8ff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-bottom a:hover {
+  color: #00ff88;
+  text-decoration: underline;
 }
 
 @media (max-width: 48rem) {
