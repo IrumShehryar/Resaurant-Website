@@ -25,7 +25,13 @@ export function createMenuCard(item) {
   // Access in JS via el.dataset.id
   
   el.dataset.id = item.id;
-
+  // Category and diet attributes for filtering (normalize to lowercase)
+  el.dataset.category = String(item.category || '').trim().toLowerCase();
+  const dietary = Array.isArray(item.dietary) ? item.dietary : (item.dietary ? [item.dietary] : []);
+  el.dataset.diet = dietary.map(d => String(d).trim().toLowerCase()).filter(Boolean).join(',');
+  // Optional beverage type fields (handle different API field names)
+  if (item.beverageType) el.dataset.beverage = String(item.beverageType).trim().toLowerCase();
+  if (item.beverage) el.dataset.beverage = String(item.beverage).trim().toLowerCase();
   // resolve image source similar to menuRenderer: prefer image_url, then image filename, then fallback
   const imgSrc = resolveImageUrl(item);
   el.dataset.img = imgSrc; // store resolved image URL for potential reuse

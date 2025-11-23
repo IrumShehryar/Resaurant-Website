@@ -6,20 +6,77 @@ endblock %} {% block styles %}
 />
 {% endblock %} {% block content %}
 <!-- Highlight of the Day -->
-<div class="highlight-wrapper">
-    <h3 class="highlight-heading">Today's Highlights</h3>
-    <section
-        id="highlight-root"
-        class="page-highlight"
-        aria-live="polite"
-        aria-label="Highlight of the day"
-    ></section>
+<!-- Filters across the top + content layout -->
+<div class="menu-layout">
+    <nav class="diet-panel" aria-label="Diet and category filters">
+        <div class="filter-group">
+            <h4 class="group-title">Category</h4>
+            <button
+                class="filter-btn category active"
+                data-category="all"
+                aria-pressed="true"
+            >
+                All
+            </button>
+            <button class="filter-btn category" data-category="starter">
+                Starters
+            </button>
+            <button class="filter-btn category" data-category="main">
+                Mains
+            </button>
+            <button class="filter-btn category" data-category="side">
+                Sides
+            </button>
+            <button class="filter-btn category" data-category="dessert">
+                Desserts
+            </button>
+            <button class="filter-btn category" data-category="drink">
+                Beverages
+            </button>
+        </div>
+
+        <div class="filter-group">
+            <h4 class="group-title">Diet</h4>
+            <button class="filter-btn diet" data-diet="vegetarian">
+                Vegetarian
+            </button>
+            <button class="filter-btn diet" data-diet="vegan">Vegan</button>
+            <button class="filter-btn diet" data-diet="pescatarian">
+                Pescatarian
+            </button>
+            <button class="filter-btn diet" data-diet="gluten-free">
+                Gluten-Free
+            </button>
+            <button class="filter-btn diet" data-diet="non alcoholic">
+                Non-Alcoholic
+            </button>
+        </div>
+    </nav>
+
+    <main class="menu-main" id="menu-main">
+        <!-- Highlight of the Day (moved inside main so it shares the right-hand column with the menu)
+             This keeps the left `diet-panel` column visually separate from the highlights. -->
+        <div class="highlight-wrapper">
+            <h3 class="highlight-heading">
+                {% if highlight_day %}{{ highlight_day }} Highlights{% else
+                %}Today's Highlights{% endif %}
+            </h3>
+            <section
+                id="highlight-root"
+                class="page-highlight"
+                aria-live="polite"
+                aria-label="Highlight of the day"
+            ></section>
+        </div>
+
+        <h2 class="menu-heading">Our Menu</h2>
+        <div id="menuList" class="menu-grid"></div>
+    </main>
 </div>
-<h2>Menu</h2>
-<div id="menuList" class="menu-grid"></div>
 {% endblock %} {% block scripts %}
 <script
     type="module"
     src="{{ url_for('static', filename='js/menu.js') }}"
 ></script>
+<!-- highlight heading provided by server: `highlight_day` -->
 {% endblock %}

@@ -20,6 +20,7 @@ Notes:
 """
 
 from flask import Flask, render_template,request
+from datetime import datetime
 from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
 from api.v1.menu.menu_routes import menu_bp
@@ -58,7 +59,14 @@ def menu():
 
     The front-end JavaScript will call the JSON API to populate content.
     """
-    return render_template("menu.html")
+    # Compute the current weekday name server-side so templates can render
+    # a consistent "<Weekday> Highlights" heading without client JS.
+    try:
+        highlight_day = datetime.now().strftime('%A')
+    except Exception:
+        highlight_day = None
+
+    return render_template("menu.html", highlight_day=highlight_day)
 
 
 @app.get("/menu/<int:item_id>")

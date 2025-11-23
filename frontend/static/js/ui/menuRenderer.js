@@ -1,211 +1,104 @@
-/**
- * menuRenderer.js
- *
- * - Uses a plain object (no Map) for grouping and a tiny schema validator.
- * - Exports renderHighlights(items, options), renderMenuFragment(items, options)
- *   and renderMenuPage(items, options) which returns both nodes.
- */
+// Simple unified menu renderer
+//
+// Purpose:
+// - Provide a single, minimal renderer that builds the "Today's Highlights"
+//   block and a categorized menu fragment.
 
 import { createMenuCard } from "../components/menuCard.js";
-import { resolveImageUrl } from "../utils/image-resolver.js";
 
-export function validateItem(item) {
-  if (!item || typeof item !== 'object') return false;
-  if (!item.id && !item._id) return false;
-  if (!item.name || typeof item.name !== 'string') return false;
-  if (item.category && typeof item.category !== 'string') return false;
-  if (item.price !== undefined && item.price !== null && isNaN(Number(item.price))) return false;
-  return true;
-}
-
-const CATEGORY_ALIASES = {
-  'starter': 'Starter',
-  'starters': 'Starter',
-  'appetizer': 'Starter',
-  'appetizers': 'Starter',
-
-  'main': 'Main',
-  'mains': 'Main',
-  'main course': 'Main',
-  'entree': 'Main',
-
-  'dessert': 'Dessert',
-  'desert': 'Dessert',
-
-  'side': 'Side',
-  'sides': 'Side',
-
-  'drink': 'Drink',
-  'drinks': 'Drink',
-  'beverage': 'Drink',
-  'beverages': 'Drink'
-};
-
-function normalizeCategoryName(value) {
-  const raw = (value && typeof value === 'string') ? value.trim() : 'Uncategorized';
-  const key = raw.toLowerCase();
-  return CATEGORY_ALIASES[key] || raw;
-}
-
-function normalizedKey(displayLabel) {
-  return String(displayLabel || '').trim().toLowerCase();
-}
-
-function groupItemsByCategory(items) {
-  const groupsByKey = {};
-  items.forEach(it => {
-    if (!validateItem(it)) return;
-    const displayLabel = normalizeCategoryName(it.category);
-    const key = normalizedKey(displayLabel);
-    if (!groupsByKey[key]) groupsByKey[key] = { displayLabel, items: [] };
-    groupsByKey[key].items.push(it);
+/**
+ * Group a flat list of menu items by their raw `category` property.
+ 
+ * @param {Array<Object>} items
+ * @returns {Object<string, Array<Object>>} mapping category -> items[]
+ */
+function groupByCategory(items) {
+  const groups = {};
+  (items || []).forEach(item => {
+    const cat = item && item.category ? item.category : 'Uncategorized';
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(item);
   });
-  return groupsByKey;
+  return groups;
 }
 
-function pickFirstByCategory(items, categoryLabel, usedIds) {
-  const key = normalizedKey(normalizeCategoryName(categoryLabel));
-  const todayName = new Date().toLocaleString(undefined, { weekday: 'long' }).toLowerCase();
-
-  let found = items.find(i => {
-    if (!i) return false;
-    const d = normalizeCategoryName(i.category);
-    if (normalizedKey(d) !== key) return false;
-    const idStr = String(i.id || i._id);
-    if (usedIds.has(idStr)) return false;
-    return Boolean(i.featured);
-  });
-  if (found) return found;
-
-  found = items.find(i => {
-    if (!i) return false;
-    const d = normalizeCategoryName(i.category);
-    if (normalizedKey(d) !== key) return false;
-    const idStr = String(i.id || i._id);
-    if (usedIds.has(idStr)) return false;
-    return Array.isArray(i.days_of_week) && i.days_of_week.map(x => String(x).toLowerCase()).includes(todayName);
-  });
-  if (found) return found;
-
-  found = items.find(i => {
-    if (!i) return false;
-    const d = normalizeCategoryName(i.category);
-    if (normalizedKey(d) !== key) return false;
-    const idStr = String(i.id || i._id);
-    if (usedIds.has(idStr)) return false;
-    return true;
-  });
-  return found || null;
+/**
+ * Pick a small set of highlight items.
+ *
+ * Behavior:
+ * - Prefer items marked `featured`; if none exist, fall back to the first
+ *   N items from the list. 
+ 
+ * @param {Array<Object>} items
+ * @param {number} count
+ * @returns {Array<Object>} up to `count` highlighted items
+ */
+function pickHighlights(items = [], count = 3) {
+  if (!Array.isArray(items)) return [];
+  const featured = items.filter(i => i && i.featured);
+  if (featured.length) return featured.slice(0, count);
+  return items.slice(0, count);
 }
 
-export function renderHighlights(items = [], options = {}) {
-  const { createCard = createMenuCard, preferCategoryOrder = ['Main', 'Dessert', 'Starter'] } = options;
+/**
+ * Build and return the DOM nodes for highlights and the categorized menu.
+ *
+ * API:
+ * - `renderMenuPage(items, options)` returns an object with:
+ *     - `highlightsNode` -> HTMLElement (grid of highlight cards)
+ *     - `menuFragment` -> DocumentFragment (grouped category sections)
+ *
+ * Options (simple):
+ * - `options.highlightsCount` - how many highlight slots to build (default 3)
+ *
+ * @param {Array<Object>} items - array of menu item objects
+ * @param {Object} options
+ * @returns {{highlightsNode: HTMLElement, menuFragment: DocumentFragment}}
+ */
+export function renderMenuPage(items = [], options = {}) {
+  const highlightsArr = pickHighlights(items, options.highlightsCount || 3);
 
-  const usedIds = new Set();
-  const picks = [];
-  for (const cat of preferCategoryOrder) {
-    const picked = pickFirstByCategory(items, cat, usedIds);
-    if (picked) {
-      picks.push(picked);
-      usedIds.add(String(picked.id || picked._id));
-    } else {
-      picks.push(null);
-    }
-  }
-
-  const highlightGrid = document.createElement('div');
-  highlightGrid.className = 'highlight-grid';
-
-  const makeSlot = (item) => {
+  const highlightsNode = document.createElement('div');
+  highlightsNode.className = 'highlight-grid';
+  highlightsArr.forEach(it => {
     const slot = document.createElement('div');
     slot.className = 'highlight-item';
-    if (item) {
-      const card = createCard(item);
-      card.classList.add('highlight-card-inner');
-      slot.appendChild(card);
-
-      const resolved = card.dataset.img || resolveImageUrl(item);
-      if (resolved) {
-        slot.style.backgroundImage = `url('${resolved}')`;
-        slot.style.backgroundRepeat = 'no-repeat';
-        slot.style.backgroundSize = 'cover';
-        slot.style.backgroundPosition = 'center';
-        const imgEl = card.querySelector('img');
-        if (imgEl) imgEl.style.display = 'none';
-      }
-    } else {
-      slot.innerHTML = `
-        <div class="placeholder-thumb"></div>
-        <div class="highlight-body"><span class="highlight-title">Coming Soon</span></div>
-      `;
-    }
-    return slot;
-  };
-
-  const mainSlot = makeSlot(picks[0]);
-  mainSlot.classList.add('highlight-main');
-  highlightGrid.appendChild(mainSlot);
-
-  for (let i = 1; i <= 2; i++) {
-    const slot = makeSlot(picks[i]);
-    highlightGrid.appendChild(slot);
-  }
-
-  return highlightGrid;
-}
-
-export function renderMenuFragment(items = [], options = {}) {
-  const { order = ['Starter', 'Main', 'Dessert', 'Side', 'Drink'], uppercase = false, createCard = createMenuCard } = options;
-
-  const groupsByKey = groupItemsByCategory(items);
-
-  const existingKeys = Object.keys(groupsByKey);
-  const normalizedPrefOrder = (Array.isArray(order) ? order : []).map(o => normalizedKey(normalizeCategoryName(o)));
-  const orderedCategoryKeys = [];
-
-  normalizedPrefOrder.forEach(k => {
-    if (groupsByKey[k] && !orderedCategoryKeys.includes(k)) orderedCategoryKeys.push(k);
+    const card = createMenuCard(it);
+    card.classList.add('highlight-card-inner');
+    slot.appendChild(card);
+    highlightsNode.appendChild(slot);
   });
-  existingKeys.sort();
-  existingKeys.forEach(k => { if (!orderedCategoryKeys.includes(k)) orderedCategoryKeys.push(k); });
 
-  const fragment = document.createDocumentFragment();
-  orderedCategoryKeys.forEach(categoryKey => {
-    const group = groupsByKey[categoryKey];
-    if (!group) return;
-
+  const menuFragment = document.createDocumentFragment();
+  const groups = groupByCategory(items);
+  Object.keys(groups).forEach(cat => {
     const section = document.createElement('section');
     section.className = 'menu-category';
-    section.dataset.category = categoryKey;
+    // give a stable id for category sections so filters can scroll to them
+    const normalized = String(cat || 'category').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+    section.id = `${normalized}s-section`;
 
     const heading = document.createElement('h3');
     heading.className = 'menu-category__heading';
-    heading.textContent = uppercase ? group.displayLabel.toUpperCase() : group.displayLabel;
+    heading.textContent = cat;
     section.appendChild(heading);
 
-    // Render this category as a horizontal row of cards
-    const grid = document.createElement('div');
-    // use `menu-row` for horizontal flex layout; keep `menu-grid` class for any shared container rules
-    grid.className = 'menu-row';
+    const row = document.createElement('div');
+    row.className = 'menu-row';
 
-    group.items.forEach(it => {
-      const card = createCard(it);
-      // make each card a non-flexible, fixed-width item so rows stay horizontal
-      card.classList.add('menu-row__card');
-      grid.appendChild(card);
+    groups[cat].forEach(it => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'menu-row__card';
+      const card = createMenuCard(it);
+      wrapper.appendChild(card);
+      row.appendChild(wrapper);
     });
 
-    section.appendChild(grid);
-    fragment.appendChild(section);
+    section.appendChild(row);
+    menuFragment.appendChild(section);
   });
 
-  return fragment;
-}
-
-export function renderMenuPage(items = [], options = {}) {
-  const highlightsNode = renderHighlights(items, options.highlightOptions || {});
-  const menuFragment = renderMenuFragment(items, options.menuOptions || {});
   return { highlightsNode, menuFragment };
 }
 
-	
+

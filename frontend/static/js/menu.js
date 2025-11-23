@@ -10,6 +10,8 @@ import { renderItemDetail } from './ui/modalRenderer.js';
 import { renderMenuPage } from './ui/menuRenderer.js';
 import { createModal } from './components/modal.js';
 import { initCartUI } from "./cart.js";
+import { initMenuFilters } from "./ui/menuFilters.js";
+
 /**
  * Load the menu list into the #menuList container.
  * 
@@ -37,16 +39,9 @@ async function loadMenu() {
   try {
     const items = await getAllMenu();
 
-    // pick today's weekday name
-    const todayName = new Date().toLocaleString(undefined, { weekday: 'long' }).toLowerCase();
-
-    // find items that list today in their days_of_week array
-    const today = items.filter(i => Array.isArray(i.days_of_week) && i.days_of_week.includes(todayName));
-
-    // choose highlight: today's first, or featured, or first item
-    const highlight = today[0] || items.find(i => i.featured) || items[0];
-
-    // Let the renderer build both highlights and the categorized menu fragment
+    // Render highlights using the full renderer so the highlight section
+    // is preserved, but render the main menu list using the simple renderer.
+    // Use the unified simple renderer (menuRenderer.js) which returns both highlights and the menu fragment
     const { highlightsNode, menuFragment } = renderMenuPage(items, {
       highlightOptions: { preferCategoryOrder: ['Main','Dessert','Starter'] },
       menuOptions: { order: ['Starter','Main','Dessert','Side','Drink'], uppercase: false }
@@ -55,15 +50,24 @@ async function loadMenu() {
     const highlightRoot = document.getElementById('highlight-root');
     if (highlightRoot) {
       highlightRoot.innerHTML = '';
-      highlightRoot.appendChild(highlightsNode);
+      if (highlightsNode) highlightRoot.appendChild(highlightsNode);
     }
 
     el.innerHTML = '';
     if (menuFragment) {
       el.appendChild(menuFragment);
+
+      try {
+        initMenuFilters()
+      } catch (err){
+          console.warn('Menu filters init failed:', err);
+      }
     } else {
       el.textContent = 'No items in the menu';
     }
+   
+
+
   } catch (err) {
     el.textContent = "Failed to load the menu";
     console.error(err);
