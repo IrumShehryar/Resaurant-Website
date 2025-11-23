@@ -56,7 +56,17 @@ endblock %} {% block styles %}
     <main class="menu-main" id="menu-main">
         <!-- Highlight of the Day (moved inside main so it shares the right-hand column with the menu)
              This keeps the left `diet-panel` column visually separate from the highlights. -->
-        <!-- Highlight placeholder removed -->
+        <div class="highlight-wrapper">
+            <h3 class="highlight-heading">
+                {% if highlight_day %}{{ highlight_day }} Highlights{% else %}Today's Highlights{% endif %}
+            </h3>
+            <section
+                id="highlight-root"
+                class="page-highlight"
+                aria-live="polite"
+                aria-label="Highlight of the day"
+            ></section>
+        </div>
 
         <h2 class="menu-heading">Our Menu</h2>
         <div id="menuList" class="menu-grid"></div>
