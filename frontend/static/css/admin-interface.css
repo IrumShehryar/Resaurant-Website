@@ -193,15 +193,46 @@ fieldset input[type="checkbox"]{
 
 #item-form button{
     margin-top: 1rem;
+}
+
+/* Button inherit from main.css */
+#item-form .btn-accent{
     align-self: flex-end;
 }
-
-/* Inherit button styles from main.css - ensure they're applied */
-#item-form .btn-accent,
-#btn-add-item.btn-accent{
-    /* Inherits from main.css .btn-accent */
+.notification {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+    display: block;
+    z-index: 10000;
+    animation: slideIn 0.3s ease;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-#item-form button:hover{
-    filter: brightness(1.1);
+.notification.success,
+.notification.error {
+    opacity: 1;
+}
+
+.notification.error {
+    background-color: #ff6b6b;
+}
+
+.notification.success {
+    background-color: #00cc6f;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(25rem);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }

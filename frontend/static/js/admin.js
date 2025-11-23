@@ -10,6 +10,17 @@ const menuTbody = document.getElementById('menu-tbody')
 
 let currentEditId = null
 
+function showNotification(message, type = 'success') {
+    const notification = document.getElementById('notification')
+    notification.textContent = message
+    notification.className = `notification ${type}`
+    notification.style.display = 'block'
+    
+    setTimeout(() => {
+        notification.style.display = 'none'
+    }, 3000)
+}
+
 async function loadMenuItems(){
     try{
         const items = await getAllMenu()
@@ -151,9 +162,9 @@ form.addEventListener('submit', async(e)=>{
         modal.style.display= 'none'
         form.reset()
         loadMenuItems();
+        showNotification('Item saved successfully!')
     } catch(error) {
-        console.error('Error:', error);
-        alert('Error saving item');
+        showNotification('Error saving item')
     }
 })
 
@@ -169,9 +180,9 @@ menuTbody.addEventListener('click',async(e) =>{
                     headers: { 'Content-Type': 'application/json' }
                 })
                 loadMenuItems()
+                showNotification('Item deleted successfully!')
             }catch(error){
-                 console.error('Error:', error)
-                alert('Error deleting item')
+                showNotification('Error Deleting item')
             }
         
         }
