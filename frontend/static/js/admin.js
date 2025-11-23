@@ -3,6 +3,7 @@ import fetchData  from "./utils/fetchData.js";
 import {apiUrl} from "./utils/config.js"
 import { validateMenuItemForm } from './utils/validation.js'
 import { showNotification, createModalManager } from './utils/tableManager.js'
+import { renderTable } from "./utils/tableRenderer.js";
 
 const modal = document.getElementById('admin-modal')
 const closeBtn = document.querySelector('.modal-close')
@@ -18,30 +19,11 @@ async function loadMenuItems(){
     try{
         const items = await getAllMenu()
         console.log('Data received:', items)
-        renderTable(items)
+        renderTable(items, ['name', 'category', 'price', 'dietary'], menuTbody)
     }catch(error){
         console.error('Error loading menu:', error);
         menuTbody.innerHTML = '<tr><td colspan="5">Error loading menu</td></tr>'
     }
-}
-function renderTable(items){
-    if(items.length === 0)
-    {
-         menuTbody.innerHTML = '<tr><td colspan="5">No items yet</td></tr>';
-        return;
-    }
-    menuTbody.innerHTML = items.map(item =>`
-        <tr>
-            <td>${item.name}</td>
-            <td>${item.category}</td>
-            <td>€${item.price}</td>
-            <td>${item.dietary ? item.dietary.join(', ') : '-'}</td>
-            <td>
-                <button class="btn-edit">Edit</button>
-                <button class="btn-delete">Delete</button>
-            </td>
-        </tr>
-    `).join('');
 }
 
 

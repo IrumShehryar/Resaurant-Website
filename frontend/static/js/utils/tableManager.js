@@ -17,3 +17,28 @@ export function showNotification(message, type = 'success', notificationElement)
     }, 3000)
 }
 
+/**
+ * Create a modal manager for handling modal open/close operations
+ * Used by admin.js for the admin-interface modal
+ */
+export function createModalManager() {
+    return {
+        open(modal) {
+            modal.style.display = 'block'
+        },
+        setupCloseButton(closeBtn, modal) {
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    modal.style.display = 'none'
+                })
+            }
+        },
+        setupBackdropClick(modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none'
+                }
+            })
+        }
+    }
+}
