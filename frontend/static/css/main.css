@@ -128,9 +128,9 @@ body {
 
 header {
    /* background: #025940;*/
-    display: flex; 
-    align-items:center;
-    justify-content: center;
+     display: flex; 
+     align-items:center;
+     justify-content: flex-start; /* keep logo on the left */
     width:100%;
     margin: 0;
     padding: 0;
@@ -141,13 +141,11 @@ header {
 }
 
 nav{ 
-    flex-grow: 1;
-    margin-left: 0;
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 1001;
-    pointer-events: auto;
+     flex-grow: 1;
+     margin-left: auto; /* push nav to the right of the logo */
+     position: static;
+     z-index: 1001;
+     pointer-events: auto;
 }
 
 .nav-links{
@@ -218,7 +216,7 @@ nav{
 .nav-links a.active{ color: #00ff88; font-weight: bold;}
 .logo{ flex-shrink: 0; }
    
-.logo img{ height: 5.5rem; display: block; }
+.logo img{ height: 6rem; display: block;margin-left: 1rem; margin-top: 1rem;}
 
 /* Language Switcher Styles */
 

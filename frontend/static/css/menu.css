@@ -51,37 +51,81 @@
   bottom: -0.5rem;
   border-radius: calc(0.375rem + 0.5rem);
   pointer-events: none;
-  /* use site accent neon for buttons so they match the proceed/checkout button */
-  box-shadow: 0 0 0.875rem rgba(var(--modal-accent-rgb), 0.12);
+  /* use site accent neon for buttons so they match the proceed/checkout button (lighter purple) */
+  box-shadow: 0 0 0.875rem rgba(189,168,255, 0.10);
   transition: box-shadow 220ms ease, opacity 220ms ease;
   opacity: 1;
 }
 
 .filter-btn:hover,
 .filter-btn:focus {
-  background: rgba(0,0,0,0.04);
-  outline: none;
+  background: rgba(241, 234, 234, 0.04);
+  outline:#a8d8ff;
+ 
 }
 
 .filter-btn:hover::after,
 .filter-btn:focus::after {
-  box-shadow: 0 0 2.5rem rgba(var(--modal-accent-rgb), 0.22), 0 0 0.5rem rgba(var(--modal-accent-rgb), 0.08) inset;
+  box-shadow: 0 0 2rem rgba(125,95,255, 0.16), 0 0 0.5rem rgba(125,95,255, 0.06) inset;
 }
 
 
 
 .filter-btn.active::after {
-  /* slightly stronger neon glow when active (accent green) */
-  box-shadow: 0 0 3rem rgba(var(--modal-accent-rgb), 0.26), 0 0 0.5rem rgba(var(--modal-accent-rgb), 0.12) inset;
+  /* slightly stronger neon glow when active (lighter purple) */
+  box-shadow: 0 0 2.2rem rgba(189,168,255, 0.22), 0 0 0.5rem rgba(189,168,255, 0.10) inset;
 }
 
 /* Active filter button should use the neon accent and visible outline */
 .filter-btn.active {
-  background: var(--modal-accent);
-  color: #0b0b0b;
-  border: 1px solid rgba(var(--modal-accent-rgb), 0.28);
-  box-shadow: 0 0 0 0.18rem rgba(var(--modal-accent-rgb), 0.12), 0 0.35rem 0.6rem rgba(0,0,0,0.22);
+  background: #bda8ff; /* lighter purple */
+  color: #ffffff; /* ensure active text stays readable */
+  border: none; /* use outline only to avoid double line */
+  box-shadow: none;
   transform: translateY(-1px);
+  outline: 2px solid rgba(255,255,255,0.95); /* persistent outline when active */
+  outline-offset: 2px;
+}
+
+/* Make category/diet filter buttons appear filled by default (subtle fill)
+   so they match the 'active' visual but without the strong glow. Keep this
+   scoped to filter groups so other buttons aren't affected. */
+.filter-group .filter-btn {
+  /* lighter mint fill to match Add-to-cart hue but softer */
+  background: rgba(113, 145, 130, 0.08);
+  color: #abc7be; /* dark-green text for readable contrast */
+  border: 1px solid rgba(0,255,136,0.14);
+  box-shadow: none;
+}
+
+/* Remove neon ring/glow for active buttons (no colored shadow). Keep the
+   filled background but remove the ::after glow and any box-shadow. */
+.filter-btn.active::after {
+  box-shadow: none;
+  opacity: 0;
+}
+.filter-btn.active {
+  box-shadow: none;
+}
+
+/* On hover show a visible white border; on focus show a clear white focus outline.
+   Disable any colored glow on hover/focus so the outline is the only emphasis. */
+.filter-group .filter-btn:hover,
+.filter-group .filter-btn:focus {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.92); /* visible white border on hover */
+  box-shadow: none;
+  color: #ffffff; /* keep text white on hover/focus */
+}
+.filter-group .filter-btn:focus {
+  outline: 2px solid rgba(255,255,255,0.95); /* keyboard focus ring */
+  outline-offset: 2px;
+  border: none; /* remove border so only outline shows */
+}
+.filter-group .filter-btn:hover::after,
+.filter-group .filter-btn:focus::after {
+  box-shadow: none;
+  opacity: 0;
 }
 
 /* Ensure diet filter labels are capitalized for display (e.g. 'vegan' -> 'Vegan') */
@@ -90,7 +134,16 @@
 
 /* Group titles and spacing */
 .filter-group { margin-bottom: .75rem; }
-.group-title { font-size: 1.05rem; margin: 0 0 .25rem 0; color: var(--modal-accent); font-weight: 800; }
+.group-title {
+  font-size: 1.05rem;
+  margin: 0 0 .25rem 0;
+  color: #00ffcc; /* match Sunday highlight accent */
+  font-weight: 800;
+  background: rgba(0,255,204,0.06); /* subtle cyan/mint wash to match highlights */
+  padding: 0.12rem 0.5rem;
+  border-radius: 0.375rem;
+  display: inline-block;
+}
 
 /* Responsive: collapse to single column on small screens */
 @media (max-width: 1024px) {
@@ -115,6 +168,12 @@
   /* constrain the panel to a small width column (fills the grid column) */
   .diet-panel { width: 100%; max-width: 16rem; }
   .diet-panel { position: sticky; top: 5rem; align-self: start; }
+
+  /* Align the right column's top with the left panel's start so the
+     highlight heading sits level with the category panel on wide screens. */
+  .menu-layout > .menu-main {
+    padding-top: 0; /* remove the default main padding-top (desktop only) */
+  }
 }
 /* Keep filter groups stacked; show single column list (one item per line) */
 .filter-group { display: block; margin: 0; }
@@ -131,7 +190,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
   gap: 1.5rem;
-  margin: 1.25rem auto 0; /* top spacing then centered */
+  margin: auto 0; /* reduce top spacing so cards render slightly higher */
   padding: 1rem;
   border: none;
   border-radius: 1rem;
@@ -209,13 +268,13 @@
 /* (Consolidated) removed duplicate .menu-grid tweaks — see canonical .menu-grid above */
 
 /* Title color inside menu cards */
-.menu-card h3, .menu-card h2 {
+.menu-card h2 {
   color: #b366ff; /* purple accent to match site headings */
 }
 
 /* Make the menu item title visually distinct from the meta line */
 .menu-card__title {
-  color: #ffd166; /* warm amber for item title */
+  color: #abc7be; /* match left-panel filter button text */
   display: block;
   font-size: 1.05rem;
   margin-bottom: 0.5rem;
@@ -327,7 +386,6 @@
   margin-top: 0.4rem;
 }
 
-.menu-card h3,
 .menu-detail__body h2,
 .menu-detail__body h3 {
   color: #00ff88; /* brighter Northern-lights accent for headings */
@@ -397,7 +455,7 @@
 /* Wrapper with heading for highlight(s) */
 .highlight-wrapper {
   max-width: 68.75rem; /* 1100px */
-  margin: 0 auto 1rem;
+  margin: 0 auto 1.5rem; /* give more space below highlights */
   padding: 0 1rem;
   box-sizing: border-box;
 }
@@ -421,9 +479,16 @@
   max-width: 68.75rem; /* same as .highlight-wrapper */
   margin: 1.25rem auto 0 auto;
   padding: 0 1rem;
-  color: #e9d5ff;
+  /* apply Sunday's highlight gradient to the main menu heading */
+  background: linear-gradient(90deg, #00ffcc, #7d5fff, #00ffaa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent !important;
+  text-shadow: 0 0 12px rgba(125,95,255,0.12);
   font-size: 1.25rem;
   font-weight: 700;
+  margin-top: 1rem; /* nudge heading further down for clearer separation */
 }
 
 
@@ -491,6 +556,7 @@
   right: 0;
   bottom: 0;
   height: 45%;
+  /* dark-only overlay so the image shows through without colored gradients */
   background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.46) 100%);
   z-index: 1;
   pointer-events: none;
@@ -503,12 +569,8 @@
   background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.25));
 }
 
-/* Apply site heading gradient to Sunday highlight overlay and title text */
-.highlight-item .highlight-card-inner::before {
-  /* softened colored overlay — reduce darkness so images show through better */
-  background: linear-gradient(90deg, rgba(0,255,204,0.03), rgba(125,95,255,0.035), rgba(0,255,170,0.03)),
-              linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.22) 100%);
-}
+/* Remove colored/gradient overlay used previously so highlights use a dark-only overlay.
+  Special Sunday variants keep the darker black gradient but no colored tint. */
 .highlight-item .highlight-card-inner > * { position: relative; z-index: 2; }
 
 /* subtle float + soft glow animation (animation moved into the main .highlight-card-inner block above) */
@@ -614,12 +676,7 @@
 .highlight-body { padding: 0 0.25rem; }
 .highlight-title {
   display: block;
-  /* match the colorful hero heading gradient for highlight titles site-wide */
-  background: linear-gradient(90deg, #00ffcc, #ff66ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent !important;
+  color: #00ffcc;
   font-size: 1.15rem;
   margin-bottom: 0.35rem;
 }
@@ -723,8 +780,12 @@
   font-size: 1.05rem;
   margin: 0 0 0.5rem 0;
   padding: 0.15rem 0;
-  color: #e9d5ff;
+  color: #00ffcc; /* match Sunday highlight accent */
   font-weight: 700;
+  background: rgba(0,255,204,0.06); /* subtle cyan/mint wash to match highlights */
+  padding: 0.12rem 0.5rem;
+  border-radius: 0.375rem;
+  display: inline-block;
 }
 
 .menu-row {
@@ -761,7 +822,11 @@
 
 .menu-category__heading {
   margin-bottom: 0.75rem; /* 12px */
-  color: #f3e8ff;
+  color: #00ffcc;
+  background: rgba(0,255,204,0.06);
+  padding: 0.12rem 0.5rem;
+  border-radius: 0.375rem;
+  display: inline-block;
 }
 
 /* Ensure horizontal rows align cards to equal heights and allow wrapping on small screens */
