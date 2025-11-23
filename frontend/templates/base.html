@@ -110,8 +110,8 @@
                     <!-- Contact Info Section -->
                     <div class="footer-section">
                         <h3>Contact Us</h3>
-                        <p>📍 Address: Karaportti 2, Espoo, Finland</p>
-                        <p>📞 Phone: +358 (0) 123 456 789</p>
+                        <p>Address: Karaportti 2, Espoo, Finland</p>
+                        <p>Phone: +358 (0) 123 456 789</p>
                     </div>
 
                     <!-- Hours Section -->
@@ -130,7 +130,9 @@
                             rel="noopener"
                         >
                             View on Google Maps
+                          
                         </a>
+                        
                     </div>
 
                     <!-- Social Media Section -->
@@ -146,9 +148,16 @@
 
                 <!-- Footer Bottom - Copyright -->
                 <div class="footer-bottom">
+                      <a
+                        href="{{ url_for('admin_login') }}"
+                        {% if request.endpoint == 'admin_login' %}class="active"{% endif %}
+                    >
+                        Admin Login
+                    </a>
                     <p>
                         &copy; 2025 Revontulet Flamehouse. All rights reserved.
                     </p>
+                  
                 </div>
             </footer>
             <!-- ===== FOOTER ENDS HERE ===== -->

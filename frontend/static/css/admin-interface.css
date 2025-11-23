@@ -1,0 +1,36 @@
+.admin-section{
+    max-width:75 rem;
+    margin: 0 auto;
+    padding: 0.75rem;
+}
+.admin-section h1{
+    text-align: center;
+    margin-bottom: 1.55rem;
+}
+
+.admin-table{
+    width:100%;
+    border-collapse:collapse;
+    background-color: #1a1a1a;
+    margin-bottom: 1.5rem;
+}
+
+.admin-table thead{
+    background-color: #00ff88;
+    color:#000;
+}
+.admin-table th{
+    padding:0.75rem;
+    text-align: left;
+    font-weight: bold;
+}
+.admin-table td{
+    padding:0.75rem;
+    border-bottom: 0.05rem solid #333;
+}
+.admin-table tbody tr:hover{
+    background-color: #2a2a2a;
+}
+#btn-add-item{
+    margin-bottom: 1.5rem;
+}
