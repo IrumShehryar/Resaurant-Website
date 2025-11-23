@@ -112,13 +112,58 @@ Flamehouse{% endblock%} {%block styles %}
                 >Active:
                 <input type="checkbox" name="active" />
             </label>
-            <label
-                >Days of Week:
-                <input
-                    type="text"
-                    name="days_of_week"
-                    placeholder="e.g., Monday, Tuesday, Wednesday"
-            /></label>
+            <fieldset>
+                <legend>Days of Week:</legend>
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Monday"
+                    />Monday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Tuesday"
+                    />Tuesday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Wednesday"
+                    />Wednesday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Thursday"
+                    />Thursday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Friday"
+                    />Friday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Saturday"
+                    />Saturday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Sunday"
+                    />Sunday</label
+                >
+            </fieldset>
             <button type="submit" class="btn-accent">Save</button>
         </form>
     </div>

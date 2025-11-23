@@ -1,25 +1,18 @@
 import { getAllMenu, getMenuById } from "./services/menuService.js";
 import fetchData  from "./utils/fetchData.js";
 import {apiUrl} from "./utils/config.js"
+import { validateMenuItemForm } from './utils/validation.js'
+import { showNotification, createModalManager } from './utils/tableManager.js'
 
 const modal = document.getElementById('admin-modal')
 const closeBtn = document.querySelector('.modal-close')
 const addBtn = document.getElementById('btn-add-item')
 const form = document.getElementById('item-form')
 const menuTbody = document.getElementById('menu-tbody')
+const notificationElement = document.getElementById('notification')
+const modalManager = createModalManager()
 
 let currentEditId = null
-
-function showNotification(message, type = 'success') {
-    const notification = document.getElementById('notification')
-    notification.textContent = message
-    notification.className = `notification ${type}`
-    notification.style.display = 'block'
-    
-    setTimeout(() => {
-        notification.style.display = 'none'
-    }, 3000)
-}
 
 async function loadMenuItems(){
     try{
@@ -56,18 +49,11 @@ addBtn.addEventListener('click',()=>{
     currentEditId = null
     form.reset()
     document.getElementById('form-title').textContent = "Add New Item"
-    modal.style.display='block'
+    modalManager.open(modal)
 })
 
-closeBtn.addEventListener('click',()=>{
-    modal.style.display='none'
-})
-
-window.addEventListener('click', (e) =>{
-    if(e.target === modal){
-        modal.style.display = 'none'
-    }
-})
+modalManager.setupCloseButton(closeBtn, modal)
+modalManager.setupBackdropClick(modal)
 async function getItemFromRow(row){
     const itemName = row.cells[0].textContent
     const items = await getAllMenu()
@@ -95,7 +81,9 @@ menuTbody.addEventListener('click',async(e)=>{
                 checkbox.checked = item.dietary && item.dietary.includes(checkbox.value)
             })
             document.querySelector('input[name="active"]').checked = item.active || false
-            document.querySelector('input[name="days_of_week"]').value = item.days_of_week ? item.days_of_week.join(', ') : ''
+            document.querySelectorAll('input[name="days_of_week"]').forEach(checkbox=>{
+                checkbox.checked = item.days_of_week && item.days_of_week.includes(checkbox.value)
+            })
             
             modal.style.display = 'block'
         }
@@ -108,23 +96,30 @@ form.addEventListener('submit', async(e)=>{
     e.preventDefault()
     const formData = new FormData(form)
     
+    const name = formData.get('name')
+    const price = parseFloat(formData.get('price'))
+    const category = formData.get('category')
     const dietaryArray = Array.from(document.querySelectorAll('input[name="dietary"]:checked'))
         .map(checkbox => checkbox.value)
+    
+    const validation = validateMenuItemForm(name, price, category, dietaryArray)
+    if (!validation.valid) {
+        showNotification(validation.message, 'error', notificationElement)
+        return
+    }
     
     const allergens = formData.get('allergens')
         .split(',')
         .map(item => item.trim())
         .filter(item => item)
 
-     const ingredients = formData.get('ingredients')
+    const ingredients = formData.get('ingredients')
         .split(',')
         .map(item => item.trim())
         .filter(item => item);
 
-    const days_of_week = formData.get('days_of_week')
-        .split(',')
-        .map(item => item.trim())
-        .filter(item => item);
+    const days_of_week = Array.from(document.querySelectorAll('input[name="days_of_week"]:checked'))
+        .map(checkbox => checkbox.value)
 
     const itemData = {
         name: formData.get('name'),
@@ -162,9 +157,9 @@ form.addEventListener('submit', async(e)=>{
         modal.style.display= 'none'
         form.reset()
         loadMenuItems();
-        showNotification('Item saved successfully!')
+        showNotification('Item saved successfully!', 'success', notificationElement)
     } catch(error) {
-        showNotification('Error saving item')
+        showNotification('Error saving item', 'error', notificationElement)
     }
 })
 
@@ -180,9 +175,9 @@ menuTbody.addEventListener('click',async(e) =>{
                     headers: { 'Content-Type': 'application/json' }
                 })
                 loadMenuItems()
-                showNotification('Item deleted successfully!')
+                showNotification('Item deleted successfully!', 'success', notificationElement)
             }catch(error){
-                showNotification('Error Deleting item')
+                showNotification('Error Deleting item', 'error', notificationElement)
             }
         
         }
