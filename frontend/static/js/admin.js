@@ -57,13 +57,17 @@ window.addEventListener('click', (e) =>{
         modal.style.display = 'none'
     }
 })
+async function getItemFromRow(row){
+    const itemName = row.cells[0].textContent
+    const items = await getAllMenu()
+    const item = items.find(i=>i.name === itemName)
+    return item
+}
 
 menuTbody.addEventListener('click',async(e)=>{
     if (e.target.classList.contains('btn-edit')){
-        const row = e.target.closest('tr')
-        const itemName = row.cells[0].textContent
-        const items = await getAllMenu()
-        const item = items.find(i=>i.name === itemName)
+         const row = e.target.closest('tr')
+         const item = await getItemFromRow(row)
         if(item){
             currentEditId = item.id
             document.getElementById('form-title').textContent = 'Edit Item'
@@ -153,5 +157,24 @@ form.addEventListener('submit', async(e)=>{
     }
 })
 
+menuTbody.addEventListener('click',async(e) =>{
+    if(e.target.classList.contains('btn-delete')){
+        const row = e.target.closest('tr')
+        const item = await getItemFromRow(row)
 
+        if(item && confirm(`Are you sure you want to delete "${item.name}"?`)){
+            try{
+                await fetchData(apiUrl(`menu/${item.id}`),{
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                loadMenuItems()
+            }catch(error){
+                 console.error('Error:', error)
+                alert('Error deleting item')
+            }
+        
+        }
+    }
+})
 loadMenuItems();
