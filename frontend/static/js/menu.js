@@ -67,36 +67,7 @@ async function loadMenu() {
     }
    
 
-    /*
-    // Full renderer (original) - kept for reference
-    // pick today's weekday name
-    const todayName = new Date().toLocaleString(undefined, { weekday: 'long' }).toLowerCase();
 
-    // find items that list today in their days_of_week array
-    const today = items.filter(i => Array.isArray(i.days_of_week) && i.days_of_week.includes(todayName));
-
-    // choose highlight: today's first, or featured, or first item
-    const highlight = today[0] || items.find(i => i.featured) || items[0];
-
-    // Let the renderer build both highlights and the categorized menu fragment
-    const { highlightsNode, menuFragment } = renderMenuPage(items, {
-      highlightOptions: { preferCategoryOrder: ['Main','Dessert','Starter'] },
-      menuOptions: { order: ['Starter','Main','Dessert','Side','Drink'], uppercase: false }
-    });
-
-    const highlightRoot = document.getElementById('highlight-root');
-    if (highlightRoot) {
-      highlightRoot.innerHTML = '';
-      highlightRoot.appendChild(highlightsNode);
-    }
-
-    el.innerHTML = '';
-    if (menuFragment) {
-      el.appendChild(menuFragment);
-    } else {
-      el.textContent = 'No items in the menu';
-    }
-    */
   } catch (err) {
     el.textContent = "Failed to load the menu";
     console.error(err);
