@@ -9,6 +9,10 @@
             href="{{ url_for('static', filename='css/main.css') }}"
         />
         {% block styles %}{% endblock %}
+        {# load menu styles on homepage only (highlights use) #}
+        {% if request.endpoint == 'home' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}" />
+        {% endif %}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -155,5 +159,8 @@
         </div>
 
         {% block scripts %}{% endblock %}
+        {% if request.endpoint == 'home' %}
+        <script type="module" src="{{ url_for('static', filename='js/highlights.js') }}"></script>
+        {% endif %}
     </body>
 </html>
