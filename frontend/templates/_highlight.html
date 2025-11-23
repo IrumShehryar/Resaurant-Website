@@ -1,0 +1,12 @@
+<div class="highlight-wrapper">
+    <h3 class="highlight-heading">
+        {% if highlight_day %}{{ highlight_day }} Highlights{% else %}Today's
+        Highlights{% endif %}
+    </h3>
+    <section
+        id="{{ root_id|default('highlight-root') }}"
+        class="page-highlight"
+        aria-live="polite"
+        aria-label="Highlight of the day"
+    ></section>
+</div>
