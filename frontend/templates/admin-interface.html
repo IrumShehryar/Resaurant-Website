@@ -28,6 +28,8 @@ Flamehouse{% endblock%} {%block styles %}
     </table>
 </section>
 
+<div id="notification"></div>
+
 <div id="admin-modal" class="modal">
     <div class="modal-content">
         <button class="modal-close">&times;</button>
@@ -42,11 +44,12 @@ Flamehouse{% endblock%} {%block styles %}
                 >Category:
                 <select name="category" required>
                     <option value="">Select</option>
-                    <option value="Starter">Starter</option>
-                    <option value="Main">Main</option>
-                    <option value="Dessert">Dessert</option>
-                    <option value="Side">Side</option>
-                    <option value="Drink">Drink</option>
+                    <option value="starter">Starter</option>
+                    <option value="main">Main</option>
+                    <option value="dessert">Dessert</option>
+                    <option value="side">Side</option>
+                    <option value="drink">Drink</option>
+                    <option value="special">Special</option>
                 </select>
             </label>
             <label
@@ -109,13 +112,58 @@ Flamehouse{% endblock%} {%block styles %}
                 >Active:
                 <input type="checkbox" name="active" />
             </label>
-            <label
-                >Days of Week:
-                <input
-                    type="text"
-                    name="days_of_week"
-                    placeholder="e.g., Monday, Tuesday, Wednesday"
-            /></label>
+            <fieldset>
+                <legend>Days of Week:</legend>
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Monday"
+                    />Monday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Tuesday"
+                    />Tuesday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Wednesday"
+                    />Wednesday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Thursday"
+                    />Thursday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Friday"
+                    />Friday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Saturday"
+                    />Saturday</label
+                >
+                <label
+                    ><input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Sunday"
+                    />Sunday</label
+                >
+            </fieldset>
             <button type="submit" class="btn-accent">Save</button>
         </form>
     </div>
