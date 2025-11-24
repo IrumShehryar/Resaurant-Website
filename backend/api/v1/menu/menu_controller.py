@@ -7,8 +7,7 @@ Flask route functions in ``menu_routes.py``.
 
 from flask import jsonify,request,json
 from .menu_model import list_all_menu_items, get_menu_by_id, add_menu_item, update_menu_item ,delete_menu_item
-
-
+from api.utils.simple_errors import simple_errors
 def get_menu():
     """
     Controller: GET /api/v1/menu
@@ -80,7 +79,7 @@ def get_menu_item_controller(item_id):
        
     return jsonify(item_json),200
 
-    
+@simple_errors  
 def create_menu_item_controller():
     """
     Controller: POST /api/v1/menu
@@ -112,6 +111,7 @@ def create_menu_item_controller():
     item = add_menu_item(request.get_json())
     return item.to_json(),200
 
+@simple_errors
 def update_menu_item_controller(item_id):
     """
     Controller: PUT /api/v1/menu/<item_id>
@@ -149,6 +149,7 @@ def update_menu_item_controller(item_id):
     except:
           return {"error": "Item not found"}, 404
 
+@simple_errors
 def delete_menu_item_controller(item_id):
     """
     Controller: DELETE /api/v1/menu/<item_id>

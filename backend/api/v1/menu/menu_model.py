@@ -9,206 +9,82 @@ small helper functions used by the controllers:
 The dataset is intentionally small and self-contained so the project can
 run without a database during development and testing.
 """
-from mongoengine import Document , StringField, FloatField, ListField, BooleanField
+from mongoengine import Document , StringField, FloatField, ListField, BooleanField, ValidationError
 from bson import ObjectId
+import re
 # Mock data (16 items) for Revontulet Flamehouse
 
 class MenuItem(Document):
     
-    name =  StringField (required = True)
-    description= StringField()
-    price = FloatField()
+    name =  StringField (required = True,min_length=3, max_length=100)
+    description= StringField(max_length=500)
+    price = FloatField(required= True, min_value=0.01,max_value=999)
     category = StringField(required = True, choices = ["starter","main","dessert","side","drink","special"])
-    image = StringField()
-    dietary = ListField(StringField(choices =["vegetarian","vegan","gluten-free","dairy-free","pescatarian"]))
-    allergens = ListField(StringField())
-    # Simple ingredients list (strings). Kept optional for backward compatibility.
-    ingredients = ListField(StringField())
-    days_of_week = ListField(StringField())
-    active = BooleanField()
+    image = StringField(max_length=500)
+    dietary = ListField(StringField(choices =["vegetarian","vegan","gluten-free","dairy-free","pescatarian","sugar-free","nut-free","keto-friendly"]))
+    allergens = ListField(StringField(max_length=10))
+    ingredients = ListField(StringField(max_length=10))
+    days_of_week = ListField(StringField(choices =["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],max_length=7))
+    active = BooleanField(default=True)
     
+    def clean(self):
+        """
+        Custom validation logic for MenuItem.
+        
+        Validates:
+        1. Name is not empty/whitespace
+        2. Price ranges by category (starters: €5-€12, mains: €12-€25, desserts: €5-€10, etc.)
+        3. If active=True, must have at least one day_of_week
+        4. Dietary preferences consistency with allergens
+        
+        Raises:
+            ValidationError: If any validation rule fails
+        """
+        # Check name is not empty
+        if not self.name or not self.name.strip():
+            raise ValidationError('Name cannot be empty')
+        if not re.search(r"[A-Za-z]", self.name):
+            raise ValidationError("Name must contain at least one letter")
+       
+        # Price range validation by category
+        if self.category == 'starter':
+            if self.price < 4 or self.price > 12:
+                raise ValidationError('Starters must be priced between 4 and 12')
+        elif self.category == 'main':
+            if self.price < 10 or self.price > 25:
+                raise ValidationError('Main courses must be priced between  10 and  25')
+        elif self.category == 'dessert':
+            if self.price < 5 or self.price > 10:
+                raise ValidationError('Desserts must be priced between 5 and 10')
+        elif self.category == 'side':
+            if self.price < 3 or self.price > 8:
+                raise ValidationError('Sides must be priced between 3 and 8')
+        elif self.category == 'drink':
+            if self.price < 2 or self.price > 8:
+                raise ValidationError('Drinks must be priced between 2 and 8')
+        elif self.category == 'special':
+            if self.price < 15 or self.price > 35:
+                raise ValidationError('Specials must be priced between 15 and 35')
+        
+        # If active, must have at least one day assigned
+        if self.active and (not self.days_of_week or len(self.days_of_week) == 0):
+            raise ValidationError('Active items must be assigned to at least one day of the week')
+        
+        # Vegan items shouldn't have dairy allergens
+        if 'vegan' in (self.dietary or []) and self.allergens:
+            dairy_allergens = ['dairy', 'milk', 'cheese', 'cream', 'butter']
+            item_allergens = [a.lower() for a in self.allergens]
+            if any(dairy in item_allergens for dairy in dairy_allergens):
+                raise ValidationError('Vegan items cannot contain dairy allergens')
+        
+        # Gluten-free items shouldn't have gluten allergens
+        if 'gluten-free' in (self.dietary or []) and self.allergens:
+            gluten_allergens = ['gluten', 'wheat', 'barley', 'rye']
+            item_allergens = [a.lower() for a in self.allergens]
+            if any(gluten in item_allergens for gluten in gluten_allergens):
+                raise ValidationError('Gluten-free items cannot contain gluten allergens')
     
-"""
-menu_items = [
-    {
-        "id": 1,
-        "name": "Aurora Bites",
-        "description": "Crispy potato bites tossed in northern spice, served with cool dill sauce.",
-        "price": 5.50,
-        "category": "starter",
-        "image": "https://via.placeholder.com/480x320?text=Aurora+Bites",
-        "dietary": ["vegetarian"],
-        "allergens": ["milk"],
-        "available_days": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-    },
-    {
-        "id": 2,
-        "name": "Nordic Salmon Skewers",
-        "description": "Grilled salmon skewers with lemon-herb glaze and a side of dill mayo.",
-        "price": 9.75,
-        "category": "starter",
-        "image": "https://via.placeholder.com/480x320?text=Nordic+Salmon+Skewers",
-        "dietary": [],
-        "allergens": ["fish"],
-        "available_days": ["Friday","Saturday","Sunday"]
-    },
-    {
-        "id": 3,
-        "name": "Smoked Trout Salad",
-        "description": "Mixed leaves, smoked trout flakes, pickled cucumber and horseradish cream.",
-        "price": 8.95,
-        "category": "starter",
-        "image": "https://via.placeholder.com/480x320?text=Smoked+Trout+Salad",
-        "dietary": [],
-        "allergens": ["fish","dairy"],
-        "available_days": ["Friday","Saturday"]
-    },
-    {
-        "id": 4,
-        "name": "Reindeer Stew",
-        "description": "Slow-cooked reindeer with root vegetables and lingonberry jus.",
-        "price": 14.50,
-        "category": "main",
-        "image": "https://via.placeholder.com/480x320?text=Reindeer+Stew",
-        "dietary": [],
-        "allergens": [],
-        "available_days": ["Monday","Tuesday","Wednesday","Thursday","Friday"]
-    },
-    {
-        "id": 5,
-        "name": "Arctic Garden Bowl",
-        "description": "Warm grain bowl with roasted squash, kale, chickpeas and tahini dressing.",
-        "price": 12.00,
-        "category": "main",
-        "image": "https://via.placeholder.com/480x320?text=Arctic+Garden+Bowl",
-        "dietary": ["vegan","gluten-free"],
-        "allergens": ["sesame"],
-        "available_days": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
-    },
-    {
-        "id": 6,
-        "name": "Firewood Salmon",
-        "description": "Oak-smoked salmon fillet, buttered new potatoes and seasonal greens.",
-        "price": 16.50,
-        "category": "main",
-        "image": "https://via.placeholder.com/480x320?text=Firewood+Salmon",
-        "dietary": [],
-        "allergens": ["fish","dairy"],
-        "available_days": ["Saturday","Sunday"]
-    },
-    {
-        "id": 7,
-        "name": "Midnight Burger",
-        "description": "Grass-fed beef patty, melted cheese, caramelized onions and truffle mayo. Served with fries.",
-        "price": 13.25,
-        "category": "main",
-        "image": "https://via.placeholder.com/480x320?text=Midnight+Burger",
-        "dietary": [],
-        "allergens": ["gluten","dairy","eggs"],
-        "available_days": ["Monday","Tuesday","Wednesday","Thursday","Friday"]
-    },
-    {
-        "id": 8,
-        "name": "Fjord Falafel Wrap",
-        "description": "Crispy falafel, pickled slaw and herb yogurt in a soft wrap.",
-        "price": 9.00,
-        "category": "main",
-        "image": "https://via.placeholder.com/480x320?text=Fjord+Falafel+Wrap",
-        "dietary": ["vegetarian"],
-        "allergens": ["gluten","sesame","dairy"],
-        "available_days": ["Wednesday","Thursday","Friday","Saturday"]
-    },
-    {
-        "id": 9,
-        "name": "Glazed Lingon Pancakes",
-        "description": "Light pancakes topped with lingonberry compote and whipped cream.",
-        "price": 6.25,
-        "category": "dessert",
-        "image": "https://via.placeholder.com/480x320?text=Glazed+Lingon+Pancakes",
-        "dietary": ["vegetarian"],
-        "allergens": ["gluten","eggs","dairy"],
-        "available_days": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-    },
-    {
-        "id": 10,
-        "name": "Northern Lights Cheesecake",
-        "description": "Velvety cheesecake with a citrus glaze and berry dust.",
-        "price": 6.75,
-        "category": "dessert",
-        "image": "https://via.placeholder.com/480x320?text=Northern+Lights+Cheesecake",
-        "dietary": ["vegetarian"],
-        "allergens": ["dairy","eggs","gluten"],
-        "available_days": ["Friday","Saturday","Sunday"]
-    },
-    {
-        "id": 11,
-        "name": "Crispy Fries",
-        "description": "Hand-cut fries tossed with sea salt.",
-        "price": 3.50,
-        "category": "side",
-        "image": "https://via.placeholder.com/480x320?text=Crispy+Fries",
-        "dietary": ["vegan"],
-        "allergens": [],
-        "available_days": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-    },
-    {
-        "id": 12,
-        "name": "Midnight Berry Parfait",
-        "description": "Layers of yogurt, granola and midnight berries.",
-        "price": 5.95,
-        "category": "dessert",
-        "image": "https://via.placeholder.com/480x320?text=Midnight+Berry+Parfait",
-        "dietary": ["vegetarian"],
-        "allergens": ["nuts","dairy","gluten"],
-        "available_days": ["Friday","Saturday"]
-    },
-    {
-        "id": 13,
-        "name": "Cloudberry Spritz",
-        "description": "Refreshing cloudberry soda with a hint of lemon.",
-        "price": 3.50,
-        "category": "drink",
-        "image": "https://via.placeholder.com/480x320?text=Cloudberry+Spritz",
-        "dietary": ["vegan"],
-        "allergens": [],
-        "available_days": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-    },
-    {
-        "id": 14,
-        "name": "Birch Latte",
-        "description": "Warm birch-infused latte (decaf option available).",
-        "price": 3.00,
-        "category": "drink",
-        "image": "https://via.placeholder.com/480x320?text=Birch+Latte",
-        "dietary": ["vegetarian"],
-        "allergens": ["dairy"],
-        "available_days": ["Monday","Tuesday","Wednesday","Thursday","Friday"]
-    },
-    {
-        "id": 15,
-        "name": "Sparkling Sea Tonic",
-        "description": "Herbal sparkling tonic with sea-salt rim and citrus twist.",
-        "price": 4.25,
-        "category": "drink",
-        "image": "https://via.placeholder.com/480x320?text=Sparkling+Sea+Tonic",
-        "dietary": ["vegan"],
-        "allergens": [],
-        "available_days": ["Monday","Tuesday","Wednesday","Thursday","Friday"]
-    },
-    {
-        "id": 16,
-        "name": "Chef's Northern Special",
-        "description": "Rotating chef special — ask for today's creation.",
-        "price": 17.50,
-        "category": "special",
-        "image": "https://via.placeholder.com/480x320?text=Chefs+Northern+Special",
-        "dietary": [],
-        "allergens": [],
-        "available_days": ["Saturday"]
-    }
-]
 
-"""
 def list_all_menu_items():
     """
     Retrieve all menu items from the MongoDB database.
