@@ -1,5 +1,6 @@
 from mongoengine import Document , StringField, DateTimeField
 from datetime import datetime
+from bson import ObjectId
 import bcrypt
 
 class User(Document):
@@ -34,4 +35,13 @@ def list_all_users():
     
 def find_user_by_id(user_id):
     return User.objects.get(id=user_id)
+
+def update_user(user_id,user_data):
+    user = User.objects.get(id=user_id)
+    user.update(**user_data)
+    return User.objects.get(id=user_id)
+
+def delete_user(user_id):
+    User.objects.get(id=user_id).delete()
+    return{"message": "User deleted successfully"}
         
