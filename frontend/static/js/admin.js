@@ -4,6 +4,7 @@ import {apiUrl} from "./utils/config.js"
 import { validateMenuItemForm } from './utils/validation.js'
 import { showNotification, createModalManager } from './utils/tableManager.js'
 import { renderTable } from "./utils/tableRenderer.js";
+import { createCrudManager} from './services/crudServices.js'
 
 const modal = document.getElementById('admin-modal')
 const closeBtn = document.querySelector('.modal-close')
@@ -12,6 +13,7 @@ const form = document.getElementById('item-form')
 const menuTbody = document.getElementById('menu-tbody')
 const notificationElement = document.getElementById('notification')
 const modalManager = createModalManager()
+const menuCrud = createCrudManager('menu')
 
 let currentEditId = null
 
@@ -116,26 +118,12 @@ form.addEventListener('submit', async(e)=>{
         days_of_week: days_of_week
     };
     try{
-
-        let url,options
         if(currentEditId){
-            url =apiUrl(`menu/${currentEditId}`)
-            options = {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(itemData)
-
-            }
-         } else{
-
-            url = apiUrl('menu')
-            options = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(itemData)
-            }
+           await menuCrud.update(currentEditId,itemData)
+        }else{
+            await menuCrud.create(itemData)
         }
-        await fetchData(url,options)
+
         modal.style.display= 'none'
         form.reset()
         loadMenuItems();
@@ -152,10 +140,7 @@ menuTbody.addEventListener('click',async(e) =>{
 
         if(item && confirm(`Are you sure you want to delete "${item.name}"?`)){
             try{
-                await fetchData(apiUrl(`menu/${item.id}`),{
-                    method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json' }
-                })
+                await menuCrud.deleteItem(item.id)
                 loadMenuItems()
                 showNotification('Item deleted successfully!', 'success', notificationElement)
             }catch(error){
