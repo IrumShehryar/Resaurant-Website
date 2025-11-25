@@ -1,9 +1,14 @@
 from flask import request
 from .users_model import list_all_users,find_user_by_id, update_user,delete_user,User
+from .users_schema import UserSchema
 from api.utils.simple_errors import simple_errors
+
+
+@simple_errors
 def get_users():
     users = list_all_users()
-    return users.to_json(),200
+    users_json= UserSchema(many=True).dump(users)
+    return users_json,200
 
 def get_user_by_id(id):
     try:
@@ -19,8 +24,9 @@ def get_user_by_id(id):
 def create_user():
     data = request.get_json()
     user = User(**data)
-    new_user = User.create_user(user)
-    return new_user.to_json(),201
+    new_user = user.save()
+    nice_user = UserSchema().dump(new_user)
+    return nice_user,201
 
 
 def get_current_user(current_user):

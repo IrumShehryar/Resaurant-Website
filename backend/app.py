@@ -25,6 +25,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
 from api.v1.menu.menu_routes import menu_bp
 from api.v1.users.users_routes import users_bp
+from api.v1.auth.auth_routes import auth_bp     
 from api.utils.db import mongo_connect
 
 
@@ -44,6 +45,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_prefix=1)
 # Register REST API blueprint for menu endpoints
 app.register_blueprint(menu_bp)
 app.register_blueprint(users_bp)
+app.register_blueprint(auth_bp)
 
 
 @app.get("/")

@@ -8,7 +8,6 @@
  * - Modal management (open, close, backdrop click)
  * - Toast notifications (success, error messages)
  */
-
 /**
  * Display toast notification (auto-hide after 3 seconds)
  * 

@@ -1,0 +1,68 @@
+### Get all users 
+GET http://127.0.0.1:5000/api/v1/users
+
+### Get user ?data GET http://127.0.0.1:5000/api/v1/users/
+
+### Get user with malformed id ### Expecting malformed input error message GET http://127.0.0.1:3000/api/v1/users/
+
+### Get user with non-existing id # expecting error 404 GET http://127.0.0.1:3000/api/v1/users/10000
+
+### PUT user 3609 data 
+PUT http://localhost:5000/api/v1/users/6924e3bbd9cf3f4e69cd4ca0
+Content-Type: application/json
+
+{
+    "name": "john"
+}
+
+
+
+### DELETE user 3609 data 
+DELETE http://localhost:5000/api/v1/users/6924e224eff0d1f1762d67dc
+
+
+###Post user John
+POST http://localhost:5000/api/v1/users
+Content-Type: application/json
+
+{
+    "name": "john", 
+    "username": "johndoe", 
+    "email": "john@metropolia.fi", 
+    "role": "customer", 
+    "password": "password"
+}
+
+### Add user named Matti 
+POST http://localhost:5000/api/v1/users
+Content-Type: application/json
+
+{
+    "name": "Irum Shehryar"  ,
+    "username" : "irum",
+    "email": "irum@metropolia.fi",
+    "role": "admin",
+    "password":"hell01234"
+}
+
+
+### Add user with missing name
+POST http://localhost:5000/api/v1/users 
+Content-Type: application/json
+
+{
+"name":"jhon",
+"username": "johndoe", 
+"email": "john@metropolia.fi", 
+"role": "customer", 
+"password": "password"
+}
+
+### Post login 
+POST http://localhost:5000/api/v1/auth/login 
+Content-Type: application/json
+
+{
+"username": "johndoe", 
+"password": "password"
+}
