@@ -1,0 +1,10 @@
+### ### Valid login # @name login
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+"username": "johndoe", 
+"password": "123456ABc"
+}
+
+### Get my user info GET http://localhost:3000/api/v1/users/me Authorization: Bearer {{login.response.body.token}}
