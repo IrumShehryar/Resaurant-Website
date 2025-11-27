@@ -115,7 +115,8 @@ def reservation():
 @app.get("/login")
 def login():
     """Render the Login page."""
-    return render_template("login.html")
+    next_url = request.args.get("next", "/")
+    return render_template("login.html", next_url=next_url)
 
 
 @app.route('/cart')
