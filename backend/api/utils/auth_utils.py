@@ -6,6 +6,14 @@ import jwt
 from jwt import ExpiredSignatureError, InvalidTokenError
 from api.v1.users.users_model import User
 
+
+def get_jwt_secret():
+    secret = os.getenv("JWT_SECRET_KEY")
+    if not secret:
+        raise RuntimeError("JWT_SECRET_KEY is not set")
+    return secret
+
+
 def token_required(f):
     """Require JWT; inject `current_user` on success."""
 
@@ -37,4 +45,14 @@ def token_required(f):
 
         return f(current_user=user, *args, **kwargs)
 
+    return decorated
+
+def admin_required(f):
+    """Require JWT and admin role."""
+    @token_required
+    @wraps(f)
+    def decorated(current_user, *args, **kwargs):
+        if current_user.role != "admin":
+            return jsonify({"message": "Admin access required"}), 403
+        return f(current_user=current_user, *args, **kwargs)
     return decorated

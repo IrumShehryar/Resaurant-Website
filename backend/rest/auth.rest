@@ -1,10 +1,16 @@
-### ### Valid login # @name login
-POST http://localhost:3000/api/v1/auth/login
+### ### Valid login # 
+
+# @name login
+POST http://localhost:5000/api/v1/auth/login
 Content-Type: application/json
 
 {
-"username": "johndoe", 
-"password": "123456ABc"
+"username": "saba1234", 
+"password": "Saba1234"
 }
 
-### Get my user info GET http://localhost:3000/api/v1/users/me Authorization: Bearer {{login.response.body.token}}
+### Get my user info 
+GET http://localhost:5000/api/v1/users/me 
+Authorization: Bearer {{login.response.body.token}}
+#Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjkyNTA2MmQ4YzgyNWE2NjcxZTU3YWJiIiwidXNlcm5hbWUiOiJmYXJoYW4xMjM0IiwiZXhwIjoxNzY0MTIwNjY5fQ.EZbDfSKCWLjLePV5PPYH6bfnNH2msjGHdDkwoHbGgBs
+
