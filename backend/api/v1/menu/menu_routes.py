@@ -1,17 +1,25 @@
 """Flask Blueprint exposing the menu JSON API.
 
 Routes:
-- GET /api/v1/menu/         -> returns list of menu items
-- GET /api/v1/menu/<item_id> -> returns single item or 404
+- GET  /api/v1/menu/          -> returns list of menu items (public)
+- GET  /api/v1/menu/<item_id> -> returns single item or 404 (public)
+- POST /api/v1/menu/          -> create menu item (admin only)
+- PUT  /api/v1/menu/<item_id> -> update menu item (admin only)
+- DELETE /api/v1/menu/<item_id> -> delete menu item (admin only)
 
-This module keeps route definitions tiny by delegating logic to the
-controller helpers in ``menu_controller.py`` which return (response,
-status) tuples.
+Controller logic is delegated to helpers in ``menu_controller.py`` which
+return (response, status) tuples.
 """
 
 from flask import Blueprint
-from .menu_controller import get_menu,get_menu_item_controller, create_menu_item_controller, update_menu_item_controller,delete_menu_item_controller
-
+from .menu_controller import (
+    get_menu,
+    get_menu_item_controller,
+    create_menu_item_controller,
+    update_menu_item_controller,
+    delete_menu_item_controller,
+)
+from api.utils.auth_utils import token_required
 
 menu_bp = Blueprint("menu", __name__, url_prefix="/api/v1/menu")
 
@@ -35,23 +43,6 @@ def get_all_menu_route():
     @apiSuccess {String[]} items.allergens Allergens list
     @apiSuccess {String[]} items.days_of_week Days available
     @apiSuccess {Boolean} items.active Is item active
-    
-    @apiSuccessExample Success-Response:
-        HTTP/1.1 200 OK
-        [
-            {
-                "_id": {"$oid": "691211b751476ba3fc35b9f5"},
-                "id": "691211b751476ba3fc35b9f5",
-                "name": "Aurora Bites",
-                "price": 5.50,
-                "category": "starter",
-                "description": "Crispy potato bites...",
-                "dietary": ["vegetarian"],
-                "allergens": ["milk"],
-                "days_of_week": ["Monday", "Tuesday", ...],
-                "active": true
-            }
-        ]
     """
     return get_menu()
 
@@ -71,117 +62,56 @@ def get_menu_item_route(item_id):
     @apiSuccess {String} item.id Item ID (string)
     @apiSuccess {String} item.name Item name
     @apiSuccess {Number} item.price Item price
-    
-    @apiSuccessExample Success-Response:
-        HTTP/1.1 200 OK
-        {
-            "_id": {"$oid": "691211b751476ba3fc35b9f5"},
-            "id": "691211b751476ba3fc35b9f5",
-            "name": "Aurora Bites",
-            "price": 5.50
-        }
-    
-    @apiError ItemNotFound Item not found
-    @apiErrorExample Error-Response:
-        HTTP/1.1 400 Bad Request
-        {"error": "Item not found"}
     """
     return get_menu_item_controller(item_id)
 
-@menu_bp.route("/",methods = ["POST"])
-def create_menu():
+
+@menu_bp.route("/", methods=["POST"])
+@token_required
+def create_menu(current_user):
     """
     @api {post} /menu Create New Menu Item
     @apiName CreateMenuItem
     @apiGroup Menu
     @apiVersion 1.0.0
     
-    @apiBody {String} name Item name (required)
-    @apiBody {String} description Item description
-    @apiBody {Number} price Item price (required)
-    @apiBody {String} category Item category (required)
-    @apiBody {String} image Image URL
-    @apiBody {String[]} dietary Dietary labels
-    @apiBody {String[]} allergens Allergens
-    @apiBody {String[]} days_of_week Days available
-    @apiBody {Boolean} active Is active (default: true)
-    
-    @apiExample {json} Request-Example:
-        {
-            "name": "Aurora Bites",
-            "description": "Crispy potato bites...",
-            "price": 5.50,
-            "category": "starter"
-        }
-    
-    @apiSuccess {Object} item Created item
-    
-    @apiSuccessExample Success-Response:
-        HTTP/1.1 200 OK
-        {
-            "_id": {"$oid": "691211b751476ba3fc35b9f5"},
-            "name": "Aurora Bites",
-            "price": 5.50
-        }
+    Admin-only: requires a valid JWT for a user with role "admin".
     """
+    if current_user.role != "admin":
+        return {"message": "Forbidden"}, 403
+
     return create_menu_item_controller()
 
-@menu_bp.route("/<item_id>", methods =["PUT"])
-def update_menu(item_id):
+
+@menu_bp.route("/<item_id>", methods=["PUT"])
+@token_required
+def update_menu(current_user, item_id):
     """
     @api {put} /menu/:id Update Menu Item
     @apiName UpdateMenuItem
     @apiGroup Menu
     @apiVersion 1.0.0
     
-    @apiParam {String} id Menu item MongoDB ObjectId
-    
-    @apiBody {String} [name] Item name
-    @apiBody {Number} [price] Item price
-    @apiBody {String[]} [allergens] Allergens
-    
-    @apiExample {json} Request-Example:
-        {
-            "price": 7.99,
-            "name": "Updated Name"
-        }
-    
-    @apiSuccess {Object} item Updated item
-    
-    @apiSuccessExample Success-Response:
-        HTTP/1.1 200 OK
-        {
-            "_id": {"$oid": "691211b751476ba3fc35b9f5"},
-            "name": "Updated Name",
-            "price": 7.99
-        }
-    
-    @apiError ItemNotFound Item not found
-    @apiErrorExample Error-Response:
-        HTTP/1.1 404 Not Found
-        {"error": "Item not found"}
+    Admin-only: requires a valid JWT for a user with role "admin".
     """
+    if current_user.role != "admin":
+        return {"message": "Forbidden"}, 403
+
     return update_menu_item_controller(item_id)
 
-@menu_bp.route("/<item_id>", methods = ["DELETE"])
-def delete_menu(item_id):
+
+@menu_bp.route("/<item_id>", methods=["DELETE"])
+@token_required
+def delete_menu(current_user, item_id):
     """
     @api {delete} /menu/:id Delete Menu Item
     @apiName DeleteMenuItem
     @apiGroup Menu
     @apiVersion 1.0.0
     
-    @apiParam {String} id Menu item MongoDB ObjectId
-    
-    @apiSuccess {String} message Success message
-    
-    @apiSuccessExample Success-Response:
-        HTTP/1.1 200 OK
-        {"message": "Item deleted successfully"}
-    
-    @apiError ItemNotFound Item not found
-    @apiErrorExample Error-Response:
-        HTTP/1.1 404 Not Found
-        {"error": "Item not found"}
+    Admin-only: requires a valid JWT for a user with role "admin".
     """
+    if current_user.role != "admin":
+        return {"message": "Forbidden"}, 403
+
     return delete_menu_item_controller(item_id)
