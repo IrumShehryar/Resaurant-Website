@@ -133,6 +133,10 @@ def admin_login():
 def admin_interface():
     return render_template("admin-interface.html")
 
+@app.get("/order-confirmation")
+def order_confirmation_page():
+    return render_template("order-confirmation.html")
+
 
 if __name__ == "__main__":
     # When run directly, read run settings from environment variables.
