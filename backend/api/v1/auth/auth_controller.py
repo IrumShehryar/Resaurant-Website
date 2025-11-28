@@ -25,6 +25,7 @@ def post_login():
         payload = {
          "user_id": str(user.id),
          "username": user.username,
+         "role": user.role,
          "exp": datetime.now(timezone.utc) + timedelta(hours=24)  # Token expires in 24 hours
         }
 

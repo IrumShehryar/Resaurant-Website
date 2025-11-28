@@ -1,15 +1,10 @@
-{% extends "base.html" %}
-
-{% block title %}Revontulet Flamehouse — {{ t.login }}{% endblock %}
-
-{% block styles %}
+{% extends "base.html" %} {% block title %}Revontulet Flamehouse — {{ t.login
+}}{% endblock %} {% block styles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/customer-login.css') }}"
 />
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 
 <section class="hero">
     <div class="hero-content">
@@ -21,11 +16,13 @@
                 <input type="hidden" id="next-url" value="{{ next_url }}" />
 
                 <form id="auth-form">
-                    <label>{{ t.email }}:
-                        <input type="email" name="email" required />
+                    <label
+                        >{{ t.username }}:
+                        <input type="text" name="username" required />
                     </label>
 
-                    <label>{{ t.password }}:
+                    <label
+                        >{{ t.password }}:
                         <input type="password" name="password" required />
                     </label>
 
@@ -51,9 +48,7 @@
     <div class="hero-fade"></div>
 </section>
 
-{% endblock %}
-
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <script
     type="module"
     src="{{ url_for('static', filename='js/customer-login.js') }}"

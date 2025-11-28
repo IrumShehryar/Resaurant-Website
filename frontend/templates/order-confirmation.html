@@ -1,0 +1,14 @@
+<script type="module">
+    document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("authToken");
+
+        if (!token) {
+            // Protect page — only logged-in users can see it
+            const next = encodeURIComponent(window.location.pathname);
+            window.location.href = `/login?next=${next}`;
+            return;
+        }
+
+        // Later your team will load user + order here
+    });
+</script>

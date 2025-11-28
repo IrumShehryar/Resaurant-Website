@@ -1,15 +1,10 @@
-{% extends "base.html" %}
-
-{% block title %}{{ t.cart_title }} — Revontulet Flamehouse{% endblock %}
-
-{% block styles %}
+{% extends "base.html" %} {% block title %}{{ t.cart_title }} — Revontulet
+Flamehouse{% endblock %} {% block styles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/cart.css') }}"
 />
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <section class="cart-section">
     <div class="cart-header">
         <h2>{{ t.your_cart }}</h2>
@@ -30,99 +25,125 @@
                 {{ t.total }}: <span id="total-price">€0.00</span>
             </p>
             <button class="btn btn-checkout">{{ t.checkout }}</button>
-            <a href="{{ url_for('menu') }}" class="btn btn-continue">{{ t.continue_shopping }}</a>
+            <a href="{{ url_for('menu') }}" class="btn btn-continue">
+                {{ t.continue_shopping }}
+            </a>
         </div>
     </div>
 </section>
-{% endblock %}
-
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const t = {
-        price: "{{ t.price }}",
-        qty: "{{ t.quantity }}",
-        subtotal: "{{ t.subtotal }}",
-        remove: "{{ t.remove }}"
-    };
+    document.addEventListener("DOMContentLoaded", function () {
+        const t = {
+            price: "{{ t.price }}",
+            qty: "{{ t.quantity }}",
+            subtotal: "{{ t.subtotal }}",
+            remove: "{{ t.remove }}",
+        };
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const cartItemsDiv = document.getElementById("cart-items");
-    const cartEmptyDiv = document.getElementById("cart-empty");
-    const cartSummaryDiv = document.getElementById("cart-summary");
-    const totalPriceSpan = document.getElementById("total-price");
-    const checkoutButton = document.querySelector(".btn-checkout");
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const cartItemsDiv = document.getElementById("cart-items");
+        const cartEmptyDiv = document.getElementById("cart-empty");
+        const cartSummaryDiv = document.getElementById("cart-summary");
+        const totalPriceSpan = document.getElementById("total-price");
+        const checkoutButton = document.querySelector(".btn-checkout");
 
-    if (cart.length === 0) {
-        cartItemsDiv.style.display = "none";
-        cartEmptyDiv.style.display = "block";
-        cartSummaryDiv.style.display = "none";
-    } else {
-        let totalPrice = 0;
-        let cartHTML = "";
+        if (cart.length === 0) {
+            cartItemsDiv.style.display = "none";
+            cartEmptyDiv.style.display = "block";
+            cartSummaryDiv.style.display = "none";
+        } else {
+            let totalPrice = 0;
+            let cartHTML = "";
 
-        cart.forEach((item, index) => {
-            const itemTotal = item.price * (item.quantity || 1);
-            totalPrice += itemTotal;
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * (item.quantity || 1);
+                totalPrice += itemTotal;
 
-            const imgSrc = item.image_url
-                ? item.image_url
-                : item.image
-                ? item.image.startsWith("/") || item.image.startsWith("http")
-                    ? item.image
-                    : `/static/assets/${encodeURIComponent(item.image)}`
-                : "/static/assets/hero-image.jpeg";
+                const imgSrc = item.image_url
+                    ? item.image_url
+                    : item.image
+                    ? item.image.startsWith("/") ||
+                      item.image.startsWith("http")
+                        ? item.image
+                        : `/static/assets/${encodeURIComponent(item.image)}`
+                    : "/static/assets/hero-image.jpeg";
 
-            cartHTML += `
+                cartHTML += `
                 <div class="cart-item">
-                    <img src="${imgSrc}" onerror="this.onerror=null;this.src='/static/assets/hero-image.jpeg'" alt="${item.name}" class="cart-item__img">
+                    <img src="${imgSrc}" onerror="this.onerror=null;this.src='/static/assets/hero-image.jpeg'" alt="${
+                    item.name
+                }" class="cart-item__img">
                     <div class="cart-item__details">
                         <h3 class="cart-item__title">${item.name}</h3>
                         <p class="cart-item__desc">${item.description}</p>
 
-                        <p class="cart-item__price">${t.price}: <span class="amount">€${item.price.toFixed(2)}</span></p>
+                        <p class="cart-item__price">${
+                            t.price
+                        }: <span class="amount">€${item.price.toFixed(
+                    2
+                )}</span></p>
 
                         <div class="cart-item__controls">
                             <label class="cart-item__label">${t.qty}:
-                                <input type="number" value="${item.quantity || 1}" min="1" class="cart-item__input" onchange="updateQuantity(${index}, this.value)">
+                                <input type="number" value="${
+                                    item.quantity || 1
+                                }" min="1" class="cart-item__input" onchange="updateQuantity(${index}, this.value)">
                             </label>
 
-                            <span class="cart-item__subtotal">${t.subtotal}: €${itemTotal.toFixed(2)}</span>
+                            <span class="cart-item__subtotal">${
+                                t.subtotal
+                            }: €${itemTotal.toFixed(2)}</span>
 
-                            <button onclick="removeFromCart(${index})" class="cart-item__remove">${t.remove}</button>
+                            <button onclick="removeFromCart(${index})" class="cart-item__remove">${
+                    t.remove
+                }</button>
                         </div>
                     </div>
                 </div>
             `;
+            });
+
+            cartItemsDiv.innerHTML = cartHTML;
+            totalPriceSpan.textContent = "€" + totalPrice.toFixed(2);
+
+            cartItemsDiv.style.display = "block";
+            cartEmptyDiv.style.display = "none";
+            cartSummaryDiv.style.display = "block";
+        }
+
+        // ✅ Correct checkout behavior
+        checkoutButton.addEventListener("click", function () {
+            const token = localStorage.getItem("authToken");
+            const redirectTo = "/order-confirmation";
+
+            if (!token) {
+                // Not logged in → go to login with next pointing to confirmation page
+                window.location.href = `/login?next=${encodeURIComponent(
+                    redirectTo
+                )}`;
+            } else {
+                // Already logged in → go straight to confirmation
+                window.location.href = redirectTo;
+            }
         });
+    });
 
-        cartItemsDiv.innerHTML = cartHTML;
-        totalPriceSpan.textContent = "€" + totalPrice.toFixed(2);
-
-        cartItemsDiv.style.display = "block";
-        cartEmptyDiv.style.display = "none";
-        cartSummaryDiv.style.display = "block";
+    function updateQuantity(index, newQuantity) {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        if (newQuantity > 0) {
+            cart[index].quantity = parseInt(newQuantity);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            location.reload();
+        }
     }
 
-    checkoutButton.addEventListener("click", function () {
-        window.location.href = "{{ url_for('login') }}";
-    });
-});
-
-function updateQuantity(index, newQuantity) {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (newQuantity > 0) {
-        cart[index].quantity = parseInt(newQuantity);
+    // Remove item from cart
+    function removeFromCart(index) {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.splice(index, 1);
         localStorage.setItem("cart", JSON.stringify(cart));
         location.reload();
     }
-}
-
-function removeFromCart(index) {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    location.reload();
-}
 </script>
 {% endblock %}
