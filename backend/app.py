@@ -123,7 +123,7 @@ def reservation():
 def login():
     """Render the Login page."""
     next_url = request.args.get("next", "/")
-    return render_template("login.html", next_url=next_url)
+    return render_template("login.html", next_url=next_url,role="user")
 
 @app.route('/cart')
 def cart_page():
@@ -132,7 +132,8 @@ def cart_page():
 
 @app.get("/admin-login")
 def admin_login():
-    return render_template("admin-login.html")
+    next_url = url_for("admin_interface")
+    return render_template("login.html", next_url=next_url,role="admin")
 
 @app.get("/admin-interface")
 def admin_interface():

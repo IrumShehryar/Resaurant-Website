@@ -32,6 +32,22 @@ import {apiUrl} from '../utils/config.js'
 
 export function createCrudManager(endpoint){
     
+    
+    // Helper to build headers with optional JSON + Authorization
+    function getAuthHeaders(includeJson = false) {
+        const headers = {}
+
+        if (includeJson) {
+            headers['Content-Type'] = 'application/json'
+        }
+
+        const token = localStorage.getItem('authToken')
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`
+        }
+
+        return headers
+    }
     /**
      * GET all items from endpoint
      * @returns {Promise} Array of all items
@@ -57,7 +73,7 @@ export function createCrudManager(endpoint){
     async function create(data){
         return fetchData(apiUrl(endpoint),{
             method: 'POST',
-            headers: {'Content-Type':'application/json'},
+            headers: getAuthHeaders(true),
             body: JSON.stringify(data)
         })
     }
@@ -71,7 +87,7 @@ export function createCrudManager(endpoint){
     async function update(id,data){
         return fetchData(apiUrl(`${endpoint}/${id}`),{
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+             headers: getAuthHeaders(true),
             body: JSON.stringify(data)
         })
     }
@@ -84,7 +100,7 @@ export function createCrudManager(endpoint){
     async function deleteItem(id){
         return fetchData(apiUrl(`${endpoint}/${id}`), {
           method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' }
+        headers: getAuthHeaders(),
         })
     }
 
