@@ -26,9 +26,6 @@ def register_user():
     """Public registration: always create a normal user."""
     data = request.get_json() or {}
     data.pop("role", None)  # force role to default "user"
-     # If username is not provided, default to email
-    if "username" not in data and "email" in data:
-        data["username"] = data["email"]
     
     user = User(**data)
     new_user = user.save()

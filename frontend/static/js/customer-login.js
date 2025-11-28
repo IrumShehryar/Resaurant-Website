@@ -25,6 +25,10 @@ function getNextUrl() {
                 <label>Full Name:
                     <input type="text" name="name" required>
                 </label>
+           
+                <label>Username:
+                    <input type="text" name="username" required>
+                </label>
 
                 <label>Email:
                     <input type="email" name="email" required>
@@ -59,8 +63,8 @@ function getNextUrl() {
             authBox.querySelector("h2").textContent = "Log In";
 
             authForm.innerHTML = `
-                <label>Email:
-                    <input type="email" name="email" required>
+                <label>Username:
+                    <input type="text" name="username" required>
                 </label>
 
                 <label>Password:
@@ -90,7 +94,7 @@ function getNextUrl() {
         const nextUrl = getNextUrl();
         if (mode === "login") {
     // LOGIN FLOW
-    const email = formData.get("email");
+    const username = formData.get("username");
     const password = formData.get("password");
 
     try {
@@ -100,7 +104,7 @@ function getNextUrl() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 // backend expects username, we use email as username
-                body: JSON.stringify({ username: email, password })
+                body: JSON.stringify({ username, password })
             }
         );
 
@@ -118,6 +122,7 @@ function getNextUrl() {
 } else {
     // REGISTER FLOW
     const name = formData.get("name");
+    const username = formData.get("username");
     const email = formData.get("email");
     const phone = formData.get("phone");
     const address = formData.get("address");
@@ -137,6 +142,7 @@ function getNextUrl() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     name,
+                    username,
                     email,
                     phone,
                     address,

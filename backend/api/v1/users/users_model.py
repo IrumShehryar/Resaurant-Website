@@ -5,7 +5,7 @@ import bcrypt
 
 class User(Document):
     name = StringField(required= True,min_length=3,max_length=50)
-    username = StringField( unique=True)
+    username = StringField(required=True, unique=True)
     email = StringField(required=True,unique=True)
     password = StringField(required=True)
     role = StringField(required=True, choices=["admin", "user"], default="user")
