@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Revontulet Flamehouse — Log In{%
-endblock %} {% block styles %}
+{% extends "base.html" %} {% block title %}Revontulet Flamehouse — {{ t.login
+}}{% endblock %} {% block styles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/customer-login.css') }}"
@@ -11,27 +11,27 @@ endblock %} {% block styles %}
         <div class="hero-left">
             <!-- Login / Sign-up Form -->
             <div class="login-box" id="auth-box">
-                <h2>Log In</h2>
+                <h2>{{ t.login }}</h2>
 
                 <input type="hidden" id="next-url" value="{{ next_url }}" />
 
                 <form id="auth-form">
                     <label
-                        >Username:
+                        >{{ t.username }}:
                         <input type="text" name="username" required />
                     </label>
 
                     <label
-                        >Password:
+                        >{{ t.password }}:
                         <input type="password" name="password" required />
                     </label>
 
-                    <button type="submit">Log In</button>
+                    <button type="submit">{{ t.login }}</button>
                 </form>
 
                 <p id="toggle-text">
-                    Don't have an account?
-                    <a href="#" id="toggle-link">Sign up here</a>
+                    {{ t.no_account }}
+                    <a href="#" id="toggle-link">{{ t.sign_up_here }}</a>
                 </p>
             </div>
         </div>
@@ -40,7 +40,7 @@ endblock %} {% block styles %}
             <img
                 class="hero-image"
                 src="{{ url_for('static', filename='assets/hero1.jpg') }}"
-                alt="Burgers and drinks"
+                alt="{{ t.burgers_and_drinks }}"
             />
         </div>
     </div>

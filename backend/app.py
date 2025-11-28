@@ -20,6 +20,8 @@ Notes:
 """
 
 from flask import Flask, render_template,request
+from flask import session, redirect, url_for
+from translations import translations
 from datetime import datetime
 from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
@@ -27,7 +29,6 @@ from api.v1.menu.menu_routes import menu_bp
 from api.v1.users.users_routes import users_bp
 from api.v1.auth.auth_routes import auth_bp     
 from api.utils.db import mongo_connect
-
 
 load_dotenv()
 
@@ -37,6 +38,7 @@ app = Flask(
     static_folder="../frontend/static",
     static_url_path="/static",
 )
+app.secret_key = "9f8sdf98sdf89sdfu89sdf89@#FSDfsd98f"
 
 # If the app is running behind a proxy (nginx, etc) ProxyFix preserves
 # original client scheme and path prefix. Adjust values when deploying.
@@ -47,6 +49,16 @@ app.register_blueprint(menu_bp)
 app.register_blueprint(users_bp)
 app.register_blueprint(auth_bp)
 
+@app.route("/set_language/<lang>")
+def set_language(lang):
+    if lang in ["en", "fi"]:
+        session["lang"] = lang
+    return redirect(request.referrer or url_for("home"))
+
+@app.context_processor
+def inject_translations():
+    lang = session.get("lang", "en")
+    return {"t": translations[lang]}
 
 @app.get("/")
 def home():
@@ -75,7 +87,6 @@ def menu():
 
     return render_template("menu.html", highlight_day=highlight_day)
 
-
 @app.get("/menu/<int:item_id>")
 def menu_item(item_id):
     """Render the menu SPA for a deep link to a specific item.
@@ -93,31 +104,26 @@ def menu_item(item_id):
     """
     return render_template("menu.html")
 
-
 @app.get("/about")
 def about():
     """Render the About Us page."""
     return render_template("about.html")
-
 
 @app.get("/contact")
 def contact():
     """Render the Contact Us page."""
     return render_template("contact.html")
 
-
 @app.get("/reservation")
 def reservation():
     """Render the Reservation/Reserve a Table page."""
     return render_template("reservation.html")
-
 
 @app.get("/login")
 def login():
     """Render the Login page."""
     next_url = request.args.get("next", "/")
     return render_template("login.html", next_url=next_url)
-
 
 @app.route('/cart')
 def cart_page():
@@ -127,7 +133,6 @@ def cart_page():
 @app.get("/admin-login")
 def admin_login():
     return render_template("admin-login.html")
-
 
 @app.get("/admin-interface")
 def admin_interface():
@@ -147,3 +152,4 @@ if __name__ == "__main__":
         debug=os.getenv("FLASK_DEBUG"),
         use_reloader=os.getenv("FLASK_RELOADER"),
     )
+

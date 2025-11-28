@@ -1,82 +1,98 @@
-{% extends "base.html" %} {% block title %}Menu — Revontulet Flamehouse{%
-endblock %} {% block styles %}
-<link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/menu.css') }}"
-/>
-{% endblock %} {% block content %}
-<!-- Highlight of the Day -->
-<!-- Filters across the top + content layout -->
+{% extends "base.html" %}
+
+{% block title %}Menu — Revontulet Flamehouse{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}" />
+{% endblock %}
+
+{% block content %}
+
 <div class="menu-layout">
     <nav class="diet-panel" aria-label="Diet and category filters">
+        
         <div class="filter-group">
-            <h4 class="group-title">Category</h4>
-            <button
-                class="filter-btn category active"
-                data-category="all"
-                aria-pressed="true"
-            >
-                All
+            <h4 class="group-title">{{ t.category }}</h4>
+
+            <button class="filter-btn category active"
+                    data-category="all"
+                    aria-pressed="true">
+                {{ t.all }}
             </button>
+
             <button class="filter-btn category" data-category="starter">
-                Starters
+                {{ t.starters }}
             </button>
+
             <button class="filter-btn category" data-category="main">
-                Mains
+                {{ t.mains }}
             </button>
+
             <button class="filter-btn category" data-category="side">
-                Sides
+                {{ t.sides }}
             </button>
+
             <button class="filter-btn category" data-category="dessert">
-                Desserts
+                {{ t.desserts }}
             </button>
+
             <button class="filter-btn category" data-category="drink">
-               Drinks
+                {{ t.drinks }}
             </button>
         </div>
 
         <div class="filter-group">
-            <h4 class="group-title">Diet</h4>
+            <h4 class="group-title">{{ t.diet }}</h4>
+
             <button class="filter-btn diet" data-diet="vegetarian">
-                Vegetarian
+                {{ t.vegetarian }}
             </button>
-            <button class="filter-btn diet" data-diet="vegan">Vegan</button>
+
+            <button class="filter-btn diet" data-diet="vegan">
+                {{ t.vegan }}
+            </button>
+
             <button class="filter-btn diet" data-diet="pescatarian">
-                Pescatarian
+                {{ t.pescatarian }}
             </button>
+
             <button class="filter-btn diet" data-diet="gluten-free">
-                Gluten-Free
+                {{ t.gluten_free }}
             </button>
+
             <button class="filter-btn diet" data-diet="non alcoholic">
-                Non-Alcoholic
+                {{ t.non_alcoholic }}
             </button>
         </div>
     </nav>
 
     <main class="menu-main" id="menu-main">
-        <!-- Highlight of the Day (moved inside main so it shares the right-hand column with the menu)
-             This keeps the left `diet-panel` column visually separate from the highlights. -->
+
         <div class="highlight-wrapper">
             <h3 class="highlight-heading">
-                {% if highlight_day %}{{ highlight_day }} Highlights{% else
-                %}Today's Highlights{% endif %}
+                {% if highlight_day %}
+                    {{ highlight_day }} {{ t.highlights }}
+                {% else %}
+                    {{ t.todays_highlights }}
+                {% endif %}
             </h3>
-            <section
-                id="highlight-root"
-                class="page-highlight"
-                aria-live="polite"
-                aria-label="Highlight of the day"
-            ></section>
+
+            <section id="highlight-root"
+                     class="page-highlight"
+                     aria-live="polite"
+                     aria-label="Highlight of the day">
+            </section>
         </div>
 
-        <h2 class="menu-heading">Our Menu</h2>
+        <h2 class="menu-heading">{{ t.our_menu }}</h2>
         <div id="menuList" class="menu-grid"></div>
     </main>
 </div>
-{% endblock %} {% block scripts %}
-<script
-    type="module"
-    src="{{ url_for('static', filename='js/menu.js') }}"
-></script>
-<!-- highlight heading provided by server: `highlight_day` -->
-{% endblock %}
+
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ url_for('static', filename='js/menu.js') }}"></script>
+{% endblock %}
+
+

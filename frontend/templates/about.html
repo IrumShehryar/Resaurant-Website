@@ -1,12 +1,15 @@
-{% extends "base.html" %} {% block title %}About Us — Revontulet Flamehouse{%
-endblock %} {% block content %}
-<h2>About Us</h2>
+{% extends "base.html" %}
+
+{% block title %}{{ t.about_us }} — Revontulet Flamehouse{% endblock %}
+
+{% block content %}
+<h2>{{ t.about_us }}</h2>
+
 <p>
-    Welcome to Revontulet Flamehouse, where Nordic cuisine meets the magic of
-    the aurora borealis.
+    {{ t.about_intro_1 }}
 </p>
+
 <p>
-    Our restaurant offers a unique dining experience inspired by the dancing
-    northern lights of Finland.
+    {{ t.about_intro_2 }}
 </p>
 {% endblock %}

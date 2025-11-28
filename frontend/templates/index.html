@@ -1,36 +1,38 @@
-{% extends "base.html" %} {% block title %}Revontulet Flamehouse — Where Aurora
-Meets Culinary Art{% endblock %} {% block styles %}
-<link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/index.css') }}"
-/>
-{% endblock %} {% block content %}
+{% extends "base.html" %}
+{% block title %}{{ t.home_title }}{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+{% endblock %}
+{% block content %}
 
 <section class="hero">
     <div class="hero-content">
         <div class="hero-left">
-            <p class="hero-tagline">ARCTIC • AURORA • FLAME</p>
-            <h1 class="hero-title">Where Aurora Meets Flavor.</h1>
+            <p class="hero-tagline">{{ t.hero_tagline }}</p>
+
+            <h1 class="hero-title">{{ t.hero_main_title }}</h1>
+
             <p class="hero-description">
-                Experience Nordic cuisine inspired by the mystical northern
-                lights. Crafted with passion, served with soul.
+                {{ t.hero_description }}
             </p>
 
             <div class="hero-features">
-                <span>🌌 Nordic Cuisine</span>
-                <span>❄️ Fresh Ingredients</span>
-                <span>🔥 Arctic Passion</span>
+                <span>🌌 {{ t.hero_feature_1 }}</span>
+                <span>❄️ {{ t.hero_feature_2 }}</span>
+                <span>🔥 {{ t.hero_feature_3 }}</span>
             </div>
         </div>
+
         <div class="hero-right">
-            <img
+            <img 
                 class="hero-image"
                 src="{{ url_for('static', filename='assets/hero1.jpg') }}"
-                alt="Burgers and drinks"
+                alt="{{ t.hero_image_alt }}"
             />
         </div>
     </div>
+
     <div class="hero-fade" aria-hidden="true"></div>
 </section>
-<!-- Highlight placeholder removed -->
+
 {% endblock %}
