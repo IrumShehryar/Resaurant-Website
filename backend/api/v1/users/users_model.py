@@ -5,7 +5,7 @@ import bcrypt
 
 class User(Document):
     name = StringField(required= True,min_length=3,max_length=50)
-    username = StringField(required=True, unique=True)
+    username = StringField( unique=True)
     email = StringField(required=True,unique=True)
     password = StringField(required=True)
     role = StringField(required=True, choices=["admin", "user"], default="user")
@@ -44,12 +44,21 @@ def list_all_users():
     return User.objects()
     
 def find_user_by_id(user_id):
-    return User.objects.get(id=user_id)
+    
+    try:
+        return User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return None
 
-def update_user(user_id,user_data):
+def update_user(user_id, user_data):
     user = User.objects.get(id=user_id)
-    user.update(**user_data)
-    return User.objects.get(id=user_id)
+
+    for key, value in user_data.items():
+        if hasattr(user, key):
+            setattr(user, key, value)
+    user.save()  # triggers pre_save and password hashing
+    return user
+
 
 def delete_user(user_id):
     User.objects.get(id=user_id).delete()

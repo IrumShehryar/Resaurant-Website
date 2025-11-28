@@ -10,7 +10,7 @@ def get_users():
     users_json= UserSchema(many=True).dump(users)
     return users_json,200
 
-def get_user_by_id(id):
+def get_user_by_id_controller(id):
     try:
         user = find_user_by_id(id)
     except(ValueError,TypeError):
@@ -20,8 +20,25 @@ def get_user_by_id(id):
         return{"error":"not found"},404
     return user.to_json(),200
 
+
 @simple_errors
-def create_user():
+def register_user():
+    """Public registration: always create a normal user."""
+    data = request.get_json() or {}
+    data.pop("role", None)  # force role to default "user"
+     # If username is not provided, default to email
+    if "username" not in data and "email" in data:
+        data["username"] = data["email"]
+    
+    user = User(**data)
+    new_user = user.save()
+    nice_user = UserSchema().dump(new_user)
+    return nice_user, 201
+
+
+
+@simple_errors
+def create_user_admin():
     data = request.get_json()
     user = User(**data)
     new_user = user.save()

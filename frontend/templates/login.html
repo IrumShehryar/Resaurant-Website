@@ -1,12 +1,10 @@
-{% extends "base.html" %}
-
-{% block title %}Revontulet Flamehouse — Log In{% endblock %}
-
-{% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/customer-login.css') }}">
-{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Revontulet Flamehouse — Log In{%
+endblock %} {% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/customer-login.css') }}"
+/>
+{% endblock %} {% block content %}
 
 <section class="hero">
     <div class="hero-content">
@@ -15,37 +13,44 @@
             <div class="login-box" id="auth-box">
                 <h2>Log In</h2>
 
+                <input type="hidden" id="next-url" value="{{ next_url }}" />
+
                 <form id="auth-form">
-                    <label>Email:
-                        <input type="email" name="email" required>
+                    <label
+                        >Email:
+                        <input type="email" name="email" required />
                     </label>
 
-                    <label>Password:
-                        <input type="password" name="password" required>
+                    <label
+                        >Password:
+                        <input type="password" name="password" required />
                     </label>
 
                     <button type="submit">Log In</button>
                 </form>
 
                 <p id="toggle-text">
-                    Don't have an account? 
+                    Don't have an account?
                     <a href="#" id="toggle-link">Sign up here</a>
                 </p>
             </div>
         </div>
 
         <div class="hero-right">
-            <img class="hero-image"
-                 src="{{ url_for('static', filename='assets/hero1.jpg') }}"
-                 alt="Burgers and drinks">
+            <img
+                class="hero-image"
+                src="{{ url_for('static', filename='assets/hero1.jpg') }}"
+                alt="Burgers and drinks"
+            />
         </div>
     </div>
 
     <div class="hero-fade"></div>
 </section>
 
-{% endblock %}
-
-{% block scripts %}
-<script src="{{ url_for('static', filename='js/customer-login.js') }}"></script>
+{% endblock %} {% block scripts %}
+<script
+    type="module"
+    src="{{ url_for('static', filename='js/customer-login.js') }}"
+></script>
 {% endblock %}
