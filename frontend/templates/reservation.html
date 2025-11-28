@@ -1,19 +1,27 @@
-{% extends "base.html" %} {% block title %}Reserve a Table — Revontulet
-Flamehouse{% endblock %} {% block content %}
-<h2>Reserve a Table</h2>
+{% extends "base.html" %}
+
+{% block title %}{{ t.reserve_title }} — Revontulet Flamehouse{% endblock %}
+
+{% block content %}
+<h2>{{ t.reserve_a_table }}</h2>
+
 <p>
-    Book your table at Revontulet Flamehouse and experience Nordic cuisine under
-    the dancing northern lights.
+    {{ t.reserve_description }}
 </p>
+
 <form>
-    <label>Name: <input type="text" name="name" required /></label><br />
-    <label>Email: <input type="email" name="email" required /></label><br />
-    <label>Date: <input type="date" name="date" required /></label><br />
-    <label>Time: <input type="time" name="time" required /></label><br />
-    <label
-        >Number of Guests:
-        <input type="number" name="guests" min="1" required /></label
-    ><br />
-    <button type="submit">Reserve</button>
+    <label>{{ t.name }}: <input type="text" name="name" required /></label><br />
+
+    <label>{{ t.email }}: <input type="email" name="email" required /></label><br />
+
+    <label>{{ t.date }}: <input type="date" name="date" required /></label><br />
+
+    <label>{{ t.time }}: <input type="time" name="time" required /></label><br />
+
+    <label>{{ t.number_of_guests }}:
+        <input type="number" name="guests" min="1" required />
+    </label><br />
+
+    <button type="submit">{{ t.reserve_button }}</button>
 </form>
 {% endblock %}
