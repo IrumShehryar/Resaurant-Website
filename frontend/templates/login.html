@@ -1,5 +1,6 @@
-{% extends "base.html" %} {% block title %}Revontulet Flamehouse — {{ t.login
-}}{% endblock %} {% block styles %}
+{% extends "base.html" %} {% block title %} {% if role == "admin" %} {{
+t.admin_login }} — Revontulet Flamehouse {% else %} {{ t.login }} — Revontulet
+Flamehouse {% endif %} {% endblock %} {% block styles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/customer-login.css') }}"
@@ -11,9 +12,13 @@
         <div class="hero-left">
             <!-- Login / Sign-up Form -->
             <div class="login-box" id="auth-box">
-                <h2>{{ t.login }}</h2>
+                <h2>
+                    {% if role == "admin" %} {{ t.admin_login }} {% else %} {{
+                    t.login }} {% endif %}
+                </h2>
 
                 <input type="hidden" id="next-url" value="{{ next_url }}" />
+                <input type="hidden" id="role" value="{{ role }}" />
 
                 <form id="auth-form">
                     <label
@@ -26,13 +31,18 @@
                         <input type="password" name="password" required />
                     </label>
 
-                    <button type="submit">{{ t.login }}</button>
+                    <button type="submit">
+                        {% if role == "admin" %} {{ t.admin_login }} {% else %}
+                        {{ t.login }} {% endif %}
+                    </button>
                 </form>
 
+                {% if role != "admin" %}
                 <p id="toggle-text">
                     {{ t.no_account }}
                     <a href="#" id="toggle-link">{{ t.sign_up_here }}</a>
                 </p>
+                {% endif %}
             </div>
         </div>
 

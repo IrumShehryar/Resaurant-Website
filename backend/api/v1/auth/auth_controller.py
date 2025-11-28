@@ -16,30 +16,36 @@ def post_login():
     password = data.get("password")
     user = User.verify_credentials(username, password) # Uses bcrypt check internally
 
-    if user:
+    if not user:
+        return {"message": "Invalid credentials"}, 401
         # this might cause security vulnerability in situations where JWT_SECRET_KEY does not exist
         # because then the token is create by using key hardcoded in the source code
-        jwt_secret = get_jwt_secret()
+    jwt_secret = get_jwt_secret()
 
+
+    #Safely read role and derive is_admin
+    role = getattr(user, "role", "user")
+    is_admin = (role == "admin")
         # 1. Create the payload with expiration time
-        payload = {
-         "user_id": str(user.id),
-         "username": user.username,
-         "role": user.role,
-         "exp": datetime.now(timezone.utc) + timedelta(hours=24)  # Token expires in 24 hours
-        }
+    payload = {
+        "user_id": str(user.id),
+        "username": user.username,
+        "role": user.role,
+        "is_admin": is_admin,
+        "exp": datetime.now(timezone.utc) + timedelta(hours=24)  # Token expires in 24 hours
+    }
 
-        # 2. Encode the token
-        token = jwt.encode(payload, jwt_secret, algorithm="HS256")
+    # 2. Encode the token
+    token = jwt.encode(payload, jwt_secret, algorithm="HS256")
 
-        # 3. Return the user data and the token
-        return {
-             "message": "Login successful",
-             "user": user.to_json(),
-             "token": token
-         }, 200
-    else:
-        return {"message": "Invalid credentials"}, 401
+    # 3. Return the user data and the token
+    return {
+        "message": "Login successful",
+        "user": user.to_json(),
+        "token": token,
+        "role": user.role,
+        "is_admin": is_admin
+        }, 200
     
     
 @simple_errors
