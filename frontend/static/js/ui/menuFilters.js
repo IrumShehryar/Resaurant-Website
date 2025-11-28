@@ -126,6 +126,8 @@ function attachDietListeners() {
 
 export function initMenuFilters() {
     // Called after menu cards are in the DOM
+
+   
     attachCategoryListeners();
     attachDietListeners();
     applyFilters();

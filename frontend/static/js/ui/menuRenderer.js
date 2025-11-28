@@ -33,12 +33,29 @@ function groupByCategory(items) {
  * @param {number} count
  * @returns {Array<Object>} up to `count` highlighted items
  */
-function pickHighlights(items = [], count = 3) {
+function pickHighlights(items = []) {
   if (!Array.isArray(items)) return [];
-  const featured = items.filter(i => i && i.featured);
-  if (featured.length) return featured.slice(0, count);
-  return items.slice(0, count);
+
+  // Today’s day name must match what you store in days_of_week ("Monday", "Tuesday", etc.)
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+
+  const wantedCategories = ['starter', 'main', 'dessert'];
+  const result = [];
+
+  wantedCategories.forEach(cat => {
+    const item = items.find(i =>
+      i &&
+      String(i.category).toLowerCase() === cat &&
+      Array.isArray(i.days_of_week) &&
+      i.days_of_week.includes(today)
+    );
+    if (item) result.push(item);
+  });
+
+  return result; // up to 3 items: starter, main, dessert
 }
+
+
 
 /**
  * Build and return the DOM nodes for highlights and the categorized menu.
