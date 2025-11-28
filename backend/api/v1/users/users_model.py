@@ -13,6 +13,18 @@ class User(Document):
     address = StringField()
     created_at = DateTimeField(default= datetime.utcnow)
     
+    def to_json(self):
+        return {
+            "id": str(self.id),
+            "username": self.username,
+            "name": getattr(self, "name", None),
+            "email": getattr(self, "email", None),
+            "role": getattr(self, "role", "user"),
+            # add other fields you want exposed
+        }
+    @property
+    def is_admin(self) -> bool:
+        return self.role == "admin"
     
     def clean(self):
         # Custom validation logic

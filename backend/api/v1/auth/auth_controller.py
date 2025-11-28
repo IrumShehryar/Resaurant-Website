@@ -24,13 +24,13 @@ def post_login():
 
 
     #Safely read role and derive is_admin
-    role = getattr(user, "role", "user")
-    is_admin = (role == "admin")
+    role = user.role 
+    is_admin = user.is_admin
         # 1. Create the payload with expiration time
     payload = {
         "user_id": str(user.id),
         "username": user.username,
-        "role": user.role,
+        "role": role,
         "is_admin": is_admin,
         "exp": datetime.now(timezone.utc) + timedelta(hours=24)  # Token expires in 24 hours
     }
@@ -43,7 +43,7 @@ def post_login():
         "message": "Login successful",
         "user": user.to_json(),
         "token": token,
-        "role": user.role,
+        "role": role,
         "is_admin": is_admin
         }, 200
     
