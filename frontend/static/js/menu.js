@@ -39,40 +39,55 @@ async function loadMenu() {
   try {
     const items = await getAllMenu();
 
-    // Render highlights using the full renderer so the highlight section
-    // is preserved, but render the main menu list using the simple renderer.
-    // Use the unified simple renderer (menuRenderer.js) which returns both highlights and the menu fragment
+    // ---- PICK TODAY'S HIGHLIGHTS (1 main, 1 dessert, 1 starter) ----
+    const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+
+    function pickItem(cat) {
+      return items.find(item =>
+        item.category?.toLowerCase() === cat &&
+        item.active !== false &&
+        (item.days_of_week || []).includes(today)
+      );
+    }
+
+    const highlightItems = [
+      pickItem('main'),
+      pickItem('dessert'),
+      pickItem('starter'),
+    ].filter(Boolean);
+
+    const highlightRoot = document.getElementById('highlight-root');
+    if (highlightRoot) {
+      highlightRoot.innerHTML = '';
+      highlightItems.forEach(item => {
+        const card = createMenuCard(item);   // reuse your existing card renderer
+        highlightRoot.appendChild(card);
+      });
+    }
+    // ---- END HIGHLIGHT LOGIC ----
+
+    // Keep your normal menu rendering as-is
     const { highlightsNode, menuFragment } = renderMenuPage(items, {
       highlightOptions: { preferCategoryOrder: ['Main','Dessert','Starter'] },
       menuOptions: { order: ['Starter','Main','Dessert','Side','Drink'], uppercase: false }
     });
 
-    const highlightRoot = document.getElementById('highlight-root');
-    if (highlightRoot) {
-      highlightRoot.innerHTML = '';
-      if (highlightsNode) highlightRoot.appendChild(highlightsNode);
-    }
-
     el.innerHTML = '';
     if (menuFragment) {
       el.appendChild(menuFragment);
-
-      try {
-        initMenuFilters()
-      } catch (err){
-          console.warn('Menu filters init failed:', err);
+      try { initMenuFilters(); } catch (err) {
+        console.warn('Menu filters init failed:', err);
       }
     } else {
       el.textContent = 'No items in the menu';
     }
-   
-
 
   } catch (err) {
     el.textContent = "Failed to load the menu";
     console.error(err);
   }
 }
+
 
 const modal = createModal();
 

@@ -22,9 +22,9 @@ class MenuItem(Document):
     category = StringField(required = True, choices = ["starter","main","dessert","side","drink","special"])
     image = StringField(max_length=500)
     dietary = ListField(StringField(choices =["vegetarian","vegan","gluten-free","dairy-free","pescatarian","sugar-free","nut-free","keto-friendly"]))
-    allergens = ListField(StringField(max_length=10))
-    ingredients = ListField(StringField(max_length=10))
-    days_of_week = ListField(StringField(choices =["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],max_length=7))
+    allergens = ListField(StringField(max_length=200))
+    ingredients = ListField(StringField(max_length=200))
+    days_of_week = ListField(StringField(choices =["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]))
     active = BooleanField(default=True)
     
     def clean(self):
