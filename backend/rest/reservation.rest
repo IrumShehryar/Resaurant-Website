@@ -1,0 +1,34 @@
+###
+GET http://127.0.0.1:5000/api/v1/reservation
+
+###
+GET http://127.0.0.1:5000/api/v1/reservation/692b7574f219604d3fe230c4
+
+
+###
+POST http://localhost:5000/api/v1/reservation
+Content-Type: application/json
+
+{
+    "name": "irum",
+    "email": "irum@gmail.com",
+    "phone": "1234567890",
+    "no_of_people": 4,
+    "reservation_date": "2025-12-26,",
+    "reservation_time": "19:00"
+}
+
+###
+PUT http://localhost:5000/api/v1/reservation/692b7574f219604d3fe230c4
+Content-Type: application/json
+
+{
+
+    "no_of_people": 5
+}
+
+###
+DELETE http://localhost:5000/api/v1/reservation/692b7574f219604d3fe230c4
+   
+
+
