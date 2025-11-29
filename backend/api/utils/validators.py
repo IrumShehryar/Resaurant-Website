@@ -1,4 +1,3 @@
-#/utils/validators.py
 import re
 from datetime import datetime
 from mongoengine import ValidationError
@@ -7,6 +6,7 @@ from mongoengine import ValidationError
 def validate_reservation_fields(
     name: str,
     email: str,
+    phone: str,
     no_of_people,
     reservation_date: str,
     reservation_time: str,
@@ -29,6 +29,14 @@ def validate_reservation_fields(
 
     if "@" not in email:
         raise ValidationError("Invalid email address")
+
+    # --- phone checks ---
+    if not phone or not str(phone).strip():
+        raise ValidationError("Phone number cannot be empty")
+
+    # Allow digits, +, spaces, hyphens, parentheses, 7–20 chars
+    if not re.match(r"^[0-9+\-\s()]{7,20}$", phone):
+        raise ValidationError("Invalid phone number format")
 
     # --- basic required checks for people / date / time ---
     if no_of_people is None:

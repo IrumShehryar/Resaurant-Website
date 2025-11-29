@@ -1,0 +1,18 @@
+###
+GET http://127.0.0.1:5000/api/v1/reservation
+
+###
+POST http://localhost:5000/api/v1/reservation
+Content-Type: application/json
+
+{
+
+}
+
+PUT http://localhost:5000/api/v1/reservation/
+Content-Type: application/json
+
+{
+
+}
+DELETE http://localhost:5000/api/v1/reservation/
