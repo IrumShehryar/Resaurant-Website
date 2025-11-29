@@ -312,7 +312,77 @@ Content-Type: application/json
   "image": "Pizza.jpg",
   "dietary": ["pescatarian"],
   "allergens": ["fish","milk","gluten"],
-  "ingredients": ["smoked salmon","dill crema","capers","lemon","mozzarella","tomato base","thin crust"],
+  "ingredients": ["smoked salmon","dill crema","capers","lemon","mozzarella"],
   "days_of_week": ["Friday","Saturday"],
+  "active": true
+}
+
+
+###
+POST http://localhost:5000/api/v1/menu
+Content-Type: application/json
+
+{
+  "name": "Perunamuusi",
+  "description": "Creamy Finnish mashed potatoes whipped with butter and warm milk — a comforting side inspired by the soft glow of the Northern Lights.",
+  "price": 6,
+  "category": "side",
+  "image": "Perunamuusi.jpg",
+  "dietary": ["vegetarian", "gluten-free"],
+  "allergens": ["milk"],
+  "ingredients": ["potatoes", "butter", "milk", "salt"],
+  "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+  "active": true
+}
+
+
+###
+POST http://localhost:5000/api/v1/menu
+Content-Type: application/json
+
+{
+  "name": "Kurkkusalaatti",
+  "description": "Fresh Finnish cucumber salad with dill and light vinegar dressing — crisp and refreshing like the chill of a Northern Lights night.",
+  "price": 5,
+  "category": "side",
+  "image": "Kurkkusalaatti.jpg",
+  "dietary": ["vegan", "gluten-free"],
+  "allergens": [],
+  "ingredients": ["cucumber", "dill", "vinegar", "salt", "sugar"],
+  "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+  "active": true
+}
+
+###
+POST http://localhost:5000/api/v1/menu
+Content-Type: application/json
+
+{
+  "name": "Garlic Bread",
+  "description": "Crispy oven-baked garlic bread brushed with herb butter — warm and comforting like the glow beneath the Northern Lights.",
+  "price": 5,
+  "category": "side",
+  "image": "GarlicBread.jpg",
+  "dietary": ["vegetarian"],
+  "allergens": ["gluten", "milk"],
+  "ingredients": ["bread", "garlic", "butter", "parsley", "salt"],
+  "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+  "active": true
+}
+
+###
+POST http://localhost:5000/api/v1/menu
+Content-Type: application/json
+
+{
+  "name": "Lapland Berry Mocktail",
+  "description": "A refreshing blend of lingonberry and blueberry with sparkling water — vibrant and colorful like the Lapland night sky under the Northern Lights.",
+  "price": 7,
+  "category": "drink",
+  "image": "LaplandBerryMocktail.jpg",
+  "dietary": ["vegan", "gluten-free"],
+  "allergens": [],
+  "ingredients": ["lingonberry", "blueberry", "sparkling water", "mint", "ice"],
+  "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
   "active": true
 }
