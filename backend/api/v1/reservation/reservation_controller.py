@@ -51,9 +51,9 @@ def update_reservation_controller(reservation_id):
 
 @simple_errors
 def delete_reservation_controller(reservation_id):
-    
-    try:
-        result = delete_reservation(reservation_id)
-        return result,200
-    except:
-        return {"error":"Item not found"},404
+    deleted = delete_reservation(reservation_id)
+
+    if not deleted:
+        return {"error": "Item not found"}, 404
+
+    return {"message": "Item deleted successfully"}, 200

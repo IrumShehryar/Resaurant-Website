@@ -56,7 +56,7 @@ def list_all_reservations():
     return ReserveTable.objects()
 
 
-def get_reservations_by_id(reservation_id):
+def get_reservation_by_id(reservation_id):
     """
     Return a single reservation by id, or None if not found.
     """
@@ -85,7 +85,7 @@ def add_reservation(reservation_data):
     return new_reservation
 
 
-def update_reservarion(reservation_id, reservation_data):
+def update_reservation(reservation_id, reservation_data):
     """
     Update an existing reservation.
     (Name kept as 'update_reservarion' so your existing imports don't break.)
@@ -111,11 +111,8 @@ def update_reservarion(reservation_id, reservation_data):
 
     reservation.save()  # triggers clean()
     return reservation
+
 def delete_reservation(reservation_id):
-    """
-    Delete a reservation by id.
-    Returns True if deleted, False if not found.
-    """
     reservation = ReserveTable.objects(id=reservation_id).first()
     if not reservation:
         return False
