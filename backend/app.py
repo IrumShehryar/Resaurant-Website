@@ -1,4 +1,5 @@
 import os
+
 """Flask application entrypoint for the Restaurant Website project.
 
 This module creates the Flask application, registers API blueprints and
@@ -30,7 +31,12 @@ from api.v1.users.users_routes import users_bp
 from api.v1.auth.auth_routes import auth_bp   
 from api.v1.reservation.reservation_route import reservation_bp  
 from api.utils.db import mongo_connect
-from api.utils.auth_utils import token_required
+from api.v1.orders.orders_routes import orders_bp
+from api.v1.users.users_model import User
+from flask import session, render_template
+from bson import ObjectId
+from datetime import timedelta
+
 
 
 load_dotenv()
@@ -42,6 +48,8 @@ app = Flask(
     static_url_path="/static",
 )
 app.secret_key = "9f8sdf98sdf89sdfu89sdf89@#FSDfsd98f"
+app.config["SESSION_PERMANENT"] = True
+app.permanent_session_lifetime = timedelta(days=7)
 
 # If the app is running behind a proxy (nginx, etc) ProxyFix preserves
 # original client scheme and path prefix. Adjust values when deploying.
@@ -52,6 +60,7 @@ app.register_blueprint(menu_bp)
 app.register_blueprint(users_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(reservation_bp)
+app.register_blueprint(orders_bp)
 
 @app.route("/set_language/<lang>")
 def set_language(lang):
@@ -144,13 +153,27 @@ def admin_interface():
     return render_template("admin-interface.html")
 
 @app.get("/order-confirmation")
-@token_required
-def order_confirmation_page(current_user):
-    # Pass current_user to template as 'user'
-    return render_template(
-        "order-confirmation.html",
-        user=current_user
-    )
+def order_confirmation_page():
+    from flask import session, render_template
+    user_data = {
+        "name": "Not provided",
+        "phone": "Not provided",
+        "email": "Not provided",
+        "address": "Not provided"
+    }
+
+    user_id = session.get("user_id")
+    if user_id:
+        user = User.objects(id=user_id).first()
+        if user:
+            user_data = {
+                "name": user.name or "Not provided",
+                "phone": user.phone or "Not provided",
+                "email": user.email or "Not provided",
+                "address": user.address or "Not provided"
+            }
+
+    return render_template("order-confirmation.html", user=user_data)
 
 
 if __name__ == "__main__":

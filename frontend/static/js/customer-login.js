@@ -1,60 +1,20 @@
 import { apiUrl } from "./utils/config.js";
-import fetchData from "./utils/fetchData.js";
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
 
     const authBox = document.getElementById("auth-box");
     const nextUrlInput = document.getElementById("next-url");
     const roleInput = document.getElementById("role");
     const role = roleInput ? roleInput.value : "user";
 
-    let mode = "login"; // default mode
+    let mode = "login"; // default
 
-    // Get next URL (default to home if missing)
     function getNextUrl() {
-        return nextUrlInput && nextUrlInput.value ? nextUrlInput.value : "/";
+        return nextUrlInput && nextUrlInput.value ? nextUrlInput.value : "/order-confirmation";
     }
 
-    // ============================
-    // SHOW SUCCESS BOX
-    // ============================
-    function showLoggedInBox(redirectUrl = null) {
-        authBox.innerHTML = `
-            <h2>Successfully Logged In</h2>
-            <p>You are now logged in!</p>
-            <div class="auth-button-wrapper">
-                <button id="logout-btn" class="btn-order-now">Logout</button>
-            </div>
-        `;
-
-        // Logout listener
-        document.getElementById("logout-btn").addEventListener("click", () => {
-            localStorage.removeItem("authToken");
-            window.location.reload();
-        });
-
-        // CASE B: redirect to the previous page after 2 seconds if provided
-        if (redirectUrl && redirectUrl !== "/") {
-            setTimeout(() => {
-                window.location.href = redirectUrl;
-            }, 2000); // 2 seconds delay
-        }
-    }
-
-    // ============================
-    // REVEAL AUTH BOX (PREVENT FLASH)
-    // ============================
     function revealAuthBox() {
         authBox.classList.remove("hidden-auth");
-    }
-
-    // ============================
-    // CHECK IF ALREADY LOGGED IN
-    // ============================
-    if (localStorage.getItem("authToken")) {
-        showLoggedInBox(getNextUrl());
-        revealAuthBox();
-        return; // stop further setup
     }
 
     const authForm = document.getElementById("auth-form");
@@ -65,98 +25,94 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // ============================
-    // TOGGLE LOGIN / REGISTER FORM
-    // ============================
-    function toggleForm(e) {
-        if (role === "admin") {
-            e.preventDefault();
-            return;
+    // -----------------------------
+    // LOGOUT HANDLER UTILITY
+    // -----------------------------
+    function attachLogoutHandler() {
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", () => {
+                fetch(apiUrl("auth/logout"), {
+                    method: "GET",
+                    credentials: "same-origin" // send session cookie
+                })
+                .then(() => window.location.href = "/login")
+                .catch(err => console.error(err));
+            });
         }
+    }
 
+    // -----------------------------
+    // CHECK IF USER ALREADY LOGGED IN
+    // -----------------------------
+    try {
+        const userData = await fetch(apiUrl("orders/user-details"), {
+            method: "GET",
+            credentials: "same-origin"
+        }).then(res => res.json());
+
+        if (!userData.error) {
+            authBox.innerHTML = `
+                <h2>Already Logged In</h2>
+                <p>Welcome back, ${userData.name}!</p>
+                <div class="auth-button-wrapper">
+                    <button id="logout-btn" class="btn-order-now">Logout</button>
+                </div>
+            `;
+            attachLogoutHandler();
+            revealAuthBox();
+            return; // stop further setup
+        }
+    } catch (err) {
+        console.error("Error checking login:", err);
+    }
+
+    // -----------------------------
+    // TOGGLE FORM LOGIN/REGISTER
+    // -----------------------------
+    function toggleForm(e) {
         e.preventDefault();
         const toggleLink = e.target;
 
         if (toggleLink.textContent.includes("Sign up")) {
             mode = "register";
             authBox.querySelector("h2").textContent = "Sign Up";
-
             authForm.innerHTML = `
-                <label>Full Name:
-                    <input type="text" name="name" required>
-                </label>
-                <label>Username:
-                    <input type="text" name="username" required>
-                </label>
-                <label>Email:
-                    <input type="email" name="email" required>
-                </label>
-                <label>Phone:
-                    <input type="text" name="phone" required>
-                </label>
-                <label>Address:
-                    <input type="text" name="address" required>
-                </label>
-                <label>Password:
-                    <input type="password" name="password" required>
-                </label>
-                <label>Confirm Password:
-                    <input type="password" name="confirm_password" required>
-                </label>
+                <label>Full Name:<input type="text" name="name" required></label>
+                <label>Username:<input type="text" name="username" required></label>
+                <label>Email:<input type="email" name="email" required></label>
+                <label>Phone:<input type="text" name="phone" required></label>
+                <label>Address:<input type="text" name="address" required></label>
+                <label>Password:<input type="password" name="password" required></label>
+                <label>Confirm Password:<input type="password" name="confirm_password" required></label>
                 <button type="submit">Sign Up</button>
             `;
-
-            if (toggleText) {
-                toggleText.innerHTML = `
-                    Already have an account?
-                    <a href="#" id="toggle-link">Log in here</a>
-                `;
-            }
-
+            if (toggleText) toggleText.innerHTML = `Already have an account? <a href="#" id="toggle-link">Log in here</a>`;
         } else {
             mode = "login";
             authBox.querySelector("h2").textContent = "Log In";
-
             authForm.innerHTML = `
-                <label>Username:
-                    <input type="text" name="username" required>
-                </label>
-                <label>Password:
-                    <input type="password" name="password" required>
-                </label>
+                <label>Username:<input type="text" name="username" required></label>
+                <label>Password:<input type="password" name="password" required></label>
                 <button type="submit">Log In</button>
             `;
-
-            if (toggleText) {
-                toggleText.innerHTML = `
-                    Don't have an account?
-                    <a href="#" id="toggle-link">Sign up here</a>
-                `;
-            }
+            if (toggleText) toggleText.innerHTML = `Don't have an account? <a href="#" id="toggle-link">Sign up here</a>`;
         }
 
-        // Reattach toggle listener
         const newToggleLink = document.getElementById("toggle-link");
-        if (newToggleLink) {
-            newToggleLink.addEventListener("click", toggleForm);
-        }
+        if (newToggleLink) newToggleLink.addEventListener("click", toggleForm);
 
-        // Reattach submit listener after form replacement
         attachFormSubmit();
     }
 
-    // Initial toggle link listener
     const firstToggleLink = document.getElementById("toggle-link");
-    if (firstToggleLink) {
-        firstToggleLink.addEventListener("click", toggleForm);
-    }
+    if (firstToggleLink) firstToggleLink.addEventListener("click", toggleForm);
 
-    // ============================
+    // -----------------------------
     // LOGIN / REGISTER SUBMIT
-    // ============================
+    // -----------------------------
     async function handleLoginSubmit(e) {
         e.preventDefault();
-
         const formData = new FormData(authForm);
         const nextUrl = getNextUrl();
 
@@ -165,38 +121,33 @@ document.addEventListener("DOMContentLoaded", function () {
             const password = formData.get("password");
 
             try {
-                const data = await fetchData(
-                    apiUrl("auth/login"),
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ username, password })
-                    }
-                );
+                const data = await fetch(apiUrl("auth/login"), {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "same-origin",
+                    body: JSON.stringify({ username, password })
+                }).then(res => res.json());
 
-                if (data.token) {
-                    localStorage.setItem("authToken", data.token);
-                }
-
-                const isAdmin =
-                    typeof data.is_admin !== "undefined"
-                        ? data.is_admin
-                        : (data.user && data.user.is_admin);
-
-                if (isAdmin) {
-                    window.location.href = "/admin-interface";
+                if (!data.user) {
+                    alert(data.message || "Login failed");
                     return;
                 }
 
-                // CASE A: Direct login → no next_url or next_url is "/" → show success box
-                if (!nextUrl || nextUrl === "/") {
-                    showLoggedInBox();
-                    revealAuthBox();
-                    return;
-                }
+                // Show logged-in box and attach logout
+                authBox.innerHTML = `
+                    <h2>Successfully Logged In</h2>
+                    <p>Welcome, ${data.user.name || data.user.username}!</p>
+                    <div class="auth-button-wrapper">
+                        <button id="logout-btn" class="btn-order-now">Logout</button>
+                    </div>
+                `;
+                attachLogoutHandler();
 
-                // CASE B: Login from any page → show success box + redirect to previous page after 2s
-                showLoggedInBox(nextUrl);
+                // Redirect to order-confirmation after 1 second
+                setTimeout(() => {
+                    window.location.href = nextUrl;
+                }, 1000);
+
                 revealAuthBox();
 
             } catch (err) {
@@ -220,23 +171,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             try {
-                await fetchData(
-                    apiUrl("auth/register"),
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            name,
-                            username,
-                            email,
-                            phone,
-                            address,
-                            password
-                        })
-                    }
-                );
+                await fetch(apiUrl("auth/register"), {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "same-origin",
+                    body: JSON.stringify({ name, username, email, phone, address, password })
+                });
 
-                window.location.href = `/login?next=${encodeURIComponent(nextUrl)}`;
+                // After register, reload page to show login box
+                window.location.reload();
             } catch (err) {
                 console.error(err);
                 alert("Registration failed: " + err.message);
@@ -244,19 +187,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // ============================
-    // ATTACH SUBMIT LISTENER
-    // ============================
     function attachFormSubmit() {
         const currentForm = document.getElementById("auth-form");
-        if (currentForm) {
-            currentForm.addEventListener("submit", handleLoginSubmit);
-        }
+        if (currentForm) currentForm.addEventListener("submit", handleLoginSubmit);
     }
 
     attachFormSubmit();
-
-    // Reveal login form after setup to prevent flash
     revealAuthBox();
-
 });
