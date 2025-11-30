@@ -9,21 +9,42 @@
     {{ t.reserve_description }}
 </p>
 
-<form>
-    <label>{{ t.name }}: <input type="text" name="name" required /></label><br />
+<form id="reservation-form">
+    <label>
+        {{ t.name }}:
+        <input type="text" name="name" required />
+    </label><br />
 
-    <label>{{ t.email }}: <input type="email" name="email" required /></label><br />
+    <label>
+        {{ t.email }}:
+        <input type="email" name="email" required />
+    </label><br />
 
-    <label>{{ t.phone }}: <input type="text" name="phone" required /></label><br />
+    <label>
+        {{ t.phone }}:
+        <input type="tel" name="phone" required />
+    </label><br />
 
-    <label>{{ t.date }}: <input type="date" name="date" required /></label><br />
+    <label>
+        {{ t.date }}:
+        <input type="date" name="date" required />
+    </label><br />
 
-    <label>{{ t.time }}: <input type="time" name="time" required /></label><br />
+    <label>
+        {{ t.time }}:
+        <input type="time" name="time" required />
+    </label><br />
 
-    <label>{{ t.number_of_guests }}:
+    <label>
+        {{ t.number_of_guests }}:
         <input type="number" name="guests" min="1" required />
     </label><br />
 
     <button type="submit">{{ t.reserve_button }}</button>
 </form>
+
+<div id="reservation-message"></div>
+
+<!-- Load page-specific JS -->
+<script type="module" src="{{ url_for('static', filename='js/reservation.js') }}"></script>
 {% endblock %}
