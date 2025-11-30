@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let mode = "login"; // default mode
 
+    // Get next URL (default to home if missing)
     function getNextUrl() {
         return nextUrlInput && nextUrlInput.value ? nextUrlInput.value : "/";
     }
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ============================
     // SHOW SUCCESS BOX
     // ============================
-    function showLoggedInBox() {
+    function showLoggedInBox(redirectUrl = null) {
         authBox.innerHTML = `
             <h2>Successfully Logged In</h2>
             <p>You are now logged in!</p>
@@ -26,10 +27,18 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
         `;
 
+        // Logout listener
         document.getElementById("logout-btn").addEventListener("click", () => {
             localStorage.removeItem("authToken");
             window.location.reload();
         });
+
+        // CASE B: redirect to the previous page after 2 seconds if provided
+        if (redirectUrl && redirectUrl !== "/") {
+            setTimeout(() => {
+                window.location.href = redirectUrl;
+            }, 2000); // 2 seconds delay
+        }
     }
 
     // ============================
@@ -43,16 +52,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // CHECK IF ALREADY LOGGED IN
     // ============================
     if (localStorage.getItem("authToken")) {
-        showLoggedInBox();
-        revealAuthBox(); // show immediately without flash
-        return; // stop executing rest of login form setup
+        showLoggedInBox(getNextUrl());
+        revealAuthBox();
+        return; // stop further setup
     }
 
     const authForm = document.getElementById("auth-form");
     const toggleText = document.getElementById("toggle-text");
 
     if (!authForm) {
-        revealAuthBox(); // show box anyway if form not found
+        revealAuthBox();
         return;
     }
 
@@ -76,31 +85,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 <label>Full Name:
                     <input type="text" name="name" required>
                 </label>
-
                 <label>Username:
                     <input type="text" name="username" required>
                 </label>
-
                 <label>Email:
                     <input type="email" name="email" required>
                 </label>
-
                 <label>Phone:
                     <input type="text" name="phone" required>
                 </label>
-
                 <label>Address:
                     <input type="text" name="address" required>
                 </label>
-
                 <label>Password:
                     <input type="password" name="password" required>
                 </label>
-
                 <label>Confirm Password:
                     <input type="password" name="confirm_password" required>
                 </label>
-
                 <button type="submit">Sign Up</button>
             `;
 
@@ -119,11 +121,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 <label>Username:
                     <input type="text" name="username" required>
                 </label>
-
                 <label>Password:
                     <input type="password" name="password" required>
                 </label>
-
                 <button type="submit">Log In</button>
             `;
 
@@ -188,15 +188,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
 
-                // CASE A: Direct login button → show success box
+                // CASE A: Direct login → no next_url or next_url is "/" → show success box
                 if (!nextUrl || nextUrl === "/") {
                     showLoggedInBox();
-                    revealAuthBox(); // reveal without flash
+                    revealAuthBox();
                     return;
                 }
 
-                // CASE B (checkout redirect) → implement later
-                window.location.href = nextUrl;
+                // CASE B: Login from any page → show success box + redirect to previous page after 2s
+                showLoggedInBox(nextUrl);
+                revealAuthBox();
 
             } catch (err) {
                 console.error(err);
