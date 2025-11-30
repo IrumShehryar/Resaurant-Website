@@ -14,12 +14,12 @@ Content-Type: application/json
     "email": "irum@gmail.com",
     "phone": "1234567890",
     "no_of_people": 4,
-    "reservation_date": "2025-12-26,",
+    "reservation_date": "2025-12-26",
     "reservation_time": "19:00"
 }
 
 ###
-PUT http://localhost:5000/api/v1/reservation/692b7574f219604d3fe230c4
+PUT http://localhost:5000/api/v1/reservation/692b7f60a1992f50c77d3230
 Content-Type: application/json
 
 {
@@ -28,7 +28,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5000/api/v1/reservation/692b7574f219604d3fe230c4
+DELETE http://localhost:5000/api/v1/reservation/692b7f60a1992f50c77d3230
    
 
 
