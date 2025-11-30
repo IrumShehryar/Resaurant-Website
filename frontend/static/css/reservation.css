@@ -1,0 +1,61 @@
+.reservation-box {
+    background-color: transparent;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    margin: 2rem auto;
+}
+
+#reservation-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#reservation-form label {
+    margin-bottom: 1rem;
+    font-weight: 500;
+    color: #e0f4ff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#reservation-form input[type="text"],
+#reservation-form input[type="email"],
+#reservation-form input[type="tel"],
+#reservation-form input[type="date"],
+#reservation-form input[type="time"],
+#reservation-form input[type="number"] {
+    background: #1a1a1a;
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    color: #e0f4ff;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+#reservation-form input:focus {
+    outline: none;
+    border-color: #00ff88;
+    box-shadow: 0 0 0.5rem rgba(0, 255, 136, 0.1);
+}
+
+#reservation-form button.btn-accent {
+    padding: 0.75rem;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-weight: bold;
+    align-self: flex-end;
+}
+
+#reservation-form button.btn-accent:hover {
+    background-color: #e65c00;
+}

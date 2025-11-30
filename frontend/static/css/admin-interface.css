@@ -79,9 +79,9 @@
     transform: translateY(-2px);
 }
 
-/* ========== MODAL (USED BY ALL ADMIN FORMS) ========== */
+/* ========== ADMIN MODAL (SCOPED, SO IT WON'T CLASH) ========== */
 
-.modal {
+.admin-modal {
     display: none;
     position: fixed;
     top: 0;
@@ -94,11 +94,12 @@
     justify-content: center;
 }
 
-.modal.show {
+.admin-modal.show {
     display: flex;
 }
 
-.modal-content {
+/* More specific than generic .modal-content from main.css */
+.admin-modal .modal-content {
     background: #111416;
     color: #e0f4ff;
     border: 1px solid rgba(0, 255, 136, 0.25);
@@ -112,7 +113,8 @@
     overflow-y: auto;
 }
 
-.modal-close {
+/* More specific than generic .modal-close */
+.admin-modal .modal-close {
     position: absolute;
     top: 1rem;
     right: 1rem;
@@ -125,7 +127,7 @@
     transition: transform 0.2s ease;
 }
 
-.modal-close:hover {
+.admin-modal .modal-close:hover {
     transform: scale(1.1);
 }
 
@@ -192,9 +194,6 @@
 .admin-form .btn-accent {
     align-self: flex-end;
 }
-
-
-
 
 /* ========== FIELDSETS (USED IN MENU, CAN BE USED ELSEWHERE) ========== */
 
