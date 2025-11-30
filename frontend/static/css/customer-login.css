@@ -115,6 +115,16 @@
     color: #c77dff; /* Northern Lights purple on hover */
 }
 
+.auth-button-wrapper {
+    margin-top: 20px;       /* same spacing as login button */
+    text-align: left;        /* same alignment as login button, adjust if centered */
+}
+
+#logout-btn {
+    width: 100%;             /* match full width of login button */
+    max-width: 300px;        /* same as login button if needed */
+}
+
 .hero-right {
     flex: 1;
     display: flex;
@@ -145,6 +155,10 @@
      object-position: center; }
 
 .feature p{ margin:1rem; line-height: 1.6;}
+
+.hidden-auth {
+    visibility: hidden; /* or display: none; */
+}
 
 /* Hero-related responsive tweaks */
 @media (max-width: 48rem){

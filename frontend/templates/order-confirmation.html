@@ -22,17 +22,22 @@ Order Confirmation — Revontulet Flamehouse
 
                 <div class="info-row">
                     <label>Name</label>
-                    <p id="user-name">Loading...</p>
+                    <p id="user-name">{{ user.name or "Not provided" }}</p>
                 </div>
 
                 <div class="info-row">
                     <label>Mobile Number</label>
-                    <p id="user-phone">Loading...</p>
+                    <p id="user-phone">{{ user.phone or "Not provided" }}</p>
+                </div>
+
+                <div class="info-row">
+                    <label>Email</label>
+                    <p id="user-email">{{ user.email or "Not provided" }}</p>
                 </div>
 
                 <div class="info-row">
                     <label>Address</label>
-                    <p id="user-address">Loading...</p>
+                    <p id="user-address">{{ user.address or "Not provided" }}</p>
                 </div>
 
                 <div class="info-row">
@@ -79,7 +84,7 @@ Order Confirmation — Revontulet Flamehouse
                     <span id="total-amount">€0.00</span>
                 </div>
 
-                <button class="place-order-btn">Place Order</button>
+                <button id="place-order-final" class="place-order-btn">Place Order</button>
 
             </div>
         </div>
@@ -90,18 +95,11 @@ Order Confirmation — Revontulet Flamehouse
 {% endblock %}
 
 {% block scripts %}
-
 <script>
 // --------------------------------------------------------
-// LOAD USER INFO
+// DYNAMIC ORDER DATA
 // --------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-    const user = JSON.parse(localStorage.getItem("user")) || {};
-
-    document.getElementById("user-name").textContent   = user.name    || "Not provided";
-    document.getElementById("user-phone").textContent  = user.phone   || "Not provided";
-    document.getElementById("user-address").textContent= user.address || "Not provided";
-
     // --------------------------------------------------------
     // LOAD CART TOTALS
     // --------------------------------------------------------
@@ -140,11 +138,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Clear cart
         localStorage.removeItem("cart");
+        localStorage.removeItem("cartTotal");
 
         // Redirect after placing order
         window.location.href = "/menu";
     });
 });
 </script>
-
 {% endblock %}

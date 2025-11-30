@@ -30,6 +30,8 @@ from api.v1.users.users_routes import users_bp
 from api.v1.auth.auth_routes import auth_bp   
 from api.v1.reservation.reservation_route import reservation_bp  
 from api.utils.db import mongo_connect
+from api.utils.auth_utils import token_required
+
 
 load_dotenv()
 
@@ -142,8 +144,13 @@ def admin_interface():
     return render_template("admin-interface.html")
 
 @app.get("/order-confirmation")
-def order_confirmation_page():
-    return render_template("order-confirmation.html")
+@token_required
+def order_confirmation_page(current_user):
+    # Pass current_user to template as 'user'
+    return render_template(
+        "order-confirmation.html",
+        user=current_user
+    )
 
 
 if __name__ == "__main__":
