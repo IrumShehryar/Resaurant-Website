@@ -1,7 +1,7 @@
-// frontend/static/js/pages/reservation.js
+// frontend/static/js/reservation.js
 
 import { apiUrl } from "./utils/config.js";
-import { fetchData } from "./utils/fetchData.js";
+import fetchData from "./utils/fetchData.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("reservation-form");

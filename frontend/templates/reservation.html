@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block title %}{{ t.reserve_title }} — Revontulet Flamehouse{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reservation.css') }}" />
+{% endblock %}
 
 {% block content %}
 <h2>{{ t.reserve_a_table }}</h2>
@@ -9,6 +12,7 @@
     {{ t.reserve_description }}
 </p>
 
+<div class="reservation-box">
 <form id="reservation-form">
     <label>
         {{ t.name }}:
@@ -42,6 +46,7 @@
 
     <button type="submit">{{ t.reserve_button }}</button>
 </form>
+<div class="reservation-box"></div>
 
 <div id="reservation-message"></div>
 
