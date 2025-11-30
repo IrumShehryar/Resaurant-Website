@@ -2,22 +2,64 @@ import { apiUrl } from "./utils/config.js";
 import fetchData from "./utils/fetchData.js";
 
 document.addEventListener("DOMContentLoaded", function () {
+
     const authBox = document.getElementById("auth-box");
-    const authForm = document.getElementById("auth-form");
-    const toggleText = document.getElementById("toggle-text");
     const nextUrlInput = document.getElementById("next-url");
-
-    let mode = "login"; // default mode
-
     const roleInput = document.getElementById("role");
     const role = roleInput ? roleInput.value : "user";
+
+    let mode = "login"; // default mode
 
     function getNextUrl() {
         return nextUrlInput && nextUrlInput.value ? nextUrlInput.value : "/";
     }
 
+    // ============================
+    // SHOW SUCCESS BOX
+    // ============================
+    function showLoggedInBox() {
+        authBox.innerHTML = `
+            <h2>Successfully Logged In</h2>
+            <p>You are now logged in!</p>
+            <div class="auth-button-wrapper">
+                <button id="logout-btn" class="btn-order-now">Logout</button>
+            </div>
+        `;
+
+        document.getElementById("logout-btn").addEventListener("click", () => {
+            localStorage.removeItem("authToken");
+            window.location.reload();
+        });
+    }
+
+    // ============================
+    // REVEAL AUTH BOX (PREVENT FLASH)
+    // ============================
+    function revealAuthBox() {
+        authBox.classList.remove("hidden-auth");
+    }
+
+    // ============================
+    // CHECK IF ALREADY LOGGED IN
+    // ============================
+    if (localStorage.getItem("authToken")) {
+        showLoggedInBox();
+        revealAuthBox(); // show immediately without flash
+        return; // stop executing rest of login form setup
+    }
+
+    const authForm = document.getElementById("auth-form");
+    const toggleText = document.getElementById("toggle-text");
+
+    if (!authForm) {
+        revealAuthBox(); // show box anyway if form not found
+        return;
+    }
+
+    // ============================
+    // TOGGLE LOGIN / REGISTER FORM
+    // ============================
     function toggleForm(e) {
-        // For admin login, do nothing (no sign-up)
         if (role === "admin") {
             e.preventDefault();
             return;
@@ -27,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const toggleLink = e.target;
 
         if (toggleLink.textContent.includes("Sign up")) {
-            // Switch to Sign-up Form
             mode = "register";
             authBox.querySelector("h2").textContent = "Sign Up";
 
@@ -69,8 +110,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     <a href="#" id="toggle-link">Log in here</a>
                 `;
             }
+
         } else {
-            // Switch back to Login Form
             mode = "login";
             authBox.querySelector("h2").textContent = "Log In";
 
@@ -88,34 +129,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (toggleText) {
                 toggleText.innerHTML = `
-                    Don't have an account? 
+                    Don't have an account?
                     <a href="#" id="toggle-link">Sign up here</a>
                 `;
             }
         }
 
-        // Re-attach click listener on the new link (login <> signup)
+        // Reattach toggle listener
         const newToggleLink = document.getElementById("toggle-link");
         if (newToggleLink) {
             newToggleLink.addEventListener("click", toggleForm);
         }
+
+        // Reattach submit listener after form replacement
+        attachFormSubmit();
     }
 
-    // First link listener (only exists for customer login)
+    // Initial toggle link listener
     const firstToggleLink = document.getElementById("toggle-link");
     if (firstToggleLink) {
         firstToggleLink.addEventListener("click", toggleForm);
     }
 
-    // Submit handler for login / register
-    authForm.addEventListener("submit", async function (e) {
+    // ============================
+    // LOGIN / REGISTER SUBMIT
+    // ============================
+    async function handleLoginSubmit(e) {
         e.preventDefault();
 
         const formData = new FormData(authForm);
         const nextUrl = getNextUrl();
 
         if (mode === "login") {
-            // LOGIN FLOW
             const username = formData.get("username");
             const password = formData.get("password");
 
@@ -133,22 +178,31 @@ document.addEventListener("DOMContentLoaded", function () {
                     localStorage.setItem("authToken", data.token);
                 }
 
-                // Prefer top-level is_admin if present, otherwise look inside user
-                const isAdmin = typeof data.is_admin !== "undefined"
-                    ? data.is_admin
-                    : (data.user && data.user.is_admin);
+                const isAdmin =
+                    typeof data.is_admin !== "undefined"
+                        ? data.is_admin
+                        : (data.user && data.user.is_admin);
 
                 if (isAdmin) {
-                    // Admin: always go to admin interface
                     window.location.href = "/admin-interface";
-                } else {
-                    // Normal user: follow nextUrl (home, menu, etc.)
-                    window.location.href = nextUrl;
+                    return;
                 }
+
+                // CASE A: Direct login button → show success box
+                if (!nextUrl || nextUrl === "/") {
+                    showLoggedInBox();
+                    revealAuthBox(); // reveal without flash
+                    return;
+                }
+
+                // CASE B (checkout redirect) → implement later
+                window.location.href = nextUrl;
+
             } catch (err) {
                 console.error(err);
                 alert("Login failed: " + err.message);
             }
+
         } else {
             // REGISTER FLOW
             const name = formData.get("name");
@@ -181,12 +235,27 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 );
 
-                // After register, go back to login with same next URL
                 window.location.href = `/login?next=${encodeURIComponent(nextUrl)}`;
             } catch (err) {
                 console.error(err);
                 alert("Registration failed: " + err.message);
             }
         }
-    });
+    }
+
+    // ============================
+    // ATTACH SUBMIT LISTENER
+    // ============================
+    function attachFormSubmit() {
+        const currentForm = document.getElementById("auth-form");
+        if (currentForm) {
+            currentForm.addEventListener("submit", handleLoginSubmit);
+        }
+    }
+
+    attachFormSubmit();
+
+    // Reveal login form after setup to prevent flash
+    revealAuthBox();
+
 });

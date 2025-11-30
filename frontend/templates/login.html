@@ -11,7 +11,7 @@ Flamehouse {% endif %} {% endblock %} {% block styles %}
     <div class="hero-content">
         <div class="hero-left">
             <!-- Login / Sign-up Form -->
-            <div class="login-box" id="auth-box">
+            <div class="login-box hidden-auth" id="auth-box">
                 <h2>
                     {% if role == "admin" %} {{ t.admin_login }} {% else %} {{
                     t.login }} {% endif %}
