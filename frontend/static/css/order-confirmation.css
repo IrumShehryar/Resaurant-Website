@@ -1,0 +1,179 @@
+/* -----------------------------------------------------------
+   ORDER CONFIRMATION PAGE STYLES
+----------------------------------------------------------- */
+
+/* Hero Section */
+.hero {
+    width: 100%; 
+    height: auto;
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    background: none; 
+    margin: 0;
+    padding: 3rem 1rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 3rem;
+    max-width: 75rem;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-left, .hero-right {
+    flex: 1;
+    max-width: 31.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* -----------------------------------------------------------
+   BOX STYLE (shared by Delivery Info & Cost Summary)
+----------------------------------------------------------- */
+
+.summary-box {
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-box h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #8fffcf, #76d7ff, #c77dff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.summary-line {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.5);
+    margin: 15px 0;
+}
+
+/* -----------------------------------------------------------
+   COST SUMMARY ROWS
+----------------------------------------------------------- */
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    margin: 10px 0;
+    color: white;
+}
+
+.total-row {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* -----------------------------------------------------------
+   DELIVERY INFORMATION STYLING
+----------------------------------------------------------- */
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.info-row label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+}
+
+.info-row p {
+    margin: 0;
+    color: #e2e2e2;
+    font-size: 1rem;
+    text-align: right;
+}
+
+/* Dropdown */
+.info-row select {
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    border: none;
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+    font-weight: bold;
+}
+
+.info-row select option {
+    color: black;
+}
+
+/* -----------------------------------------------------------
+   BUTTON
+----------------------------------------------------------- */
+
+.place-order-btn {
+    margin-top: 20px;
+    padding: 0.75rem 0;
+    width: 70%;
+    align-self: center;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.place-order-btn:hover {
+    background-color: #e65c00;
+}
+
+/* -----------------------------------------------------------
+   RESPONSIVE
+----------------------------------------------------------- */
+
+@media (max-width: 48rem) {
+    .hero-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-left,
+    .hero-right {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 30rem) {
+    .hero {
+        padding: 2rem 0.75rem;
+    }
+}
