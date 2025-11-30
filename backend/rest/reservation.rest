@@ -10,11 +10,11 @@ POST http://localhost:5000/api/v1/reservation
 Content-Type: application/json
 
 {
-    "name": "irum",
-    "email": "irum@gmail.com",
+    "name": "furry",
+    "email": "furry@gmail.com",
     "phone": "1234567890",
     "no_of_people": 4,
-    "reservation_date": "2025-12-26",
+    "reservation_date": "2025-12-01",
     "reservation_time": "19:00"
 }
 
