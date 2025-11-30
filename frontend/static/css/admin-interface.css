@@ -1,44 +1,54 @@
-.admin-section{
-    max-width:75rem;
+/* ========== LAYOUT FOR ALL ADMIN SECTIONS ========== */
+
+.admin-section {
+    max-width: 75rem;
     margin: 0 auto;
     padding: 0.75rem;
 }
-.admin-section h1{
+
+.admin-section h1 {
     text-align: center;
     margin-bottom: 1.55rem;
 }
 
-.admin-table{
-    width:100%;
-    border-collapse:collapse;
+/* Shared "Add" button for all admin sections */
+.admin-add-btn {
+    margin-bottom: 1.5rem;
+}
+
+/* ========== TABLE STYLES (ALL ADMIN TABLES) ========== */
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
     background-color: #1a1a1a;
     margin-bottom: 1.5rem;
 }
 
-.admin-table thead{
+.admin-table thead {
     background-color: #00ff88;
-    color:#000;
+    color: #000;
 }
-.admin-table th{
-    padding:0.75rem;
+
+.admin-table th {
+    padding: 0.75rem;
     text-align: left;
     font-weight: bold;
 }
-.admin-table td{
-    padding:0.75rem;
+
+.admin-table td {
+    padding: 0.75rem;
     border-bottom: 0.05rem solid #333;
 }
-.admin-table tbody tr:hover{
+
+.admin-table tbody tr:hover {
     background-color: #2a2a2a;
 }
 
-#btn-add-item{
-    margin-bottom: 1.5rem;
-}
+/* ========== TABLE ACTION BUTTONS (EDIT / DELETE) ========== */
 
-/* Table action buttons */
 .btn-edit,
-.btn-delete{
+.btn-delete {
     padding: 0.5rem 0.75rem;
     margin: 0 0.25rem;
     border: none;
@@ -49,28 +59,29 @@
     transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
 }
 
-.btn-edit{
+.btn-edit {
     background: #00cc6f;
     color: #0b0b0b;
 }
 
-.btn-edit:hover{
+.btn-edit:hover {
     background: #00ff88;
     transform: translateY(-2px);
 }
 
-.btn-delete{
+.btn-delete {
     background: #ff6b6b;
     color: #ffffff;
 }
 
-.btn-delete:hover{
+.btn-delete:hover {
     background: #ff5252;
     transform: translateY(-2px);
 }
 
-/* Modal styling */
-.modal{
+/* ========== MODAL (USED BY ALL ADMIN FORMS) ========== */
+
+.modal {
     display: none;
     position: fixed;
     top: 0;
@@ -83,11 +94,11 @@
     justify-content: center;
 }
 
-.modal.show{
+.modal.show {
     display: flex;
 }
 
-.modal-content{
+.modal-content {
     background: #111416;
     color: #e0f4ff;
     border: 1px solid rgba(0, 255, 136, 0.25);
@@ -96,12 +107,12 @@
     width: 90%;
     max-height: 90vh;
     padding: 2rem;
-    position:relative;
+    position: relative;
     box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
     overflow-y: auto;
 }
 
-.modal-close{
+.modal-close {
     position: absolute;
     top: 1rem;
     right: 1rem;
@@ -114,32 +125,38 @@
     transition: transform 0.2s ease;
 }
 
-.modal-close:hover{
+.modal-close:hover {
     transform: scale(1.1);
 }
 
-#form-title{
+/* Menu form title still uses this ID, reservation can use its own ID */
+#form-title {
     color: #00ff88;
     margin-bottom: 1.5rem;
 }
 
-#item-form{
+/* ========== GENERIC ADMIN FORM STYLES (ALL MODALS) ========== */
+
+.admin-form {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
 }
 
-#item-form label{
+.admin-form label {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     color: #e0f4ff;
 }
 
-#item-form input[type="text"],
-#item-form input[type="number"],
-#item-form textarea,
-#item-form select{
+.admin-form input[type="text"],
+.admin-form input[type="number"],
+.admin-form input[type="email"],
+.admin-form input[type="date"],
+.admin-form input[type="time"],
+.admin-form textarea,
+.admin-form select {
     background: #1a1a1a;
     border: 1px solid rgba(0, 255, 136, 0.2);
     color: #e0f4ff;
@@ -150,21 +167,38 @@
     transition: border-color 0.2s ease;
 }
 
-#item-form input[type="text"]:focus,
-#item-form input[type="number"]:focus,
-#item-form textarea:focus,
-#item-form select:focus{
+.admin-form input[type="text"]:focus,
+.admin-form input[type="number"]:focus,
+.admin-form input[type="email"]:focus,
+.admin-form input[type="date"]:focus,
+.admin-form input[type="time"]:focus,
+.admin-form textarea:focus,
+.admin-form select:focus {
     outline: none;
     border-color: #00ff88;
     box-shadow: 0 0 0.5rem rgba(0, 255, 136, 0.1);
 }
 
-#item-form textarea{
+.admin-form textarea {
     resize: vertical;
     min-height: 4rem;
 }
 
-fieldset{
+.admin-form button {
+    margin-top: 1rem;
+}
+
+/* Button inherits base style from main.css, this just aligns it */
+.admin-form .btn-accent {
+    align-self: flex-end;
+}
+
+
+
+
+/* ========== FIELDSETS (USED IN MENU, CAN BE USED ELSEWHERE) ========== */
+
+fieldset {
     border: 1px solid rgba(0, 255, 136, 0.15);
     border-radius: 0.25rem;
     padding: 1rem;
@@ -173,32 +207,26 @@ fieldset{
     flex-wrap: wrap;
 }
 
-legend{
+legend {
     color: #00ff88;
     padding: 0 0.5rem;
 }
 
-fieldset label{
+fieldset label {
     flex-direction: row;
     align-items: center;
     gap: 0.5rem;
     flex: 0 1 auto;
 }
 
-fieldset input[type="checkbox"]{
+fieldset input[type="checkbox"] {
     width: 1.25rem;
     height: 1.25rem;
     cursor: pointer;
 }
 
-#item-form button{
-    margin-top: 1rem;
-}
+/* ========== NOTIFICATIONS (SHARED) ========== */
 
-/* Button inherit from main.css */
-#item-form .btn-accent{
-    align-self: flex-end;
-}
 .notification {
     position: fixed;
     bottom: 1.25rem;

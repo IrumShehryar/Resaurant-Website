@@ -104,6 +104,20 @@ translations = {
         "reserve_table": "Reserve Table",
         "reserve_description": "Book your table at Revontulet Flamehouse and experience Nordic cuisine under the dancing northern lights.",
 
+        "reservation_management": "Reservation Management",
+        "add_new_reservation": "Add New Reservation",
+        "phone": "Phone",
+        "email": "Email",
+        "date": "Date",
+        "time": "Time",
+        "people": "no. of people",
+        "status": "Status",
+
+        # status labels
+        "reservation_status_pending": "pending",
+        "reservation_status_confirmed": "confirmed",
+        "reservation_status_cancelled": "cancelled",
+
         "date": "Date",
         "time": "Time",
         "number_of_guests": "Number of Guests",
@@ -228,8 +242,21 @@ translations = {
         "reserve_table": "Varaa Pöytä",
         "reserve_description": "Varaa pöytä Revontulet Flamehousessa ja koe pohjoismainen keittiö tanssivien revontulien alla.",
 
-        "date": "Päivämäärä",
+
+        "reservation_management": "Pöytävarausten hallinta",
+        "add_new_reservation": "Lisää uusi varaus",
+        "phone": "Puhelin",
+        "email": "Sähköposti",
+        "date": "Päivä",
         "time": "Aika",
+        "people": "Henkilöitä",
+        "status": "Tila",
+
+        "reservation_status_pending": "odottaa",
+        "reservation_status_confirmed": "vahvistettu",
+        "reservation_status_cancelled": "peruutettu",
+
+        "date": "Päivämäärä",
         "number_of_guests": "Henkilömäärä",
         "reserve_button": "Varaa",
         "username": "Käyttäjätunnus",

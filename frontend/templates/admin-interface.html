@@ -11,7 +11,7 @@ block styles %}
 <section class="admin-section">
     <h1>{{ t.menu_management }}</h1>
 
-    <button id="btn-add-item" class="btn-accent">{{ t.add_new_item }}</button>
+    <button id="btn-add-item" class="btn-accent admin-add-btn">{{ t.add_new_item }}</button>
 
     <table class="admin-table">
         <thead>
@@ -36,7 +36,7 @@ block styles %}
 <section class="admin-section">
     <h1>{{ t.reservation_management }}</h1>
 
-    <button id="btn-add-reservation" class="btn-accent">
+    <button id="btn-add-reservation" class="btn-accent admin-add-btn">
         {{ t.add_new_reservation }}
     </button>
 
@@ -45,6 +45,7 @@ block styles %}
             <tr>
                 <th>{{ t.name }}</th>
                 <th>{{ t.phone }}</th>
+                <th>{{ t.email }}</th>
                 <th>{{ t.date }}</th>
                 <th>{{ t.time }}</th>
                 <th>{{ t.people }}</th>
@@ -55,7 +56,7 @@ block styles %}
 
         <tbody id="reservation-tbody">
             <tr>
-                <td colspan="7">{{ t.loading }}</td>
+                <td colspan="8">{{ t.loading }}</td>
             </tr>
         </tbody>
     </table>
