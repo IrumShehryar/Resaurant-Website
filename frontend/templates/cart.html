@@ -106,7 +106,7 @@ Flamehouse{% endblock %} {% block styles %}
 
             cartItemsDiv.innerHTML = cartHTML;
             totalPriceSpan.textContent = "€" + totalPrice.toFixed(2);
-
+            localStorage.setItem("cartTotal", totalPrice.toFixed(2));
             cartItemsDiv.style.display = "block";
             cartEmptyDiv.style.display = "none";
             cartSummaryDiv.style.display = "block";

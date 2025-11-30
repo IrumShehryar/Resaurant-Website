@@ -1,14 +1,150 @@
-<script type="module">
-    document.addEventListener("DOMContentLoaded", () => {
-        const token = localStorage.getItem("authToken");
+{% extends "base.html" %}
 
-        if (!token) {
-            // Protect page — only logged-in users can see it
-            const next = encodeURIComponent(window.location.pathname);
-            window.location.href = `/login?next=${next}`;
-            return;
-        }
+{% block title %}
+Order Confirmation — Revontulet Flamehouse
+{% endblock %}
 
-        // Later your team will load user + order here
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/order-confirmation.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-content">
+
+        <!-- LEFT — Delivery Information -->
+        <div class="hero-left">
+            <div class="summary-box">
+
+                <h2>Delivery Information</h2>
+                <hr class="summary-line">
+
+                <div class="info-row">
+                    <label>Name</label>
+                    <p id="user-name">Loading...</p>
+                </div>
+
+                <div class="info-row">
+                    <label>Mobile Number</label>
+                    <p id="user-phone">Loading...</p>
+                </div>
+
+                <div class="info-row">
+                    <label>Address</label>
+                    <p id="user-address">Loading...</p>
+                </div>
+
+                <div class="info-row">
+                    <label>Payment Method</label>
+                    <select name="payment_method" id="payment_method">
+                        <option value="cash" selected>Cash</option>
+                    </select>
+                </div>
+
+                <div class="info-row">
+                    <label>Order Number</label>
+                    <p id="order-number">---</p>
+                </div>
+
+                <div class="info-row">
+                    <label>Order Time</label>
+                    <p id="order-time">---</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RIGHT — Cost Summary -->
+        <div class="hero-right">
+            <div class="summary-box">
+
+                <h2>Cost Summary</h2>
+                <hr class="summary-line">
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal">€0.00</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Delivery Fee</span>
+                    <span id="delivery-fee">€0.00</span>
+                </div>
+
+                <hr class="summary-line">
+
+                <div class="summary-row total-row">
+                    <span>Total Amount</span>
+                    <span id="total-amount">€0.00</span>
+                </div>
+
+                <button class="place-order-btn">Place Order</button>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+// --------------------------------------------------------
+// LOAD USER INFO
+// --------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("user")) || {};
+
+    document.getElementById("user-name").textContent   = user.name    || "Not provided";
+    document.getElementById("user-phone").textContent  = user.phone   || "Not provided";
+    document.getElementById("user-address").textContent= user.address || "Not provided";
+
+    // --------------------------------------------------------
+    // LOAD CART TOTALS
+    // --------------------------------------------------------
+    const subtotal = parseFloat(localStorage.getItem("cartTotal")) || 0;
+    const deliveryFee = 3.50;
+    const total = subtotal + deliveryFee;
+
+    document.getElementById("subtotal").textContent      = "€" + subtotal.toFixed(2);
+    document.getElementById("delivery-fee").textContent  = "€" + deliveryFee.toFixed(2);
+    document.getElementById("total-amount").textContent  = "€" + total.toFixed(2);
+
+    // --------------------------------------------------------
+    // GENERATE ORDER NUMBER & TIMESTAMP
+    // --------------------------------------------------------
+    const orderNumber = "ORD-" + Math.floor(100000 + Math.random() * 900000);
+    const now = new Date();
+    const orderTime = now.toLocaleString();
+
+    document.getElementById("order-number").textContent = orderNumber;
+    document.getElementById("order-time").textContent   = orderTime;
+
+    // Save for reuse (success page / history)
+    localStorage.setItem("lastOrder", JSON.stringify({
+        orderNumber,
+        subtotal,
+        deliveryFee,
+        total,
+        time: orderTime
+    }));
+
+    // --------------------------------------------------------
+    // FINAL PLACE ORDER BUTTON
+    // --------------------------------------------------------
+    document.getElementById("place-order-final").addEventListener("click", () => {
+        alert("Order Placed Successfully!\nOrder No: " + orderNumber);
+
+        // Clear cart
+        localStorage.removeItem("cart");
+
+        // Redirect after placing order
+        window.location.href = "/menu";
     });
+});
 </script>
+
+{% endblock %}
