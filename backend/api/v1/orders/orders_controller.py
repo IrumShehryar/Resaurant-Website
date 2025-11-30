@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, session
 from .orders_model import (
     list_all_orders,
     get_order_by_id,
@@ -7,24 +7,31 @@ from .orders_model import (
     delete_order,
 )
 from api.utils.simple_errors import simple_errors
+from api.v1.users.users_model import User
 from .orders_schema import OrdersSchema
 
-# Reusable schema instances (like you do with UserSchema)
+# Schema instances
 order_schema = OrdersSchema()
 orders_schema = OrdersSchema(many=True)
 
 
+# --------------------------------------------------------
+# GET ALL ORDERS
+# --------------------------------------------------------
 def get_order():
     items = list_all_orders()
     items_json = orders_schema.dump(items)
     return items_json, 200
 
 
+# --------------------------------------------------------
+# GET ORDER BY ID
+# --------------------------------------------------------
 def get_order_controller(order_id):
     try:
         item = get_order_by_id(order_id)
     except (ValueError, TypeError):
-        return {"error": "malformed input"}, 400
+        return {"error": "Malformed input"}, 400
 
     if not item:
         return {"error": "Item not found"}, 404
@@ -33,14 +40,41 @@ def get_order_controller(order_id):
     return item_json, 200
 
 
+# --------------------------------------------------------
+# CREATE ORDER  (uses session-based logged user)
+# --------------------------------------------------------
 @simple_errors
 def create_order_controller():
+    """Create a new order and auto-fill user info from Flask session."""
     data = request.get_json() or {}
+
+    # 1️⃣ Get logged-in user ID from session
+    user_id = session.get("user_id")
+    if user_id:
+        user = User.objects(id=user_id).first()
+        if user:
+            # Auto-fill user fields if not provided by frontend
+            data.setdefault("name", user.name)
+            data.setdefault("phone", user.phone)
+            data.setdefault("email", user.email)
+            data.setdefault("address", user.address)
+
+    # 2️⃣ Validate required fields
+    required_fields = ["name", "phone", "email", "address", "items", "order_date", "order_time"]
+    missing = [field for field in required_fields if field not in data]
+
+    if missing:
+        return {"error": f"Missing required fields: {', '.join(missing)}"}, 400
+
+    # 3️⃣ Save the order
     item = add_order(data)
     nice_item = order_schema.dump(item)
     return nice_item, 201
 
 
+# --------------------------------------------------------
+# UPDATE ORDER
+# --------------------------------------------------------
 @simple_errors
 def update_order_controller(order_id):
     data = request.get_json() or {}
@@ -53,6 +87,9 @@ def update_order_controller(order_id):
     return nice_item, 200
 
 
+# --------------------------------------------------------
+# DELETE ORDER
+# --------------------------------------------------------
 @simple_errors
 def delete_order_controller(order_id):
     deleted = delete_order(order_id)
@@ -61,3 +98,26 @@ def delete_order_controller(order_id):
         return {"error": "Item not found"}, 404
 
     return {"message": "Item deleted successfully"}, 200
+
+
+# --------------------------------------------------------
+# GET LOGGED-IN USER DETAILS (session-based)
+# --------------------------------------------------------
+def get_logged_in_user_details():
+    """Return user details to auto-fill the order form."""
+
+    user_id = session.get("user_id")
+    if not user_id:
+        return {"error": "User not logged in"}, 401
+
+    user = User.objects(id=user_id).first()
+    if not user:
+        return {"error": "User not found"}, 404
+
+    return {
+        "id": str(user.id),
+        "name": user.name,
+        "email": user.email,
+        "phone": user.phone,
+        "address": user.address,
+    }, 200

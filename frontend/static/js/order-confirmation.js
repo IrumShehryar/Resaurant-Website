@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const deliveryFee = 3.50;
     const total = subtotal + deliveryFee;
 
+    
     document.getElementById("subtotal").textContent      = "€" + subtotal.toFixed(2);
     document.getElementById("delivery-fee").textContent  = "€" + deliveryFee.toFixed(2);
     document.getElementById("total-amount").textContent  = "€" + total.toFixed(2);

@@ -1,62 +1,80 @@
-from flask import request
-import jwt
-from api.utils.auth_utils import get_jwt_secret
-from datetime import datetime, timezone, timedelta
-import os
+# File: api/v1/auth/auth_controller.py
 
+from flask import request, session
 from api.v1.users.users_model import User
-from api.v1.users.users_schema import UserSchema
 from api.utils.simple_errors import simple_errors
 
 
+@simple_errors
 def post_login():
-    data = request.get_json()
-    # ... credential check ...
+    """
+    Login endpoint: verify credentials, store user info in session.
+    Returns user details for frontend.
+    """
+    data = request.get_json() or {}
     username = data.get("username")
     password = data.get("password")
-    user = User.verify_credentials(username, password) # Uses bcrypt check internally
 
+    if not username or not password:
+        return {"message": "Username and password are required"}, 400
+
+    # Verify credentials (bcrypt check internally)
+    user = User.verify_credentials(username, password)
     if not user:
         return {"message": "Invalid credentials"}, 401
-        # this might cause security vulnerability in situations where JWT_SECRET_KEY does not exist
-        # because then the token is create by using key hardcoded in the source code
-    jwt_secret = get_jwt_secret()
 
+    # Store user info in Flask session
+    session.permanent = True
+    session["user_id"] = str(user.id)
+    session["role"] = user.role  # optional, can be used later
 
-    #Safely read role and derive is_admin
-    role = user.role 
-    is_admin = user.is_admin
-        # 1. Create the payload with expiration time
-    payload = {
-        "user_id": str(user.id),
-        "username": user.username,
-        "role": role,
-        "is_admin": is_admin,
-        "exp": datetime.now(timezone.utc) + timedelta(hours=24)  # Token expires in 24 hours
+    # Return user info for frontend
+    response_user = {
+        "message": "Login successful",
+        "user": {
+            "id": str(user.id),
+            "username": user.username,
+            "name": getattr(user, "name", ""),
+            "email": getattr(user, "email", ""),
+            "phone": getattr(user, "phone", ""),
+            "address": getattr(user, "address", ""),
+            "role": user.role
+        }
     }
 
-    # 2. Encode the token
-    token = jwt.encode(payload, jwt_secret, algorithm="HS256")
+    return response_user, 200
 
-    # 3. Return the user data and the token
-    return {
-        "message": "Login successful",
-        "user": user.to_json(),
-        "token": token,
-        "role": role,
-        "is_admin": is_admin
-        }, 200
-    
-    
+
 @simple_errors
 def register():
+    """
+    Register endpoint: create a new user, store info in session, and return details.
+    """
     data = request.get_json() or {}
 
-    # Never allow user to set their own role
+    # Do not allow client to set role
     data.pop("role", None)
 
+    # Create user object and save (triggers validation & password hashing)
     user = User(**data)
-    new_user = user.save()  # triggers clean() + pre_save (hash password)
+    new_user = user.save()
 
-    response_user = UserSchema().dump(new_user)
+    # Automatically log in the user
+    session["user_id"] = str(new_user.id)
+    session["role"] = new_user.role
+    
+
+    response_user = {
+        "message": "User registered successfully",
+        "user": {
+            "id": str(new_user.id),
+            "username": new_user.username,
+            "name": getattr(new_user, "name", ""),
+            "email": getattr(new_user, "email", ""),
+            "phone": getattr(new_user, "phone", ""),
+            "address": getattr(new_user, "address", ""),
+            "role": new_user.role
+        }
+    }
+
     return response_user, 201

@@ -46,9 +46,8 @@ function showCartButton() {
       transition: all 0.3s ease;
     `;
 
-    cartBtn.addEventListener("click", () => {
-      window.location.href = "/cart";
-    });
+    // Proceed to checkout on click
+    cartBtn.addEventListener("click", proceedToCheckout);
 
     cartBtn.addEventListener("mouseover", () => {
       cartBtn.style.transform = "scale(1.05)";
@@ -63,10 +62,9 @@ function showCartButton() {
     document.body.appendChild(cartBtn);
   }
 
-  // Update text & count
   const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
   cartBtn.textContent = `🛒 View Cart (${totalItems})`;
-  cartBtn.style.display = "block";
+  cartBtn.style.display = totalItems > 0 ? "block" : "none";
 }
 
 // ----------------------------------------------
@@ -124,10 +122,8 @@ export function addToCart(item) {
     return;
   }
 
-  // Always load latest state
   loadCartFromStorage();
 
-  // Check if exists
   const existing = cart.find((i) => (i._id || i.id) === id);
 
   if (existing) {
@@ -139,14 +135,33 @@ export function addToCart(item) {
     });
   }
 
-  // Persist
   saveCartToStorage();
 
-  // UI updates
   showCartButton();
   showNotification(`${item.name} added to cart!`);
-
   console.log("Cart updated:", cart);
+}
+
+// ----------------------------------------------
+// Proceed to Checkout
+// ----------------------------------------------
+function proceedToCheckout() {
+  fetch("/api/v1/orders/user-details", {
+    method: "GET",
+    credentials: "same-origin",
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.error) {
+        window.location.href = "/order-confirmation";
+      } else {
+        window.location.href = "/login?next=/order-confirmation";
+      }
+    })
+    .catch(err => {
+      console.error("Failed to check login:", err);
+      window.location.href = "/login?next=/order-confirmation";
+    });
 }
 
 // ----------------------------------------------
@@ -154,6 +169,6 @@ export function addToCart(item) {
 // ----------------------------------------------
 export function initCartUI() {
   loadCartFromStorage();
-  showCartButton(); // show button immediately if cart has items
+  showCartButton();
   console.log("Cart initialized:", cart);
 }
