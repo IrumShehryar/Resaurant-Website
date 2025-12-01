@@ -71,12 +71,20 @@
                             </a>
                         </li>
                         <li>
-                            <a
-                                href="{{ url_for('login') }}"
-                                {% if request.endpoint == 'login' %}class="active"{% endif %}
-                            >
-                                {{ t.login }}
-                            </a>
+                            {% if session.get('user_id') %}
+                                <!-- User logged in → show Logout button -->
+                                <a href="{{ url_for('logout') }}" class="btn-logout">
+                                    {{ t.logout or "Logout" }}
+                                </a>
+                            {% else %}
+                                <!-- User not logged in → show Login button -->
+                                <a
+                                    href="{{ url_for('login') }}"
+                                    {% if request.endpoint == 'login' %}class="active"{% endif %}
+                                >
+                                    {{ t.login }}
+                                </a>
+                            {% endif %}
                         </li>
                         <li class="language-switcher">
                             <a href="{{ url_for('set_language', lang='fi') }}">FI</a>
