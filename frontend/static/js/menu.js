@@ -39,32 +39,6 @@ async function loadMenu() {
   try {
     const items = await getAllMenu();
 
-    // ---- PICK TODAY'S HIGHLIGHTS (1 main, 1 dessert, 1 starter) ----
-    const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-
-    function pickItem(cat) {
-      return items.find(item =>
-        item.category?.toLowerCase() === cat &&
-        item.active !== false &&
-        (item.days_of_week || []).includes(today)
-      );
-    }
-
-    const highlightItems = [
-      pickItem('main'),
-      pickItem('dessert'),
-      pickItem('starter'),
-    ].filter(Boolean);
-
-    const highlightRoot = document.getElementById('highlight-root');
-    if (highlightRoot) {
-      highlightRoot.innerHTML = '';
-      highlightItems.forEach(item => {
-        const card = createMenuCard(item);   // reuse your existing card renderer
-        highlightRoot.appendChild(card);
-      });
-    }
-    // ---- END HIGHLIGHT LOGIC ----
 
     // Keep your normal menu rendering as-is
     const { highlightsNode, menuFragment } = renderMenuPage(items, {
@@ -73,6 +47,12 @@ async function loadMenu() {
     });
 
     el.innerHTML = '';
+    // Render highlights using highlightsNode from renderMenuPage
+    const highlightRoot = document.getElementById('highlight-root');
+    if (highlightRoot && highlightsNode) {
+      highlightRoot.innerHTML = '';
+      highlightRoot.appendChild(highlightsNode);
+    }
     if (menuFragment) {
       el.appendChild(menuFragment);
       try { initMenuFilters(); } catch (err) {
