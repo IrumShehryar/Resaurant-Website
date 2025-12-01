@@ -1,43 +1,18 @@
 import os
-
-"""Flask application entrypoint for the Restaurant Website project.
-
-This module creates the Flask application, registers API blueprints and
-serves the frontend templates and static assets located in the `frontend`
-folder. The app is intentionally simple: the single-page menu front-end is
-served from `menu.html` and uses the JSON endpoints under
-`/api/v1/menu` to load data via XHR/Fetch.
-
-Run options are read from environment variables when starting locally.
-
-Key routes:
-- GET /            -> serves index.html
-- GET /menu        -> serves menu.html (single page app)
-- GET /menu/<id>   -> serves menu.html (friendly deep-link for an item)
-
-Notes:
-- The API endpoints are provided by the `menu_bp` blueprint
-  (see backend/api/v1/menu/*).
-"""
-
-from flask import Flask, render_template,request
-from flask import session, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from translations import translations
-from datetime import datetime
+from datetime import datetime, timedelta
 from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
 from api.v1.menu.menu_routes import menu_bp
 from api.v1.users.users_routes import users_bp
-from api.v1.auth.auth_routes import auth_bp   
-from api.v1.reservation.reservation_route import reservation_bp  
-from api.utils.db import mongo_connect
+from api.v1.auth.auth_routes import auth_bp
+from api.v1.reservation.reservation_route import reservation_bp
 from api.v1.orders.orders_routes import orders_bp
+from api.utils.db import mongo_connect
 from api.v1.users.users_model import User
-from flask import session, render_template
+from werkzeug.security import check_password_hash
 from bson import ObjectId
-from datetime import timedelta
-
-
 
 load_dotenv()
 
@@ -47,21 +22,21 @@ app = Flask(
     static_folder="../frontend/static",
     static_url_path="/static",
 )
-app.secret_key = "9f8sdf98sdf89sdfu89sdf89@#FSDfsd98f"
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "fallback_secret_key")
 app.config["SESSION_PERMANENT"] = True
 app.permanent_session_lifetime = timedelta(days=7)
 
-# If the app is running behind a proxy (nginx, etc) ProxyFix preserves
-# original client scheme and path prefix. Adjust values when deploying.
+# Proxy fix if behind nginx or other proxy
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_prefix=1)
 
-# Register REST API blueprint for menu endpoints
+# Register API blueprints
 app.register_blueprint(menu_bp)
 app.register_blueprint(users_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(reservation_bp)
 app.register_blueprint(orders_bp)
 
+# Language switch
 @app.route("/set_language/<lang>")
 def set_language(lang):
     if lang in ["en", "fi"]:
@@ -73,88 +48,93 @@ def inject_translations():
     lang = session.get("lang", "en")
     return {"t": translations[lang]}
 
+# Basic pages
 @app.get("/")
 def home():
-    """Render the root page (`index.html`).
-
-    The page is a minimal entrypoint used for the static frontend.
-    """
     return render_template("index.html")
-
-@app.get("/users")
-def users():
-    return render_template("login.html")
 
 @app.get("/menu")
 def menu():
-    """Render the SPA that lists the menu items.
-
-    The front-end JavaScript will call the JSON API to populate content.
-    """
-    # Compute the current weekday name server-side so templates can render
-    # a consistent "<Weekday> Highlights" heading without client JS.
     try:
         highlight_day = datetime.now().strftime('%A')
     except Exception:
         highlight_day = None
-
     return render_template("menu.html", highlight_day=highlight_day)
 
 @app.get("/menu/<int:item_id>")
 def menu_item(item_id):
-    """Render the menu SPA for a deep link to a specific item.
-
-    This endpoint intentionally returns the same `menu.html` file so the
-    frontend can detect the path and open the item detail modal for
-    `item_id` by calling `/api/v1/menu/<item_id>`.
-
-    Args:
-        item_id (int): menu item id parsed from the URL.
-
-    Returns:
-        A rendered HTML page (menu.html) — the frontend handles fetching
-        of the item details as JSON.
-    """
     return render_template("menu.html")
 
 @app.get("/about")
 def about():
-    """Render the About Us page."""
     return render_template("about.html")
 
 @app.get("/contact")
 def contact():
-    """Render the Contact Us page."""
     return render_template("contact.html")
 
 @app.get("/reservation")
 def reservation():
-    """Render the Reservation/Reserve a Table page."""
     return render_template("reservation.html")
 
-@app.get("/login")
-def login():
-    """Render the Login page."""
-    next_url = request.args.get("next", "/")
-    return render_template("login.html", next_url=next_url,role="user")
-
-@app.route('/cart')
+@app.get("/cart")
 def cart_page():
-    item_id = request.args.get('item')
-    return render_template('cart.html',added_item_id=item_id)
+    item_id = request.args.get("item")
+    return render_template("cart.html", added_item_id=item_id)
 
 @app.get("/admin-login")
 def admin_login():
     next_url = url_for("admin_interface")
-    return render_template("login.html", next_url=next_url,role="admin")
+    return render_template("login.html", next_url=next_url, role="admin")
 
 @app.get("/admin-interface")
 def admin_interface():
     return render_template("admin-interface.html")
 
+# -------------------------------
+# Login route with session support
+# -------------------------------
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    next_url = request.args.get("next", "/")
+
+    if "user_id" in session:
+        # Already logged in → redirect to next
+        return redirect(next_url)
+
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        # Fetch user from DB
+        user = User.objects(email=email).first()
+        if user and check_password_hash(user.password_hash, password):
+            # Store user info in session
+            session.permanent = True
+            session["user_id"] = str(user.id)
+            session["user_name"] = user.name
+            session["user_email"] = user.email
+
+            return redirect(next_url)
+        else:
+            return render_template("login.html", error="Invalid credentials", next_url=next_url, role="user")
+
+    return render_template("login.html", next_url=next_url, role="user")
+
+# -------------------------------
+# Checkout route
+# -------------------------------
+@app.route("/checkout")
+def checkout():
+    if "user_id" not in session:
+        return redirect(url_for("login", next=url_for("order_confirmation_page")))
+    return redirect(url_for("order_confirmation_page"))
+
+# -------------------------------
+# Order confirmation page
+# -------------------------------
 @app.get("/order-confirmation")
 def order_confirmation_page():
-    from flask import session, render_template
     user_data = {
         "name": "Not provided",
         "phone": "Not provided",
@@ -175,14 +155,22 @@ def order_confirmation_page():
 
     return render_template("order-confirmation.html", user=user_data)
 
+# -------------------------------
+# Logout route
+# -------------------------------
+@app.route("/logout")
+def logout():
+    session.clear()  # Clear session data
+    return redirect(url_for("login"))
 
+# -------------------------------
+# Run server
+# -------------------------------
 if __name__ == "__main__":
-    # When run directly, read run settings from environment variables.
     mongo_connect()
     app.run(
         host="127.0.0.1",
-        port=os.getenv("PORT"),
-        debug=os.getenv("FLASK_DEBUG"),
-        use_reloader=os.getenv("FLASK_RELOADER"),
+        port=int(os.getenv("PORT", 5000)),
+        debug=os.getenv("FLASK_DEBUG") == "1",
+        use_reloader=os.getenv("FLASK_RELOADER") == "1",
     )
-
