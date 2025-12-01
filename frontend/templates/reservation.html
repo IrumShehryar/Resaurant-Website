@@ -1,55 +1,75 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}{{ t.reserve_title }} — Revontulet
+Flamehouse{% endblock %} {% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/reservation.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="reservation-page">
+    <div class="reservation-header">
+        <h2>{{ t.reserve_a_table }}</h2>
+        <p>{{ t.reserve_description }}</p>
+    </div>
 
-{% block title %}{{ t.reserve_title }} — Revontulet Flamehouse{% endblock %}
-{% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/reservation.css') }}" />
-{% endblock %}
+    <div class="reservation-flex">
+        <!-- <div class="reservation-image">
+            <img
+                class="reservation-photo"
+                src="{{ url_for('static', filename='assets/restaurant.jpeg') }}"
+                alt="Restaurant interior"
+            />
+            <img
+                class="reservation-photo"
+                src="{{ url_for('static', filename='assets/restaurant1.jpg') }}"
+                alt="Restaurant Exterior 2"
+            />
+        </div> -->
 
-{% block content %}
-<h2>{{ t.reserve_a_table }}</h2>
+        <div class="reservation-box">
+            <form id="reservation-form">
+                <label>
+                    {{ t.name }}:
+                    <input type="text" name="name" required />
+                </label>
 
-<p>
-    {{ t.reserve_description }}
-</p>
+                <label>
+                    {{ t.email }}:
+                    <input type="email" name="email" required />
+                </label>
 
-<div class="reservation-box">
-<form id="reservation-form">
-    <label>
-        {{ t.name }}:
-        <input type="text" name="name" required />
-    </label><br />
+                <label>
+                    {{ t.phone }}:
+                    <input type="tel" name="phone" required />
+                </label>
 
-    <label>
-        {{ t.email }}:
-        <input type="email" name="email" required />
-    </label><br />
+                <label>
+                    {{ t.date }}:
+                    <input type="date" name="date" required />
+                </label>
 
-    <label>
-        {{ t.phone }}:
-        <input type="tel" name="phone" required />
-    </label><br />
+                <label>
+                    {{ t.time }}:
+                    <input type="time" name="time" required />
+                </label>
 
-    <label>
-        {{ t.date }}:
-        <input type="date" name="date" required />
-    </label><br />
+                <label>
+                    {{ t.number_of_guests }}:
+                    <input type="number" name="guests" min="1" required />
+                </label>
 
-    <label>
-        {{ t.time }}:
-        <input type="time" name="time" required />
-    </label><br />
+                <button type="submit" class="btn-accent">
+                    {{ t.reserve_button }}
+                </button>
+            </form>
 
-    <label>
-        {{ t.number_of_guests }}:
-        <input type="number" name="guests" min="1" required />
-    </label><br />
-
-    <button type="submit">{{ t.reserve_button }}</button>
-</form>
-<div class="reservation-box"></div>
-
-<div id="reservation-message"></div>
-
-<!-- Load page-specific JS -->
-<script type="module" src="{{ url_for('static', filename='js/reservation.js') }}"></script>
+            <div id="reservation-message"></div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block scripts %}
+<script
+    type="module"
+    src="{{ url_for('static', filename='js/reservation.js') }}"
+></script>
+<script src="{{ url_for('static', filename='js/order-confirmation.js') }}"></script>
 {% endblock %}

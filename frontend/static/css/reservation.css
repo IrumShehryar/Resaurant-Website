@@ -1,13 +1,77 @@
-.reservation-box {
-    background-color: transparent;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 100%;
-    margin: 2rem auto;
+/* Page wrapper to center the whole block */
+.reservation-page {
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
 }
 
+/* Heading + paragraph */
+.reservation-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.reservation-header h2 {
+    color: #a77cff;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+.reservation-header p {
+    color: #e0f4ff;
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.reservation-flex {
+    display: flex;
+    flex-direction: row;      /* side by side */
+    align-items: flex-start;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+    max-width: 70rem;         /* overall width for the pair */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Left column with stacked images */
+.reservation-image {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* Each individual photo */
+.reservation-photo {
+    width: 100%;
+    max-width: 70rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1.25rem rgba(0,0,0,0.15);
+    object-fit: cover;
+}
+
+.reservation-image img {
+    width: 100%;
+    max-width: 100rem;         /* bigger maximum */
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1.25rem rgba(0,0,0,0.15);
+    object-fit: cover;
+}
+
+/* Form column a bit narrower */
+.reservation-box {
+    flex: 2;
+    background-color: transparent;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.2);
+    max-width: 26rem;
+    width: 100%;
+}
+
+
+/* Form + inputs */
 #reservation-form {
     display: flex;
     flex-direction: column;
@@ -29,7 +93,7 @@
 #reservation-form input[type="time"],
 #reservation-form input[type="number"] {
     background: #1a1a1a;
-    border: 1px solid rgba(0, 255, 136, 0.2);
+    border: 0.0625rem solid rgba(0, 255, 136, 0.2);
     color: #e0f4ff;
     padding: 0.75rem;
     border-radius: 0.25rem;
@@ -49,13 +113,26 @@
     background-color: #ff6600;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 0.375rem;
     cursor: pointer;
     margin-top: 1rem;
     font-weight: bold;
-    align-self: flex-end;
+    width: 100%;
 }
 
 #reservation-form button.btn-accent:hover {
     background-color: #e65c00;
+}
+
+@media (max-width: 48rem) {
+    .reservation-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .reservation-image,
+    .reservation-box {
+        flex: 1;
+        max-width: 100%;
+    }
 }
