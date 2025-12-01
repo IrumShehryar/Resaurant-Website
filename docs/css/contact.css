@@ -1,0 +1,52 @@
+/* Contact page styles extracted from style.css */
+
+.contact-feature {
+    display: flex; 
+    align-items: flex-start;
+    justify-content: space-between; 
+    text-align: left; 
+    width:100%; 
+    max-width: 68.75rem;
+    margin: 0 auto; 
+    flex-wrap: wrap; 
+ }
+
+.contact-left{flex:1; max-width:32.5rem;}
+.contact-left h2{margin:auto 3rem ;}
+.contact-left p{margin:3rem ;line-height: 1.3;}
+.contact-left span { font-weight:bold;}
+
+.contact-right{flex: 0 1 32.5rem; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+.contact-right h3 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.contact-right iframe{
+    width:100%; max-width:100%; display: block;
+    margin:  auto ; border-radius: 4rem;padding: 2rem 2rem;
+    height: clamp(18rem, 40vh, 26rem);
+}
+
+.transport-options {
+    margin-top: 1.5rem;
+    text-align: center;
+    width: 100%;
+}
+
+.transport-options p {
+    margin: 0;
+}
+
+.transport-options a {
+    color: #00ff88;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-bottom: 0.125rem solid transparent;
+}
+
+.transport-options a:hover {
+    color: #7dd3e0;
+    border-bottom-color: #00ff88;
+}

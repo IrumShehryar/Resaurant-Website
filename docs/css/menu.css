@@ -1,0 +1,870 @@
+/* Menu page styles extracted from style.css */
+
+/* Layout: panel across the top, content below */
+.menu-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+/* Panel visual & vertical layout */
+.diet-panel {
+  display: flex;
+  flex-direction: column; /* stack groups vertically */
+  gap: .5rem;
+  padding: .75rem;
+  /* Match the dark panel used by category sections so the left
+     filter column visually matches the menu grid/highlight area */
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 0.625rem;
+  border: 0.0625rem solid rgba(255,255,255,0.06);
+  box-shadow: 0 0.375rem 1.125rem rgba(0,0,0,0.45);
+  position: sticky;
+  top: 5rem; /* adjust to sit below the main header */
+  z-index: 40;
+}
+/* Button styling */
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: .45rem .6rem;
+  border-radius: 0.375rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+  transition: box-shadow 220ms ease, transform 120ms ease;
+}
+
+.filter-btn::after {
+  /* outer neon ring similar to .menu-card::after */
+  content: '';
+  position: absolute;
+  left: -0.5rem;
+  top: -0.5rem;
+  right: -0.5rem;
+  bottom: -0.5rem;
+  border-radius: calc(0.375rem + 0.5rem);
+  pointer-events: none;
+  /* use site accent neon for buttons so they match the proceed/checkout button (lighter purple) */
+  box-shadow: 0 0 0.875rem rgba(189,168,255, 0.10);
+  transition: box-shadow 220ms ease, opacity 220ms ease;
+  opacity: 1;
+}
+
+.filter-btn:hover,
+.filter-btn:focus {
+  background: rgba(241, 234, 234, 0.04);
+  outline:#a8d8ff;
+ 
+}
+
+.filter-btn:hover::after,
+.filter-btn:focus::after {
+  box-shadow: 0 0 2rem rgba(125,95,255, 0.16), 0 0 0.5rem rgba(125,95,255, 0.06) inset;
+}
+
+
+
+.filter-btn.active::after {
+  /* slightly stronger neon glow when active (lighter purple) */
+  box-shadow: 0 0 2.2rem rgba(189,168,255, 0.22), 0 0 0.5rem rgba(189,168,255, 0.10) inset;
+}
+
+/* Active filter button should use the neon accent and visible outline */
+.filter-btn.active {
+  background: #bda8ff; /* lighter purple */
+  color: #ffffff; /* ensure active text stays readable */
+  border: none; /* use outline only to avoid double line */
+  box-shadow: none;
+  transform: translateY(-1px);
+  outline: 2px solid rgba(255,255,255,0.95); /* persistent outline when active */
+  outline-offset: 2px;
+}
+
+/* Make category/diet filter buttons appear filled by default (subtle fill)
+   so they match the 'active' visual but without the strong glow. Keep this
+   scoped to filter groups so other buttons aren't affected. */
+.filter-group .filter-btn {
+  /* lighter mint fill to match Add-to-cart hue but softer */
+  background: rgba(113, 145, 130, 0.08);
+  color: #abc7be; /* dark-green text for readable contrast */
+  border: 1px solid rgba(0,255,136,0.14);
+  box-shadow: none;
+}
+
+/* Remove neon ring/glow for active buttons (no colored shadow). Keep the
+   filled background but remove the ::after glow and any box-shadow. */
+.filter-btn.active::after {
+  box-shadow: none;
+  opacity: 0;
+}
+.filter-btn.active {
+  box-shadow: none;
+}
+
+/* On hover show a visible white border; on focus show a clear white focus outline.
+   Disable any colored glow on hover/focus so the outline is the only emphasis. */
+.filter-group .filter-btn:hover,
+.filter-group .filter-btn:focus {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.92); /* visible white border on hover */
+  box-shadow: none;
+  color: #ffffff; /* keep text white on hover/focus */
+}
+.filter-group .filter-btn:focus {
+  outline: 2px solid rgba(255,255,255,0.95); /* keyboard focus ring */
+  outline-offset: 2px;
+  border: none; /* remove border so only outline shows */
+}
+.filter-group .filter-btn:hover::after,
+.filter-group .filter-btn:focus::after {
+  box-shadow: none;
+  opacity: 0;
+}
+
+/* Ensure diet filter labels are capitalized for display (e.g. 'vegan' -> 'Vegan') */
+.filter-btn.diet { text-transform: capitalize !important; }
+
+
+/* Group titles and spacing */
+.filter-group { margin-bottom: .75rem; }
+.group-title {
+  font-size: 1.05rem;
+  margin: 0 0 .25rem 0;
+  color: #00ffcc; /* match Sunday highlight accent */
+  font-weight: 800;
+  background: rgba(0,255,204,0.06); /* subtle cyan/mint wash to match highlights */
+  padding: 0.12rem 0.5rem;
+  border-radius: 0.375rem;
+  display: inline-block;
+}
+
+/* Responsive: collapse to single column on small screens */
+@media (max-width: 1024px) {
+  .menu-layout { grid-template-columns: 1fr; }
+  .diet-panel { position: static; flex-direction: row; overflow-x: auto; gap: .5rem; padding: .5rem; width: 100%; }
+  .filter-group { display: flex; gap: .5rem; align-items: center; margin-bottom: 0; }
+  .filter-btn { flex: 0 0 auto; }
+}
+
+@media (min-width: 1025px) {
+  /* On wide screens: make layout two columns — compact left panel + content */
+  .menu-layout {
+    grid-template-columns: 16rem 1fr;
+    grid-template-rows: 1fr;
+    align-items: start;
+    gap: 1.5rem;
+  }
+
+  /* keep groups visually separated inside the narrow panel */
+  .filter-group { margin: 0 0 0.75rem 0; display: block; }
+
+  /* constrain the panel to a small width column (fills the grid column) */
+  .diet-panel { width: 100%; max-width: 16rem; }
+  .diet-panel { position: sticky; top: 5rem; align-self: start; }
+
+  /* Align the right column's top with the left panel's start so the
+     highlight heading sits level with the category panel on wide screens. */
+  .menu-layout > .menu-main {
+    padding-top: 0; /* remove the default main padding-top (desktop only) */
+  }
+}
+/* Keep filter groups stacked; show single column list (one item per line) */
+.filter-group { display: block; margin: 0; }
+.filter-group .group-title { margin-bottom: 0.25rem; }
+.filter-btn { display: block; width: 100%; text-align: left; padding: 0.5rem 0.75rem; }
+.filter-btn + .filter-btn { margin-top: 0.25rem; }
+
+@media (max-width: 480px) {
+  /* slightly more compact on very small screens */
+  .diet-panel { padding: 0.5rem; }
+  .filter-btn { padding: 0.45rem 0.6rem; }
+}
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
+  gap: 1.5rem;
+  margin: auto 0; /* reduce top spacing so cards render slightly higher */
+  padding: 1rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: transparent;
+  max-width: 68.75rem; /* 1100px */
+  box-sizing: border-box;
+}
+
+.menu-card {
+  /* use the site accent (neon) as the visible card border */
+  border: 0.0625rem solid rgba(var(--modal-accent-rgb), 0.16);
+  border-radius: 0.625rem;
+  padding: 1rem;
+  background-color: rgba(12, 12, 22, 0.88);
+  /* subtle neon outline for each card using site accent */
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.45), 0 0 10px rgba(var(--modal-accent-rgb), 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Outer neon ring using a pseudo-element so it sits outside the card border */
+.menu-card::after {
+  content: '';
+  position: absolute;
+  left: -0.5rem;
+  top: -0.5rem;
+  right: -0.5rem;
+  bottom: -0.5rem;
+  border-radius: calc(0.625rem + 0.5rem);
+  pointer-events: none;
+  /* use purple glow for the outer ring to match new visual style */
+  box-shadow: 0 0 0.875rem rgba(179,102,255,0.08);
+  transition: box-shadow 220ms ease, opacity 220ms ease;
+  opacity: 1;
+}
+
+.menu-card:hover::after,
+.menu-card:focus::after {
+  box-shadow: 0 0 3rem rgba(179,102,255,0.3), 0 0 0.5rem rgba(179,102,255,0.08) inset;
+}
+
+/* Ensure images inside menu cards don't force overflow */
+.menu-card img {
+  width: 100%;
+  /* fixed card thumbnail size so all menu cards match */
+  height: 12rem;
+  display: block;
+  border-radius: 0.4rem;
+  margin-bottom: 0.5rem;
+  object-fit: cover; /* fill the card area, keep consistent size */
+  background-color: rgba(0,0,0,0.06); /* subtle letterbox background */
+}
+
+/* Removed thumbnail utility: menu cards now show full images by default */
+
+.menu-card:hover {
+  transform: scale(1.02);
+  /* Softer hover: subtle lighten and gentler border tint */
+  background-color: rgba(22, 18, 34, 0.92);
+  border-color: rgba(179,102,255,0.14);
+  /* stronger neon glow on hover for each card */
+  box-shadow: 0 0.375rem 0.9rem rgba(0, 0, 0, 0.5), 0 0 5rem rgba(var(--modal-accent-rgb), 0.18);
+}
+
+/* Accessible focus state mirroring hover neon effect */
+.menu-card:focus {
+  outline: none;
+  box-shadow: 0 0.375rem 0.9rem rgba(0,0,0,0.5), 0 0 1.25rem rgba(var(--modal-accent-rgb), 0.14);
+}
+/* (Consolidated) removed duplicate .menu-grid tweaks — see canonical .menu-grid above */
+
+/* Title color inside menu cards */
+.menu-card h2 {
+  color: #b366ff; /* purple accent to match site headings */
+}
+
+/* Make the menu item title visually distinct from the meta line */
+.menu-card__title {
+  color: #abc7be; /* match left-panel filter button text */
+  display: block;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Highlight of the Day styling - full-image card layout */
+.highlight-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05);
+  margin-bottom: 1.25rem;
+  min-height: 12rem;
+}
+
+/* If createMenuCard output has an img inside the card - make it cover the card */
+.highlight-card img {
+  /* Make highlight images cover the full highlight-card area. Position
+     absolute so the image fills the container and the inner overlay can sit
+     above it. Use `object-fit: cover` to preserve aspect ratio while filling. */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* Ensure any image variant used inside highlight items (thumb, menu-card img) behaves the same
+   so all three highlight cards have a full-image appearance */
+.highlight-item {
+  position: relative;
+  overflow: hidden;
+}
+.highlight-item img,
+.highlight-item .highlight-thumb,
+.highlight-item .menu-card__image,
+.highlight-item .menu-card img {
+
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-height: 18rem;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* Make title stand out if using .menu-card__title */
+.highlight-card .menu-card__title {
+  color: #b45309; /* amber tone */
+  font-size: 1.15rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Price and meta slightly larger */
+.highlight-card .menu-card__meta,
+.highlight-card .menu-card__price {
+  font-size: 0.95rem;
+  color: #065f46; /* green tint for price */
+}
+
+@media (max-width: 40rem) {
+  .highlight-card { flex-direction: column; align-items: flex-start; }
+  .highlight-card img { width: 100%; height: auto; }
+}
+
+/* Modal content: keep text and image side-by-side on wide screens,
+   stack on small screens. Limit image size to avoid huge modal boxes. */
+#modal-content {
+  /* keep as a simple wrapper in case other content is added */
+  display: block;
+}
+
+/* The renderer outputs a .menu-detail block with two children: .menu-detail__body and .menu-detail__img
+   Make that element a two-column grid so text sits beside the image regardless of insertion order. */
+.menu-detail {
+  display: grid;
+  grid-template-columns: 1fr 20rem; /* text | image column */
+  gap: 1rem;
+  align-items: start;
+}
+
+.menu-detail__img img {
+  width: 100%;
+  height: auto;
+  max-height: 30rem; /* prevent extremely tall images */
+  object-fit: cover;
+  display: block;
+  border-radius: 0.375rem;
+}
+
+@media (max-width: 48rem) {
+  .menu-detail { grid-template-columns: 1fr; }
+  .menu-detail__img img { max-height: 18rem; }
+}
+.menu-detail__body {
+  line-height: 1.6; /* add spacing between lines for readability */
+}
+
+
+
+/* Ensure actions have a little space from the content above */
+.menu-actions {
+  margin-top: 0.4rem;
+}
+
+.menu-detail__body h2,
+.menu-detail__body h3 {
+  color: #00ff88; /* brighter Northern-lights accent for headings */
+  font-size: 1.3rem; /* enlarge headings */
+  line-height: 1.25;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 48rem) {
+  .menu-card h3,
+  .menu-detail__body h2,
+  .menu-detail__body h3 {
+    font-size: 1.125rem;
+  }
+}
+
+/* Dietary / allergen color variants */
+/* (moved to main.css) */
+
+/* Ingredients list styling */
+.menu-detail__ingredients {
+  margin-top: 0.75rem;
+  padding-left: 0.5rem;
+}
+.menu-detail__ingredients ul {
+  list-style: disc;
+  margin: 0.5rem 0 0 1rem;
+  padding: 0;
+}
+.menu-detail__ingredients li {
+  margin-bottom: 0.5rem;
+  color: #dff7ea;
+  font-size: 0.95rem;
+}
+.menu-detail__ingredients li strong {
+  color: #ffffff;
+  font-weight: 700;
+  margin-right: 0.35rem;
+}
+
+/* Price label + amount styling */
+.menu-detail__price { margin-top: 0.75rem; }
+.menu-detail__price-label {
+  color: #a8d8ff;
+  font-weight: 600;
+  margin-right: 0.35rem;
+}
+.menu-detail__price-amount {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+/* Small tag/badge utility used for dietary labels */
+.tag {
+  display: inline-block;
+  padding: 0.125rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  margin-right: 0.35rem;
+  margin-top: 0.25rem;
+}
+/* tag modifiers moved to main.css */
+
+/* Highlight of the Day styling */
+
+/* Wrapper with heading for highlight(s) */
+.highlight-wrapper {
+  max-width: 68.75rem; /* 1100px */
+  margin: 0 auto 1.5rem; /* give more space below highlights */
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+.highlight-wrapper .highlight-heading,
+.highlight-heading {
+  /* Match the hero heading color progression used in the site hero
+     so the Highlights title reads the same as "Where Aurora Meets Flavor." */
+  font-size: 1.6rem; /* larger to match hero section scale */
+  margin: 0 0 0.5rem 0;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00ffcc, #7d5fff, #00ffaa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent !important;
+  text-shadow: 0 0 12px rgba(125,95,255,0.12);
+}
+
+/* Align the main menu heading with the highlights section */
+.menu-heading {
+  max-width: 68.75rem; /* same as .highlight-wrapper */
+  margin: 1.25rem auto 0 auto;
+  padding: 0 1rem;
+  /* apply Sunday's highlight gradient to the main menu heading */
+  background: linear-gradient(90deg, #00ffcc, #7d5fff, #00ffaa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent !important;
+  text-shadow: 0 0 12px rgba(125,95,255,0.12);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1rem; /* nudge heading further down for clearer separation */
+}
+
+
+/* Highlight grid: three columns (main + dessert + drink) */
+.highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(10rem, 1fr));
+  gap: 1rem;
+  max-width: 68.75rem; /* 1100px */
+  margin: 0 auto;
+}
+
+/* Ensure all three highlight items use identical thumbnail sizing so cards align */
+.highlight-grid .highlight-item img,
+.highlight-grid .highlight-item .highlight-thumb,
+.highlight-grid .highlight-item .menu-card__image {
+  width: 100%;
+  height: 12rem; /* uniform desktop height for highlight thumbnails */
+  object-fit: cover; /* crop to fill area, keeps visual consistency */
+  display: block;
+  border-radius: 0.4rem;
+}
+
+@media (max-width: 40rem) {
+  .highlight-grid .highlight-item img,
+  .highlight-grid .highlight-item .highlight-thumb,
+  .highlight-grid .highlight-item .menu-card__image {
+    height: 9rem; /* smaller on mobile */
+  }
+}
+
+.highlight-grid { align-items: stretch; }
+.highlight-item { display: flex; flex-direction: column; align-items: stretch; min-height: 12rem; }
+.highlight-item .highlight-card-inner { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: space-between; }
+/* force thumb/image height consistency (allow full images but constrain extremes) */
+.highlight-thumb,
+.placeholder-thumb,
+.highlight-item .menu-card__image { max-height: 18rem; }
+/* If a ::before ribbon exists, hide it so it won't appear on the image */
+.highlight-item::before,
+.highlight-item.highlight-main::before { display: none !important; }
+
+/* Highlight animation: subtle float + soft glow for all highlight cards
+   Applies a gentle staggered animation to each of the three highlight items (starter/main/dessert)
+   Respects prefers-reduced-motion to disable animations. */
+.highlight-item .highlight-card-inner {
+  position: relative;
+  z-index: 2; /* sit above the background image */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 1rem;
+  color: #fff;
+  background: transparent; /* make inner wrapper transparent so images show through consistently */
+  transition: transform 220ms ease, box-shadow 220ms ease;
+  animation: highlight-float 5.6s ease-in-out infinite;
+}
+
+
+.highlight-item .highlight-card-inner::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  /* dark-only overlay so the image shows through without colored gradients */
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.46) 100%);
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+}
+/* Ensure Sunday highlight uses the fullbleed-style overlay so it matches other highlights */
+.highlight-item.sunday .highlight-card-inner::before,
+.highlight-item.highlight-sunday .highlight-card-inner::before,
+.highlight-item.sunday.highlight-fullbleed::after {
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.25));
+}
+
+/* Remove colored/gradient overlay used previously so highlights use a dark-only overlay.
+  Special Sunday variants keep the darker black gradient but no colored tint. */
+.highlight-item .highlight-card-inner > * { position: relative; z-index: 2; }
+
+/* subtle float + soft glow animation (animation moved into the main .highlight-card-inner block above) */
+
+/* stagger the three highlight items so the motion feels organic */
+.highlight-grid .highlight-item:nth-child(1) .highlight-card-inner { animation-delay: 0.9s; }
+.highlight-grid .highlight-item:nth-child(2) .highlight-card-inner { animation-delay: 0.6s; }
+.highlight-grid .highlight-item:nth-child(3) .highlight-card-inner { animation-delay: 0.9s; }
+
+/* slightly stronger accent for the main highlight */
+.highlight-item.highlight-main .highlight-card-inner {
+  border: 0.12rem solid rgba(var(--modal-accent-rgb), 0.20);
+}
+
+@keyframes highlight-float {
+  0% { transform: translateY(0); box-shadow: 0 0.375rem 1.125rem rgba(0,0,0,0.12); }
+  50% { transform: translateY(-0.3125rem); box-shadow: 0 0.75rem 1.875rem rgba(var(--modal-accent-rgb), 0.08); }
+  100% { transform: translateY(0); box-shadow: 0 0.375rem 1.125rem rgba(0,0,0,0.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .highlight-item .highlight-card-inner { animation: none !important; transform: none !important; }
+}
+
+.highlight-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-thumb {
+  width: 100%;
+  height: auto;
+  max-height: 18rem;
+  object-fit: cover;
+  border-radius: 0.4rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.placeholder-thumb {
+  width: 100%;
+  height: auto;
+  max-height: 18rem;
+  border-radius: 0.4rem;
+  border: 0.0625rem dashed rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.01);
+  margin-bottom: 0.5rem;
+}
+
+/* Styling to make highlight cards compact and image-focused */
+.highlight-item .menu-card {
+  padding: 0.25rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+
+
+.highlight-item .menu-card__image {
+  width: 100%;
+  height: auto;
+  max-height: 18rem;
+  object-fit: cover;
+  border-radius: 0.4rem;
+  display: block;
+}
+
+/* Ensure highlight action buttons align consistently at the bottom of the overlay */
+.highlight-card-inner .menu-actions,
+.highlight-item .menu-actions {
+  display: flex !important;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: auto; /* push actions to the bottom of the card content */
+}
+
+/* Ensure container and inner overlay share same rounded corners */
+.highlight-card, .highlight-item .highlight-card-inner {
+  border-radius: 0.5rem;
+}
+
+
+
+/* show actions for the main highlight only */
+.highlight-item.highlight-main .menu-actions {
+  display: block;
+}
+
+/* Highlight-specific action button outline to make them very visible */
+.highlight-actions .btn-detail,
+.highlight-actions .btn-add {
+  outline: 0.1875rem solid rgba(255,255,255,0.12);
+  box-shadow: 0 0 0 0.1875rem rgba(0, 255, 136, 0.12) inset;
+}
+
+.highlight-actions .btn-add {
+  background: var(--modal-accent);
+  color: #0b0b0b;
+  border-color: rgba(0,255,136,0.25);
+}
+
+.highlight-body { padding: 0 0.25rem; }
+.highlight-title {
+  display: block;
+  color: #00ffcc;
+  font-size: 1.15rem;
+  margin-bottom: 0.35rem;
+}
+.highlight-desc {
+  color: #dfe7ea;
+  margin-bottom: 0.45rem;
+  font-size: 0.95rem;
+}
+.highlight-meta {
+  color: #c7f9dd;
+  font-weight: 700;
+}
+
+/* Force action buttons to be visible above other layers (safety) */
+.menu-actions .btn-detail,
+.menu-actions .btn-add {
+  position: relative;
+  z-index: 10;
+  display: inline-block;
+  visibility: visible;
+  /* Make both action buttons visually consistent */
+  padding: 0.5rem 1rem;
+  line-height: 1;
+  min-width: 6.25rem;
+  text-align: center;
+}
+
+/* Add a small gap below the action buttons to match image/title spacing */
+.menu-actions {
+  margin-bottom: 0.5rem;
+}
+
+/* Add a small gap above the action buttons specifically for menu cards */
+.menu-card .menu-actions {
+  margin-top: 0.5rem;
+}
+
+/* Responsive: stack highlight card on narrow screens */
+@media (max-width: 40rem) {
+  .highlight-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .highlight-card img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Full-bleed hero banner for main highlight */
+.highlight-item.highlight-fullbleed {
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+  padding: 2rem 1rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+.highlight-item.highlight-fullbleed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.25));
+  pointer-events: none;
+  z-index: 1;
+}
+.highlight-item.highlight-fullbleed .highlight-card-inner,
+.highlight-item.highlight-fullbleed .menu-card {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+.highlight-item.highlight-fullbleed img,
+.highlight-item.highlight-fullbleed .highlight-thumb {
+  display: none;
+}
+@media (max-width: 48rem) {
+  .highlight-item.highlight-fullbleed { padding: 1rem; }
+}
+
+/* --- Horizontal category rows + visible section divider --- */
+.menu-category {
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+/* When the main container is a grid (e.g. #menuList.menu-grid), ensure each
+   .menu-category occupies the full row so categories stack vertically. This
+   prevents the grid from laying out categories as columns. */
+.menu-grid > .menu-category {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.menu-category__heading {
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem 0;
+  padding: 0.15rem 0;
+  color: #00ffcc; /* match Sunday highlight accent */
+  font-weight: 700;
+  background: rgba(0,255,204,0.06); /* subtle cyan/mint wash to match highlights */
+  padding: 0.12rem 0.5rem;
+  border-radius: 0.375rem;
+  display: inline-block;
+}
+
+.menu-row {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+}
+
+.menu-row::-webkit-scrollbar { height: 0.5rem; }
+.menu-row::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.04); border-radius: 0.25rem; }
+
+.menu-row__card {
+  min-width: 16rem;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+@media (min-width: 60rem) {
+  .menu-row { flex-wrap: nowrap; }
+}
+
+/* Rem-based overrides: visible rectangular category sections and consistent card sizing */
+.menu-category {
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 0.625rem; /* 10px */
+  padding: 1.125rem; /* 18px */
+  margin: 1.5rem 0; /* 24px vertical gap */
+  border: 0.0625rem solid rgba(255,255,255,0.06); /* 1px */
+  box-shadow: 0 0.375rem 1.125rem rgba(0,0,0,0.45); /* 6px 18px-ish */
+}
+
+.menu-category__heading {
+  margin-bottom: 0.75rem; /* 12px */
+  color: #00ffcc;
+  background: rgba(0,255,204,0.06);
+  padding: 0.12rem 0.5rem;
+  border-radius: 0.375rem;
+  display: inline-block;
+}
+
+/* Ensure horizontal rows align cards to equal heights and allow wrapping on small screens */
+.menu-row {
+  display: flex;
+  gap: 0.875rem; /* 14px */
+  align-items: stretch; /* equal heights */
+  flex-wrap: wrap;
+  padding: 0.5rem 1.125rem; /* top/bottom 8px, left/right 18px for equal breathing room */
+}
+
+/* Make each card a fixed-width flex item so widths are predictable and the last item is not clipped */
+.menu-row__card {
+  flex: 0 0 20rem; /* 320px — increased card width for balanced margins */
+  box-sizing: border-box;
+}
+
+
+
+/* Standardized image rules: show full images in menu cards (contain) but constrain extremes */
+.menu-card img,
+.menu-card__image,
+.menu-row__card img {
+  width: 100%;
+  height: 12rem; /* uniform card image height */
+  object-fit: cover; /* crop to fill the card area */
+  display: block;
+  border-radius: 0.4rem;
+}
+
+/* Prevent any ancestor overflow from clipping the last card in a row */
+.menu-grid, .menu-row, .menu-category {
+  overflow: visible;
+}
+
+/* Responsive tweak: on narrow viewports make cards full-width */
+@media (max-width: 40rem) {
+  .menu-row__card { flex: 0 0 100%; }
+  .menu-card img { height: 9rem; }
+  .menu-row { padding: 0.5rem 0.75rem; }
+}

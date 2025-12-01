@@ -1,0 +1,182 @@
+/* Homepage-specific styles extracted from style.css */
+/* Hero Section */
+.hero {
+    width: 100%; 
+    height: auto;
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    background: none; 
+    margin: 0;
+    padding: 3rem 1rem;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Aurora Glow Overlay (optional enhancement) */
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    filter: none;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    max-width: 75rem;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2; /* Keeps content above overlay */
+}
+
+.hero-left {
+    flex: 1;
+    text-align: left;
+    max-width: 31.25rem;
+    padding-right: 2rem;
+}
+
+.login-box {
+    background-color: transparent;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-box h2 {
+     color: #8fffcf; /* Example northern lights color (minty green) */
+    background: linear-gradient(45deg, #8fffcf, #76d7ff, #c77dff); /* Aurora gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-box form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-box label {
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.login-box button {
+    padding: 0.75rem;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.login-box button:hover {
+    background-color: #e65c00;
+}
+
+.login-box p {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.login-box a {
+    color: #76d7ff; /* Northern Lights blue */
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.login-box a:hover {
+    color: #c77dff; /* Northern Lights purple on hover */
+}
+
+.auth-button-wrapper {
+    margin-top: 20px;       /* same spacing as login button */
+    text-align: left;        /* same alignment as login button, adjust if centered */
+}
+
+#logout-btn {
+    width: 100%;             /* match full width of login button */
+    max-width: 300px;        /* same as login button if needed */
+}
+
+.hero-right {
+    flex: 1;
+    display: flex;
+    align-items: right;
+    max-width: 31.25rem;
+    padding-left: 2rem;
+}
+
+.hero-image {
+    width: 100%;
+    max-width: 31.25rem;
+    height: auto;
+    object-fit: contain;
+     border-radius: 0.5rem;
+     width: 28.125rem;
+     border-radius: 1.25rem;
+    mask-image: radial-gradient(circle, black 60%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle, black 60%, transparent 100%);
+}
+
+.feature{ width: 100%; margin: 0 auto; padding: 0; }
+
+.feature img{
+     width: 95vw; 
+     height: 25rem;
+     display:block; 
+     object-fit:contain; 
+     object-position: center; }
+
+.feature p{ margin:1rem; line-height: 1.6;}
+
+.hidden-auth {
+    visibility: hidden; /* or display: none; */
+}
+
+/* Hero-related responsive tweaks */
+@media (max-width: 48rem){
+     .feature img{
+          height: 20rem;
+     }
+     .hero-image {
+          max-width: 100%;
+     }
+}
+
+@media (max-width: 30rem){
+     .feature img{
+          height: 15rem;
+     }
+     
+     /* Hero Responsive Mobile */
+     .hero {
+          padding: 2rem 0.75rem;
+     }
+}

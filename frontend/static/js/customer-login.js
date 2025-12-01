@@ -25,6 +25,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
     }
 
+    // Event delegation for toggle and submit
+    authBox.addEventListener("click", function(e) {
+        if (e.target && e.target.id === "toggle-link") {
+            toggleForm(e);
+        }
+    });
+    authBox.addEventListener("submit", function(e) {
+        if (e.target && e.target.id === "auth-form") {
+            handleLoginSubmit(e);
+        }
+    });
+
     // -----------------------------
     // LOGOUT HANDLER UTILITY
     // -----------------------------
@@ -105,15 +117,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         attachFormSubmit();
     }
 
-    const firstToggleLink = document.getElementById("toggle-link");
-    if (firstToggleLink) firstToggleLink.addEventListener("click", toggleForm);
-
+    // ...existing code...
     // -----------------------------
     // LOGIN / REGISTER SUBMIT
     // -----------------------------
     async function handleLoginSubmit(e) {
         e.preventDefault();
-        const formData = new FormData(authForm);
+        const formData = new FormData(e.target);
         const nextUrl = getNextUrl();
 
         if (mode === "login") {
@@ -136,10 +146,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                 // Show logged-in box and attach logout
                 authBox.innerHTML = `
                     <h2>Successfully Logged In</h2>
-                    <p>Welcome, ${data.user.name || data.user.username}!</p>
+                    <p>Welcome, ${data.user.name || data.user.username}!<\/p>
                     <div class="auth-button-wrapper">
-                        <button id="logout-btn" class="btn-order-now">Logout</button>
-                    </div>
+                        <button id="logout-btn" class="btn-order-now">Logout<\/button>
+                    <\/div>
                 `;
                 attachLogoutHandler();
 
@@ -187,11 +197,5 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    function attachFormSubmit() {
-        const currentForm = document.getElementById("auth-form");
-        if (currentForm) currentForm.addEventListener("submit", handleLoginSubmit);
-    }
-
-    attachFormSubmit();
     revealAuthBox();
 });
