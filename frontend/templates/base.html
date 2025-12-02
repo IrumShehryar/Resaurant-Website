@@ -62,6 +62,10 @@
                             </a>
                         </li>
                         <li class="spacer"></li>
+                        <!-- Admin Panel button, centered, hidden by default -->
+                        <li id="admin-panel-link" style="display:none;">
+                            <a href="/admin-interface" class="btn-outline">Admin Panel</a>
+                        </li>
                         <li>
                             <a
                                 href="{{ url_for('reservation') }}"
@@ -71,20 +75,21 @@
                             </a>
                         </li>
                         <li>
-                            {% if session.get('user_id') %}
-                                <!-- User logged in → show Logout button -->
-                                <a href="{{ url_for('logout') }}" class="btn-logout">
-                                    {{ t.logout or "Logout" }}
-                                </a>
-                            {% else %}
-                                <!-- User not logged in → show Login button -->
-                                <a
-                                    href="{{ url_for('login') }}"
-                                    {% if request.endpoint == 'login' %}class="active"{% endif %}
-                                >
-                                    {{ t.login }}
-                                </a>
-                            {% endif %}
+                                {% if session.get('user_id') %}
+                                    <!-- User logged in → show name and Logout button -->
+                                   <!-- <span class="user-name" style="margin-right: 10px; font-weight: 600; color: #2d7a2d;">{{ session.get('user_name') }}</span>-->
+                                    <a href="{{ url_for('logout') }}" class="btn-logout">
+                                        {{ t.logout or "Logout" }}
+                                    </a>
+                                {% else %}
+                                    <!-- User not logged in → show Login button -->
+                                    <a
+                                        href="{{ url_for('login') }}"
+                                        {% if request.endpoint == 'login' %}class="active"{% endif %}
+                                    >
+                                        {{ t.login }}
+                                    </a>
+                                {% endif %}
                         </li>
                         <li class="language-switcher">
                             <a href="{{ url_for('set_language', lang='fi') }}">FI</a>
@@ -158,6 +163,35 @@
             <!-- ===== FOOTER ENDS HERE ===== -->
         </div>
 
+        <script>
+            // Show Admin Panel button if admin token exists and handle admin logout
+            document.addEventListener("DOMContentLoaded", () => {
+                const adminPanelLink = document.getElementById("admin-panel-link");
+                const loginLink = document.querySelector('a[href="{{ url_for('login') }}"]');
+                const orderNowBtn = document.querySelector('a[href="{{ url_for('cart_page') }}"]');
+                const adminToken = localStorage.getItem("authToken");
+                if (adminPanelLink && adminToken) {
+                    adminPanelLink.style.display = "inline-block";
+                    // Hide Order Now button for admin
+                    if (orderNowBtn) {
+                        orderNowBtn.style.display = "none";
+                    }
+                    // Change Login to Logout for admin
+                    if (loginLink) {
+                        loginLink.textContent = "Logout";
+                        loginLink.classList.add("btn-logout");
+                        loginLink.addEventListener("click", (e) => {
+                            e.preventDefault();
+                            // Remove admin token and hide admin panel
+                            localStorage.removeItem("authToken");
+                            adminPanelLink.style.display = "none";
+                            // Optionally redirect to home or login
+                            window.location.href = "{{ url_for('home') }}";
+                        });
+                    }
+                }
+            });
+        </script>
         {% block scripts %}{% endblock %}
     </body>
 </html>

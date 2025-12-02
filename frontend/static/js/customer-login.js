@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <h2>Successfully Logged In</h2>
                         <p>Welcome, ${data.user.name || data.user.username}!</p>
                         <div class="auth-button-wrapper">
-                            <button id="logout-btn" class="btn-order-now">Logout</button>
+                            <button id="logout-btn" class="btn-order-now"> Logout</button>
                         </div>
                     `;
                     attachLogoutHandler();
