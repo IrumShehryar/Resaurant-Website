@@ -30,6 +30,7 @@ def handle_auth_response(user):
         session.permanent = True
         session["user_id"] = str(user.id)
         session["role"] = user.role
+        session["user_name"] = getattr(user, "name", None) or user.username
         response_user = {
             "message": "Login successful",
             "user": {
