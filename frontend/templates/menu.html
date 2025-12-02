@@ -1,22 +1,21 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Menu — Revontulet Flamehouse{%
+endblock %} {% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/menu.css') }}"
+/>
+{% endblock %} {% block content %}
 
-{% block title %}Menu — Revontulet Flamehouse{% endblock %}
-
-{% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}" />
-{% endblock %}
-
-{% block content %}
-
-<div class="menu-layout">
-    <nav class="diet-panel" aria-label="Diet and category filters">
-        
+<div class="panel-layout">
+    <nav class="left-panel" aria-label="Diet and category filters">
         <div class="filter-group">
             <h4 class="group-title">{{ t.category }}</h4>
 
-            <button class="filter-btn category active"
-                    data-category="all"
-                    aria-pressed="true">
+            <button
+                class="filter-btn category active"
+                data-category="all"
+                aria-pressed="true"
+            >
                 {{ t.all }}
             </button>
 
@@ -67,21 +66,18 @@
     </nav>
 
     <main class="menu-main" id="menu-main">
-
         <div class="highlight-wrapper">
             <h3 class="highlight-heading">
-                {% if highlight_day %}
-                    {{ highlight_day }} {{ t.highlights }}
-                {% else %}
-                    {{ t.todays_highlights }}
-                {% endif %}
+                {% if highlight_day %} {{ highlight_day }} {{ t.highlights }} {%
+                else %} {{ t.todays_highlights }} {% endif %}
             </h3>
 
-            <section id="highlight-root"
-                     class="page-highlight"
-                     aria-live="polite"
-                     aria-label="Highlight of the day">
-            </section>
+            <section
+                id="highlight-root"
+                class="page-highlight"
+                aria-live="polite"
+                aria-label="Highlight of the day"
+            ></section>
         </div>
 
         <h2 class="menu-heading">{{ t.our_menu }}</h2>
@@ -89,10 +85,9 @@
     </main>
 </div>
 
+{% endblock %} {% block scripts %}
+<script
+    type="module"
+    src="{{ url_for('static', filename='js/menu.js') }}"
+></script>
 {% endblock %}
-
-{% block scripts %}
-<script type="module" src="{{ url_for('static', filename='js/menu.js') }}"></script>
-{% endblock %}
-
-

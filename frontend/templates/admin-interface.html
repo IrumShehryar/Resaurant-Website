@@ -1,15 +1,11 @@
-{% extends "base.html"%}
-{% block title %}{{ t.admin_title }}{% endblock %}
-{% block styles %}
+{% extends "base.html"%} {% block title %}{{ t.admin_title }}{% endblock %} {%
+block styles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/admin-interface.css') }}"
 />
-{% endblock %}
-
-{% block content %}
-
-{# ========== MENU MANAGEMENT ========== #}
+{% endblock %} {% block content %} {% include '_admin_sidebar.html' %} {#
+========== MENU MANAGEMENT ========== #}
 
 <section class="admin-section">
     <h1>{{ t.menu_management }}</h1>
@@ -71,7 +67,7 @@
 {# Shared notification area for both sections #}
 <div id="notification"></div>
 
-{# ========== MENU MODAL  ========== #}
+{# ========== MENU MODAL ========== #}
 
 <div id="admin-modal" class="modal admin-modal">
     <div class="modal-content">
@@ -163,7 +159,11 @@
                     {{ t.nut_free }}
                 </label>
                 <label>
-                    <input type="checkbox" name="dietary" value="keto-friendly" />
+                    <input
+                        type="checkbox"
+                        name="dietary"
+                        value="keto-friendly"
+                    />
                     {{ t.keto_friendly }}
                 </label>
             </fieldset>
@@ -181,15 +181,27 @@
                     {{ t.monday }}
                 </label>
                 <label>
-                    <input type="checkbox" name="days_of_week" value="Tuesday" />
+                    <input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Tuesday"
+                    />
                     {{ t.tuesday }}
                 </label>
                 <label>
-                    <input type="checkbox" name="days_of_week" value="Wednesday" />
+                    <input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Wednesday"
+                    />
                     {{ t.wednesday }}
                 </label>
                 <label>
-                    <input type="checkbox" name="days_of_week" value="Thursday" />
+                    <input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Thursday"
+                    />
                     {{ t.thursday }}
                 </label>
                 <label>
@@ -197,7 +209,11 @@
                     {{ t.friday }}
                 </label>
                 <label>
-                    <input type="checkbox" name="days_of_week" value="Saturday" />
+                    <input
+                        type="checkbox"
+                        name="days_of_week"
+                        value="Saturday"
+                    />
                     {{ t.saturday }}
                 </label>
                 <label>
@@ -206,9 +222,7 @@
                 </label>
             </fieldset>
 
-            <button type="submit" class="btn-accent">
-                {{ t.save }}
-            </button>
+            <button type="submit" class="btn-accent">{{ t.save }}</button>
         </form>
     </div>
 </div>
@@ -218,9 +232,7 @@
 <div id="reservation-modal" class="modal admin-modal">
     <div class="modal-content">
         <button class="modal-close">&times;</button>
-        <h3 id="reservation-form-title">
-            {{ t.add_new_reservation }}
-        </h3>
+        <h3 id="reservation-form-title">{{ t.add_new_reservation }}</h3>
 
         {# IMPORTANT: unique ID + admin-form class #}
         <form id="reservation-form" class="admin-form">
@@ -269,16 +281,12 @@
                 </select>
             </label>
 
-            <button type="submit" class="btn-accent">
-                {{ t.save }}
-            </button>
+            <button type="submit" class="btn-accent">{{ t.save }}</button>
         </form>
     </div>
 </div>
 
-{% endblock %}
-
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <script
     type="module"
     src="{{ url_for('static', filename='js/admin-guard.js') }}"

@@ -1,0 +1,49 @@
+<div class="panel-layout">
+    <nav class="left-panel" aria-label="Admin management panel">
+        <div class="filter-group">
+            <h4 class="group-title">{{ t.admin_interface}}</h4>
+            <button
+                class="filter-btn"
+                onclick="window.location.href='/admin-interface'"
+            >
+                {{ t.manage_menu }}
+            </button>
+            <button
+                class="filter-btn"
+                onclick="window.location.href='/admin-reservations'"
+            >
+                {{ t.manage_reservations }}
+            </button>
+            <button
+                class="filter-btn"
+                onclick="window.location.href='/admin-orders'"
+            >
+                {{ t.manage_orders }}
+            </button>
+            <button
+                class="filter-btn"
+                onclick="window.location.href='/admin-users'"
+            >
+                {{ t.manage_users }}
+            </button>
+        </div>
+    </nav>
+    <div class="dashboard-group">
+        <h4 class="group-title">{{ t.dashboard }}</h4>
+        <div class="dashboard-stats">
+            <span class="stat-label">{{ t.stats }}</span>
+            <div class="dashboard-stat">
+                <span class="stat-label">{{ t.active_orders }}</span>
+                <span class="stat-value" id="dashboard-orders">0</span>
+            </div>
+            <div class="dashboard-stat">
+                <span class="stat-label">{{ t.active_reservations }}</span>
+                <span class="stat-value" id="dashboard-reservations">0</span>
+            </div>
+            <div class="dashboard-stat">
+                <span class="stat-label">{{ t.active_users }}</span>
+                <span class="stat-value" id="dashboard-users">0</span>
+            </div>
+        </div>
+    </div>
+</div>
