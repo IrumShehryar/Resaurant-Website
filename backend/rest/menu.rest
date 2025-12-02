@@ -386,3 +386,20 @@ Content-Type: application/json
   "days_of_week": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
   "active": true
 }
+
+###
+POST http://localhost:5000/api/v1/menu
+Content-Type: application/json
+
+{
+  "name": "test",
+  "description": "test",
+  "price": 7,
+  "category": "drink",
+  "image": "",
+  "dietary": ["vegan", "gluten-free"],
+  "allergens": [],
+  "ingredients": ["test"],
+  "days_of_week": [ "Thursday", "Friday", "Saturday", "Sunday"],
+  "active": true
+}
