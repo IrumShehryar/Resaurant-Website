@@ -1,50 +1,49 @@
 <div class="panel-layout">
     <nav class="left-panel" aria-label="Admin management panel">
         <div class="filter-group">
-            <h4 class="group-title">Admin Panel</h4>
+            <h4 class="group-title">{{ t.admin_interface}}</h4>
             <button
                 class="filter-btn"
                 onclick="window.location.href='/admin-interface'"
             >
-                Menu Management
+                {{ t.manage_menu }}
             </button>
             <button
                 class="filter-btn"
                 onclick="window.location.href='/admin-reservations'"
             >
-                Reservations
+                {{ t.manage_reservations }}
             </button>
             <button
                 class="filter-btn"
                 onclick="window.location.href='/admin-orders'"
             >
-                Orders
+                {{ t.manage_orders }}
             </button>
             <button
                 class="filter-btn"
                 onclick="window.location.href='/admin-users'"
             >
-                Users
+                {{ t.manage_users }}
             </button>
         </div>
-        <div class="filter-group dashboard-group">
-            <h4 class="group-title">Dashboard</h4>
-            <div class="dashboard-stats">
-                <div class="dashboard-stat">
-                    <span class="stat-label">Active Orders</span>
-                    <span class="stat-value" id="dashboard-orders">0</span>
-                </div>
-                <div class="dashboard-stat">
-                    <span class="stat-label">Active Reservations</span>
-                    <span class="stat-value" id="dashboard-reservations"
-                        >0</span
-                    >
-                </div>
-                <div class="dashboard-stat">
-                    <span class="stat-label">Active Users</span>
-                    <span class="stat-value" id="dashboard-users">0</span>
-                </div>
+    </nav>
+    <div class="dashboard-group">
+        <h4 class="group-title">{{ t.dashboard }}</h4>
+        <div class="dashboard-stats">
+            <span class="stat-label">{{ t.stats }}</span>
+            <div class="dashboard-stat">
+                <span class="stat-label">{{ t.active_orders }}</span>
+                <span class="stat-value" id="dashboard-orders">0</span>
+            </div>
+            <div class="dashboard-stat">
+                <span class="stat-label">{{ t.active_reservations }}</span>
+                <span class="stat-value" id="dashboard-reservations">0</span>
+            </div>
+            <div class="dashboard-stat">
+                <span class="stat-label">{{ t.active_users }}</span>
+                <span class="stat-value" id="dashboard-users">0</span>
             </div>
         </div>
-    </nav>
+    </div>
 </div>
