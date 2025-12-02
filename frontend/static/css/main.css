@@ -222,10 +222,12 @@ nav{
     border-radius: 1rem;
     font-weight: bold;
     transition: background 0.2s ease;
+    box-shadow: 0 0 18px rgba(0,255,140,0.35);
 }
 
 .btn-order-now:hover {
     background: #00cc6f !important;
+    
 }
 .nav-links a{
     text-decoration: none; 
@@ -422,13 +424,12 @@ footer {
   flex-direction: initial;
 }
 
+
 .footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
-  gap: 2rem;
-  max-width: 75rem;
-  margin: 0 auto;
-  width: 100%;
+   display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* force 4 equal columns */
+    gap: 2rem;
+    width: 100%;
 }
 
 .footer-section h3 {
@@ -556,3 +557,86 @@ footer {
      border: 1px solid rgba(255,107,107,0.12);
      font-weight: 700;
 }
+
+
+/* Hero Section */
+.about-hero {
+    max-width: 55rem;
+    margin: 3rem auto 2rem;
+    text-align: center;
+    position: relative;
+    padding: 2rem 1rem;
+    z-index: 2;
+}
+
+.about-hero h1 {
+    font-size: 2.8rem;
+    color: #00ff88;
+    margin-bottom: 1rem;
+}
+
+.about-hero p {
+    color: #cfefff;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Glowing background blur behind text */
+.about-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.65),
+        rgba(0, 0, 0, 0.55),
+        rgba(0, 0, 0, 0.45)
+    );
+    z-index: -1;
+    border-radius: 1rem;
+}
+
+/* 3 Content Cards */
+.about-cards {
+    max-width: 70rem;
+    margin: 2rem auto 3rem;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.about-card {
+    background: rgba(7, 18, 32, 0.88);
+    padding: 1.8rem;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.35);
+}
+
+.about-card h2 {
+    margin-bottom: 0.75rem;
+    color: #7dd3e0;
+}
+
+.about-card p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* CTA Buttons */
+.about-cta {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.about-cta a {
+    margin: 0 0.75rem;
+    text-decoration: none;  
+}
+.about-cta a:hover {
+    box-shadow: 0 0 18px rgba(0, 255, 140, 0.35), 
+                0 0 6px rgba(0, 255, 200, 0.25);
+    transform: translateY(-2px);
+}
+
+
