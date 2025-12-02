@@ -1,12 +1,16 @@
 import { apiUrl } from "./utils/config.js";
+import fetchData from "./utils/fetchData.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
-
     const authBox = document.getElementById("auth-box");
     const nextUrlInput = document.getElementById("next-url");
     const roleInput = document.getElementById("role");
     const role = roleInput ? roleInput.value : "user";
 
+    // Debug: Show role value for login context
+    console.log("Login role:", role);
+
+    
     let mode = "login"; // default
 
     const getNextUrl = () => nextUrlInput && nextUrlInput.value ? nextUrlInput.value : "/order-confirmation";
@@ -53,28 +57,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     // -----------------------------
-    // CHECK IF USER ALREADY LOGGED IN
+    // CHECK IF USER ALREADY LOGGED IN (skip for admin)
     // -----------------------------
-    try {
-        const userData = await fetch(apiUrl("orders/user-details"), {
-            method: "GET",
-            credentials: "same-origin"
-        }).then(res => res.json());
-
-        if (!userData.error) {
-            authBox.innerHTML = `
-                <h2>Already Logged In</h2>
-                <p>Welcome back, ${userData.name}!</p>
-                <div class="auth-button-wrapper">
-                    <button id="logout-btn" class="btn-order-now">Logout</button>
-                </div>
-            `;
-            attachLogoutHandler();
-            revealAuthBox();
-            return; // stop further setup
+    if (role !== "admin") {
+        try {
+            const userData = await fetchData(apiUrl("orders/user-details"), {
+                method: "GET",
+                credentials: "same-origin"
+            });
+            if (!userData.error) {
+                authBox.innerHTML = `
+                    <h2>Already Logged In</h2>
+                    <p>Welcome back, ${userData.name}!</p>
+                    <div class="auth-button-wrapper">
+                        <button id="logout-btn" class="btn-order-now">Logout</button>
+                    </div>
+                `;
+                attachLogoutHandler();
+                revealAuthBox();
+                return; // stop further setup
+            }
+        } catch (err) {
+            console.error("Error checking login:", err);
         }
-    } catch (err) {
-        console.error("Error checking login:", err);
     }
 
     // -----------------------------
@@ -129,33 +134,41 @@ document.addEventListener("DOMContentLoaded", async () => {
             const password = formData.get("password");
 
             try {
-                const data = await fetch(apiUrl("auth/login"), {
+                const data = await fetchData(apiUrl("auth/login"), {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     credentials: "same-origin",
                     body: JSON.stringify({ username, password })
-                }).then(res => res.json());
+                });
 
-                if (!data.user) {
-                    alert(data.message || "Login failed");
+                // Admin login: store token and redirect
+                if (role === "admin" && data.token) {
+                    localStorage.setItem("authToken", data.token);
+                    window.location.href = "/admin-interface";
                     return;
                 }
 
-                authBox.innerHTML = `
-                    <h2>Successfully Logged In</h2>
-                    <p>Welcome, ${data.user.name || data.user.username}!<\/p>
-                    <div class="auth-button-wrapper">
-                        <button id="logout-btn" class="btn-order-now">Logout<\/button>
-                    <\/div>
-                `;
-                attachLogoutHandler();
+                // User login: show success and redirect
+                if (data.user) {
+                    authBox.innerHTML = `
+                        <h2>Successfully Logged In</h2>
+                        <p>Welcome, ${data.user.name || data.user.username}!</p>
+                        <div class="auth-button-wrapper">
+                            <button id="logout-btn" class="btn-order-now">Logout</button>
+                        </div>
+                    `;
+                    attachLogoutHandler();
 
-                setTimeout(() => {
-                    window.location.href = nextUrl;
-                }, 1000);
+                    setTimeout(() => {
+                        window.location.href = nextUrl;
+                    }, 1000);
 
-                revealAuthBox();
+                    revealAuthBox();
+                    return;
+                }
 
+                // If neither admin nor user login succeeded
+                alert(data.message || "Login failed");
             } catch (err) {
                 console.error(err);
                 alert("Login failed: " + err.message);
@@ -176,7 +189,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             try {
-                await fetch(apiUrl("auth/register"), {
+                await fetchData(apiUrl("auth/register"), {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     credentials: "same-origin",

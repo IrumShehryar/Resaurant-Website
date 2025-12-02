@@ -1,8 +1,49 @@
-# File: api/v1/auth/auth_controller.py
 
 from flask import request, session
+from api.utils.auth_utils import get_jwt_secret
+import jwt
 from api.v1.users.users_model import User
 from api.utils.simple_errors import simple_errors
+
+# Shared JWT token generator
+def generate_jwt_token(user):
+    payload = {
+        "user_id": str(user.id),
+        "role": user.role
+    }
+    secret = get_jwt_secret()
+    token = jwt.encode(payload, secret, algorithm="HS256")
+    return token
+
+
+def handle_auth_response(user):
+    """
+    Helper to handle authentication response for login/register.
+    Returns (response, status_code)
+    """
+    if user.role == "admin":
+        token = generate_jwt_token(user)  # Your JWT generation logic
+        # session["user_id"] = str(user.id)  # Optional: if you want session for admin too
+        # session["role"] = user.role
+        return {"token": token, "role": "admin"}, 200
+    else:
+        session.permanent = True
+        session["user_id"] = str(user.id)
+        session["role"] = user.role
+        response_user = {
+            "message": "Login successful",
+            "user": {
+                "id": str(user.id),
+                "username": user.username,
+                "name": getattr(user, "name", ""),
+                "email": getattr(user, "email", ""),
+                "phone": getattr(user, "phone", ""),
+                "address": getattr(user, "address", ""),
+                "role": user.role
+            }
+        }
+        return response_user, 200
+
 
 
 @simple_errors
@@ -23,35 +64,14 @@ def post_login():
     if not user:
         return {"message": "Invalid credentials"}, 401
 
-    # Store user info in Flask session
-    session.permanent = True
-    session["user_id"] = str(user.id)
-    session["role"] = user.role  # optional, can be used later
-
-    # Return user info for frontend
-    response_user = {
-        "message": "Login successful",
-        "user": {
-            "id": str(user.id),
-            "username": user.username,
-            "name": getattr(user, "name", ""),
-            "email": getattr(user, "email", ""),
-            "phone": getattr(user, "phone", ""),
-            "address": getattr(user, "address", ""),
-            "role": user.role
-        }
-    }
-
-    return response_user, 200
+    # Use helper for unified response
+    response, status = handle_auth_response(user)
+    return response, status
 
 
 @simple_errors
 def register():
-    """
-    Register endpoint: create a new user, store info in session, and return details.
-    """
     data = request.get_json() or {}
-
     # Do not allow client to set role
     data.pop("role", None)
 
@@ -59,22 +79,5 @@ def register():
     user = User(**data)
     new_user = user.save()
 
-    # Automatically log in the user
-    session["user_id"] = str(new_user.id)
-    session["role"] = new_user.role
-    
-
-    response_user = {
-        "message": "User registered successfully",
-        "user": {
-            "id": str(new_user.id),
-            "username": new_user.username,
-            "name": getattr(new_user, "name", ""),
-            "email": getattr(new_user, "email", ""),
-            "phone": getattr(new_user, "phone", ""),
-            "address": getattr(new_user, "address", ""),
-            "role": new_user.role
-        }
-    }
-
-    return response_user, 201
+    response, status = handle_auth_response(new_user)
+    return response, status
