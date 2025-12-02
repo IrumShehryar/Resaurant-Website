@@ -3,13 +3,55 @@
 {% block title %}{{ t.about_us }} — Revontulet Flamehouse{% endblock %}
 
 {% block content %}
-<h2>{{ t.about_us }}</h2>
 
-<p>
-    {{ t.about_intro_1 }}
-</p>
+<!-- ===== About Hero Section ===== -->
+<section class="about-hero">
+    <h1>{{ t.about_us }}</h1>
+    <p>
+        Welcome to Revontulet Flamehouse — where Nordic cuisine meets fire, flavor,
+        and the magic of the aurora borealis. Our restaurant blends traditional Finnish
+        tastes with modern cooking techniques for a unique dining experience inspired 
+        by the northern lights.
+    </p>
+</section>
 
-<p>
-    {{ t.about_intro_2 }}
-</p>
+<!-- ===== 3 About Information Cards ===== -->
+<section class="about-cards">
+
+    <div class="about-card">
+        <h2>Our Story</h2>
+        <p>
+            Born in the heart of Espoo, Revontulet Flamehouse was created to bring the warmth 
+            of Lapland’s food and culture to the city. Our name — “Revontulet,” meaning 
+            Northern Lights — reflects our passion for blending tradition with a touch of 
+            arctic magic.
+        </p>
+    </div>
+
+    <div class="about-card">
+        <h2>Our Philosophy</h2>
+        <p>
+            We believe in honest food, clean flavors, and seasonal ingredients. Every dish 
+            is crafted with respect for Nordic heritage, flame-cooking techniques, and the 
+            beauty of Finland’s landscapes.
+        </p>
+    </div>
+
+    <div class="about-card">
+        <h2>Nordic Ingredients</h2>
+        <p>
+            We source fresh produce from local farms, Finnish lakes, and trusted Nordic 
+            suppliers. From smoked salmon to wild berries, every plate celebrates the 
+            taste of the north.
+        </p>
+    </div>
+
+</section>
+
+<!-- ===== Call To Action (Buttons) ===== -->
+<section class="about-cta">
+    <a href="{{ url_for('menu') }}" class="btn-accent">Explore Our Menu</a>
+    <a href="{{ url_for('reservation') }}" class="btn-accent">Reserve a Table</a>
+</section>
+
 {% endblock %}
