@@ -9,12 +9,12 @@
  * @returns {Promise<any>} Parsed JSON response body.
  * @throws {Error} If the network request fails or the HTTP status is not ok (2xx).
  */
-export default async function fetchData(url, options = {}) {
+const fetchData = async (url, options = {}) => {
     const response = await fetch(url, options);
     if (!response.ok) {
-        // Provide a helpful error message including the URL and status code.
         throw new Error(`Error from the server: ${response.status} when fetching ${url}`);
     }
     const data = await response.json();
     return data;
-}
+};
+export default fetchData;

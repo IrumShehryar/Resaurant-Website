@@ -1,8 +1,6 @@
 /*Delete this file ,it is copied now in adminMenu.js */
 
-import { getAllMenu, getMenuById } from "./services/menuService.js";
-import fetchData  from "./utils/fetchData.js";
-import {apiUrl} from "./utils/config.js"
+import { getAllMenu } from "./services/menuService.js";
 import { validateMenuItemForm } from './utils/validation.js'
 import { showNotification, createModalManager } from './utils/tableManager.js'
 import { renderTable } from "./utils/tableRenderer.js";
@@ -33,21 +31,17 @@ let allItems = []
  * Performance: Caches all items in memory (allItems) to avoid
  * fetching full dataset when user clicks Edit/Delete
  */
-async function loadMenuItems(){
-    try{
-        const items = await getAllMenu()
-        // Cache items for fast lookup without API calls
-        allItems = items
-        console.log('Data received:', items)
-        
-        // Use generic renderTable with configurable columns
-        // Columns control what shows in table, but full item data available in cache
-        renderTable(items, ['name', 'category', 'price', 'dietary'], menuTbody)
-    }catch(error){
+const loadMenuItems = async () => {
+    try {
+        const items = await getAllMenu();
+        allItems = items;
+        console.log('Data received:', items);
+        renderTable(items, ['name', 'category', 'price', 'dietary'], menuTbody);
+    } catch (error) {
         console.error('Error loading menu:', error);
-        menuTbody.innerHTML = '<tr><td colspan="5">Error loading menu</td></tr>'
+        menuTbody.innerHTML = '<tr><td colspan="5">Error loading menu</td></tr>';
     }
-}
+};
 
 
 // ========== Event Listeners ==========
@@ -75,10 +69,10 @@ modalManager.setupBackdropClick(modal)
  * @param {HTMLElement} row - Table row element
  * @returns {object} Item from cache
  */
-async function getItemFromRow(row){
-   const itemId = row.dataset.id
-    return allItems.find(i => i.id === itemId)
-}
+const getItemFromRow = async (row) => {
+    const itemId = row.dataset.id;
+    return allItems.find(i => i.id === itemId);
+};
 
 /**
  * Edit button: Load item into form for editing

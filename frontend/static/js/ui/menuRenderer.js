@@ -12,7 +12,7 @@ import { createMenuCard } from "../components/menuCard.js";
  * @param {Array<Object>} items
  * @returns {Object<string, Array<Object>>} mapping category -> items[]
  */
-function groupByCategory(items) {
+const groupByCategory = (items) => {
   const groups = {};
   (items || []).forEach(item => {
     const cat = item && item.category ? item.category : 'Uncategorized';
@@ -20,7 +20,7 @@ function groupByCategory(items) {
     groups[cat].push(item);
   });
   return groups;
-}
+};
 
 /**
  * Pick a small set of highlight items.
@@ -33,15 +33,11 @@ function groupByCategory(items) {
  * @param {number} count
  * @returns {Array<Object>} up to `count` highlighted items
  */
-function pickHighlights(items = []) {
+const pickHighlights = (items = []) => {
   if (!Array.isArray(items)) return [];
-
-  // Today’s day name must match what you store in days_of_week ("Monday", "Tuesday", etc.)
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-
   const wantedCategories = ['starter', 'main', 'dessert'];
   const result = [];
-
   wantedCategories.forEach(cat => {
     const item = items.find(i =>
       i &&
@@ -51,9 +47,8 @@ function pickHighlights(items = []) {
     );
     if (item) result.push(item);
   });
-
-  return result; // up to 3 items: starter, main, dessert
-}
+  return result;
+};
 
 
 

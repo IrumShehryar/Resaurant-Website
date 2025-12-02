@@ -1,41 +1,91 @@
-{% extends "base.html" %}
-{% block title %}{{ t.home_title }}{% endblock %}
-{% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
-{% endblock %}
-{% block content %}
-
-<section class="hero">
-    <div class="hero-content">
-        <div class="hero-left">
-            <p class="hero-tagline">{{ t.hero_tagline }}</p>
-
-            <h1 class="hero-title">{{ t.hero_main_title }}</h1>
-
-            <p class="hero-description">
-                {{ t.hero_description }}
-            </p>
-
-            <div class="hero-features">
-                <span>🌌 {{ t.hero_feature_1 }}</span>
-                <span>❄️ {{ t.hero_feature_2 }}</span>
-                <span>🔥 {{ t.hero_feature_3 }}</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Revontulet Flamehouse</title>
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <!-- ===== HEADER STARTS HERE ===== -->
+        <header>
+            <div class="logo">
+                <img src="assets/pg.png" alt="Revontulet Flamehouse Logo" />
             </div>
-        </div>
-
-        <div class="hero-right">
-            <img 
-                class="hero-image"
-                src="{{ url_for('static', filename='assets/hero1.jpg') }}"
-                alt="{{ t.hero_image_alt }}"
-            />
-        </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li class="spacer"></li>
+                    <li><a href="reservation.html">Reserve a Table</a></li>
+                    <li><a href="login.html">Log In</a></li>
+                    <li class="language-switcher"><a href="#">FI</a> <span>/</span> <a href="#">EN</a></li>
+                    <li><a href="cart.html" class="btn-order-now">Order Now</a></li>
+                </ul>
+            </nav>
+        </header>
+        <!-- ===== HEADER ENDS HERE ===== -->
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <div class="hero-left">
+                        <p class="hero-tagline">ARCTIC • AURORA • FLAME</p>
+                        <h1 class="hero-title">Where Aurora Meets Flavor.</h1>
+                        <p class="hero-description">Experience Nordic cuisine inspired by the mystical northern lights. Crafted with passion, served with soul.</p>
+                        <div class="hero-features">
+                            <span>🌌 Nordic Cuisine</span>
+                            <span>❄️ Fresh Ingredients</span>
+                            <span>🔥 Arctic Passion</span>
+                        </div>
+                    </div>
+                    <div class="hero-right">
+                        <img class="hero-image" src="assets/hero1.jpg" alt="Aurora Borealis over restaurant" />
+                    </div>
+                </div>
+                <div class="hero-fade" aria-hidden="true"></div>
+            </section>
+        </main>
+        <!-- ===== FOOTER STARTS HERE ===== -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Address: Karaportti 2, Espoo, Finland</p>
+                    <p>Phone: +358 (0) 123 456 789</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Hours</h3>
+                    <p>Mon-Fri: 5 PM - 11 PM</p>
+                    <p>Sat-Sun: 5 PM - 12 AM</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Location</h3>
+                    <a href="https://www.google.com/maps?q=Karaportti%202,Espoo,Finland" target="_blank" rel="noopener">View on Maps</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <p>
+                        <a href="#facebook">Facebook</a> |
+                        <a href="#instagram">Instagram</a> |
+                        <a href="#twitter">Twitter</a>
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <a href="admin-login.html">Admin Login</a>
+                <p>&copy; 2025 Revontulet Flamehouse. All rights reserved.</p>
+            </div>
+        </footer>
+        <!-- ===== FOOTER ENDS HERE ===== -->
     </div>
-
-    <div class="hero-fade" aria-hidden="true"></div>
-</section>
-
-{% endblock %}
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
     <head>
