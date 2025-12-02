@@ -1,3 +1,7 @@
+body {
+     background: url('../assets/northernlight.jpg') no-repeat center center fixed;
+     background-size: cover;
+}
 * {
   box-sizing: border-box;
   margin: 0;
