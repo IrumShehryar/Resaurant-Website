@@ -1,7 +1,7 @@
 /* Menu page styles extracted from style.css */
 
 /* Layout: panel across the top, content below */
-.menu-layout {
+.panel-layout {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
@@ -10,7 +10,7 @@
 }
 
 /* Panel visual & vertical layout */
-.diet-panel {
+.left-panel {
   display: flex;
   flex-direction: column; /* stack groups vertically */
   gap: .5rem;
@@ -147,15 +147,15 @@
 
 /* Responsive: collapse to single column on small screens */
 @media (max-width: 1024px) {
-  .menu-layout { grid-template-columns: 1fr; }
-  .diet-panel { position: static; flex-direction: row; overflow-x: auto; gap: .5rem; padding: .5rem; width: 100%; }
+  .panel-layout { grid-template-columns: 1fr; }
+  .left-panel { position: static; flex-direction: row; overflow-x: auto; gap: .5rem; padding: .5rem; width: 100%; }
   .filter-group { display: flex; gap: .5rem; align-items: center; margin-bottom: 0; }
   .filter-btn { flex: 0 0 auto; }
 }
 
 @media (min-width: 1025px) {
   /* On wide screens: make layout two columns — compact left panel + content */
-  .menu-layout {
+  .panel-layout {
     grid-template-columns: 16rem 1fr;
     grid-template-rows: 1fr;
     align-items: start;
@@ -166,8 +166,8 @@
   .filter-group { margin: 0 0 0.75rem 0; display: block; }
 
   /* constrain the panel to a small width column (fills the grid column) */
-  .diet-panel { width: 100%; max-width: 16rem; }
-  .diet-panel { position: sticky; top: 5rem; align-self: start; }
+  .left-panel { width: 100%; max-width: 16rem; }
+  .left-panel { position: sticky; top: 5rem; align-self: start; }
 
   /* Align the right column's top with the left panel's start so the
      highlight heading sits level with the category panel on wide screens. */
@@ -183,7 +183,7 @@
 
 @media (max-width: 480px) {
   /* slightly more compact on very small screens */
-  .diet-panel { padding: 0.5rem; }
+  .left-panel { padding: 0.5rem; }
   .filter-btn { padding: 0.45rem 0.6rem; }
 }
 .menu-grid {

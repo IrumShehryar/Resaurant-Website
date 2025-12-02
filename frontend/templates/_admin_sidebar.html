@@ -1,0 +1,50 @@
+<div class="panel-layout">
+    <nav class="left-panel" aria-label="Admin management panel">
+        <div class="filter-group">
+            <h4 class="group-title">Admin Panel</h4>
+            <button
+                class="filter-btn"
+                onclick="window.location.href='/admin-interface'"
+            >
+                Menu Management
+            </button>
+            <button
+                class="filter-btn"
+                onclick="window.location.href='/admin-reservations'"
+            >
+                Reservations
+            </button>
+            <button
+                class="filter-btn"
+                onclick="window.location.href='/admin-orders'"
+            >
+                Orders
+            </button>
+            <button
+                class="filter-btn"
+                onclick="window.location.href='/admin-users'"
+            >
+                Users
+            </button>
+        </div>
+        <div class="filter-group dashboard-group">
+            <h4 class="group-title">Dashboard</h4>
+            <div class="dashboard-stats">
+                <div class="dashboard-stat">
+                    <span class="stat-label">Active Orders</span>
+                    <span class="stat-value" id="dashboard-orders">0</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">Active Reservations</span>
+                    <span class="stat-value" id="dashboard-reservations"
+                        >0</span
+                    >
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">Active Users</span>
+                    <span class="stat-value" id="dashboard-users">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
