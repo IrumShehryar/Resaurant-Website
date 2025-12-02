@@ -4,7 +4,7 @@ let cart = [];
 // ----------------------------------------------
 // Load and save cart from/to localStorage
 // ----------------------------------------------
-function loadCartFromStorage() {
+const loadCartFromStorage = () => {
   try {
     const raw = localStorage.getItem("cart");
     cart = raw ? JSON.parse(raw) : [];
@@ -12,20 +12,20 @@ function loadCartFromStorage() {
     console.error("Failed to parse cart from localStorage:", err);
     cart = [];
   }
-}
+};
 
-function saveCartToStorage() {
+const saveCartToStorage = () => {
   try {
     localStorage.setItem("cart", JSON.stringify(cart));
   } catch (err) {
     console.error("Failed to write cart to localStorage:", err);
   }
-}
+};
 
 // ----------------------------------------------
 // Floating Cart Button
 // ----------------------------------------------
-function showCartButton() {
+const showCartButton = () => {
   let cartBtn = document.getElementById("floating-cart-btn");
 
   if (!cartBtn) {
@@ -46,7 +46,6 @@ function showCartButton() {
       transition: all 0.3s ease;
     `;
 
-    // Proceed to checkout on click
     cartBtn.addEventListener("click", proceedToCheckout);
 
     cartBtn.addEventListener("mouseover", () => {
@@ -65,12 +64,12 @@ function showCartButton() {
   const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
   cartBtn.textContent = `🛒 View Cart (${totalItems})`;
   cartBtn.style.display = totalItems > 0 ? "block" : "none";
-}
+};
 
 // ----------------------------------------------
 // Notification Popup
 // ----------------------------------------------
-function showNotification(message) {
+const showNotification = (message) => {
   let notification = document.getElementById("notification");
 
   if (!notification) {
@@ -98,10 +97,10 @@ function showNotification(message) {
   setTimeout(() => {
     notification.style.display = "none";
   }, 2000);
-}
+};
 
 // Add notification keyframe animation
-(function addAnimation() {
+(() => {
   const style = document.createElement("style");
   style.textContent = `
     @keyframes slideIn {
@@ -145,7 +144,7 @@ export function addToCart(item) {
 // ----------------------------------------------
 // Proceed to Checkout
 // ----------------------------------------------
-function proceedToCheckout() {
+const proceedToCheckout = () => {
   fetch("/api/v1/orders/user-details", {
     method: "GET",
     credentials: "same-origin",
@@ -162,13 +161,13 @@ function proceedToCheckout() {
       console.error("Failed to check login:", err);
       window.location.href = "/login?next=/order-confirmation";
     });
-}
+};
 
 // ----------------------------------------------
 // Initialize on menu page
 // ----------------------------------------------
-export function initCartUI() {
+export const initCartUI = () => {
   loadCartFromStorage();
   showCartButton();
   console.log("Cart initialized:", cart);
-}
+};

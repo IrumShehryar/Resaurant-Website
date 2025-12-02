@@ -16,7 +16,7 @@
 import {addToCart} from "../cart.js"
 import { resolveImageUrl } from "../utils/image-resolver.js";   
 
-export function createMenuCard(item) {
+export const createMenuCard = (item) => {
   // Create the root container for the card: <div class="menu-card">
   const el = document.createElement('div');
   el.className = 'menu-card';

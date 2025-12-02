@@ -19,16 +19,14 @@
  *   showNotification('Item saved successfully!', 'success', notificationElement)
  *   showNotification('Error saving item', 'error', notificationElement)
  */
-export function showNotification(message, type = 'success', notificationElement) {
-    notificationElement.textContent = message
-    notificationElement.className = `notification ${type}`
-    notificationElement.style.display = 'block'
-    
-    // Auto-hide after 3 seconds
+export const showNotification = (message, type = 'success', notificationElement) => {
+    notificationElement.textContent = message;
+    notificationElement.className = `notification ${type}`;
+    notificationElement.style.display = 'block';
     setTimeout(() => {
-        notificationElement.style.display = 'none'
-    }, 3000)
-}
+        notificationElement.style.display = 'none';
+    }, 3000);
+};
 
 /**
  * Create a modal manager for handling modal operations
@@ -48,40 +46,24 @@ export function showNotification(message, type = 'success', notificationElement)
  *   const orderModalManager = createModalManager()
  *   // Same usage pattern, different modals
  */
-export function createModalManager() {
+export const createModalManager = () => {
     return {
-        /**
-         * Open (show) a modal
-         * @param {HTMLElement} modal - Modal element to display
-         */
-        open(modal) {
-            modal.style.display = 'block'
+        open: (modal) => {
+            modal.style.display = 'block';
         },
-        
-        /**
-         * Setup close button functionality
-         * @param {HTMLElement} closeBtn - Close button element
-         * @param {HTMLElement} modal - Modal element to close
-         */
-        setupCloseButton(closeBtn, modal) {
+        setupCloseButton: (closeBtn, modal) => {
             if (closeBtn) {
                 closeBtn.addEventListener('click', () => {
-                    modal.style.display = 'none'
-                })
+                    modal.style.display = 'none';
+                });
             }
         },
-        
-        /**
-         * Allow closing modal by clicking the backdrop (outside modal content)
-         * @param {HTMLElement} modal - Modal element
-         */
-        setupBackdropClick(modal) {
+        setupBackdropClick: (modal) => {
             modal.addEventListener('click', (e) => {
-                // Only close if clicking directly on modal, not its children
                 if (e.target === modal) {
-                    modal.style.display = 'none'
+                    modal.style.display = 'none';
                 }
-            })
+            });
         }
-    }
-}
+    };
+};

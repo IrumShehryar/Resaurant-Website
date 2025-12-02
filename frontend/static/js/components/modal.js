@@ -20,7 +20,7 @@
  * - If the content includes an element with id="modal-close", it will be
  *   wired to call close() automatically.
  */
-export function createModal() {
+export const createModal = () => {
 	let root = null
 	let onClose = null
 

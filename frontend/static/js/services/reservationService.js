@@ -4,14 +4,10 @@ import fetchData from '../utils/fetchData.js'
 import { apiUrl } from '../utils/config.js'
 
 // GET /api/v1/reservations
-export function getAllReservations() {
-    return  fetchData(apiUrl('reservation'))
-}
+export const getAllReservations = () => fetchData(apiUrl('reservation'));
 
 // Optional, if you need per-id later
-export function getReservationById(id) {
-    return fetchData(apiUrl(`reservation/${id}`))
-}
+export const getReservationById = (id) => fetchData(apiUrl(`reservation/${id}`));
 
 
 

@@ -20,24 +20,18 @@
  * Example usage in orders.js:
  *   renderTable(orders, ['id', 'customer', 'total', 'status'], ordersTbody)
  */
-export function renderTable(items,columns,tbody){
-
-    if(items.length === 0)
-    {
-         tbody.innerHTML = '<tr><td colspan="' + (columns.length+1) + '">No items yet</td></tr>';
+export const renderTable = (items, columns, tbody) => {
+    if (items.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="${columns.length + 1}">No items yet</td></tr>`;
         return;
     }
-    
-    // Map each item to a table row with dynamic columns
-    // data-id="${item.id}" stored in HTML for fast lookup - see getItemFromRow() in admin.js
-    tbody.innerHTML = items.map(item =>`
+    tbody.innerHTML = items.map(item => `
         <tr data-id="${item.id}">
             ${columns.map(col => `<td>${item[col]}</td>`).join('')}
-            
             <td>
                 <button class="btn-edit">Edit</button>
                 <button class="btn-delete">Delete</button>
             </td>
         </tr>
     `).join('');
-}
+};

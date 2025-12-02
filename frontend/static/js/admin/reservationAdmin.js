@@ -1,6 +1,6 @@
 // static/js/admin/reservationsAdmin.js
 
-import { getAllReservations,getReservationById } from "../services/reservationService.js";
+import { getAllReservations } from "../services/reservationService.js";
 import { showNotification, createModalManager } from "../utils/tableManager.js";
 import { renderTable } from "../utils/tableRenderer.js";
 import { createCrudManager } from "../services/crudServices.js";
@@ -50,10 +50,10 @@ async function loadReservations() {
 }
 
 // Helper: get item from cached array by row data-id
-function getReservationFromRow(row) {
+const getReservationFromRow = (row) => {
     const id = row.dataset.id;
     return allReservations.find((r) => r.id === id);
-}
+};
 
 // ========== Event Listeners ==========
 

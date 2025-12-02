@@ -1,6 +1,6 @@
 import { apiUrl } from "./utils/config.js";
 
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", async () => {
 
     const authBox = document.getElementById("auth-box");
     const nextUrlInput = document.getElementById("next-url");
@@ -9,13 +9,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     let mode = "login"; // default
 
-    function getNextUrl() {
-        return nextUrlInput && nextUrlInput.value ? nextUrlInput.value : "/order-confirmation";
-    }
+    const getNextUrl = () => nextUrlInput && nextUrlInput.value ? nextUrlInput.value : "/order-confirmation";
 
-    function revealAuthBox() {
+    const revealAuthBox = () => {
         authBox.classList.remove("hidden-auth");
-    }
+    };
 
     const authForm = document.getElementById("auth-form");
     const toggleText = document.getElementById("toggle-text");
@@ -26,12 +24,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     // Event delegation for toggle and submit
-    authBox.addEventListener("click", function(e) {
+    authBox.addEventListener("click", (e) => {
         if (e.target && e.target.id === "toggle-link") {
             toggleForm(e);
         }
     });
-    authBox.addEventListener("submit", function(e) {
+    authBox.addEventListener("submit", (e) => {
         if (e.target && e.target.id === "auth-form") {
             handleLoginSubmit(e);
         }
@@ -40,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // -----------------------------
     // LOGOUT HANDLER UTILITY
     // -----------------------------
-    function attachLogoutHandler() {
+    const attachLogoutHandler = () => {
         const logoutBtn = document.getElementById("logout-btn");
         if (logoutBtn) {
             logoutBtn.addEventListener("click", () => {
@@ -52,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 .catch(err => console.error(err));
             });
         }
-    }
+    };
 
     // -----------------------------
     // CHECK IF USER ALREADY LOGGED IN
@@ -82,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // -----------------------------
     // TOGGLE FORM LOGIN/REGISTER
     // -----------------------------
-    function toggleForm(e) {
+    const toggleForm = (e) => {
         e.preventDefault();
         const toggleLink = e.target;
 
@@ -115,13 +113,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (newToggleLink) newToggleLink.addEventListener("click", toggleForm);
 
         attachFormSubmit();
-    }
+    };
 
     // ...existing code...
     // -----------------------------
     // LOGIN / REGISTER SUBMIT
     // -----------------------------
-    async function handleLoginSubmit(e) {
+    const handleLoginSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const nextUrl = getNextUrl();
@@ -143,7 +141,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                     return;
                 }
 
-                // Show logged-in box and attach logout
                 authBox.innerHTML = `
                     <h2>Successfully Logged In</h2>
                     <p>Welcome, ${data.user.name || data.user.username}!<\/p>
@@ -153,7 +150,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 `;
                 attachLogoutHandler();
 
-                // Redirect to order-confirmation after 1 second
                 setTimeout(() => {
                     window.location.href = nextUrl;
                 }, 1000);
@@ -166,7 +162,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
         } else {
-            // REGISTER FLOW
             const name = formData.get("name");
             const username = formData.get("username");
             const email = formData.get("email");
@@ -188,14 +183,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                     body: JSON.stringify({ name, username, email, phone, address, password })
                 });
 
-                // After register, reload page to show login box
                 window.location.reload();
             } catch (err) {
                 console.error(err);
                 alert("Registration failed: " + err.message);
             }
         }
-    }
+    };
 
     revealAuthBox();
 });
