@@ -152,7 +152,7 @@ const proceedToCheckout = () => {
     .then(res => res.json())
     .then(data => {
       if (!data.error) {
-        window.location.href = "/order-confirmation";
+        window.location.href = "/cart";
       } else {
         window.location.href = "/login?next=/order-confirmation";
       }
