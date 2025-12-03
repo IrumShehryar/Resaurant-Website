@@ -1,0 +1,105 @@
+{% extends "base.html" %} {% block title %}Admin Reservations Management{%
+endblock %} {% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/admin-interface.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="panel-layout">
+    {% include "admin_sidebar.html" %}
+    <main class="admin-section">
+        <button
+            class="btn-accent"
+            onclick="window.location.href='/admin-interface'"
+        >
+            &larr; Back to Admin Interface
+        </button>
+        <h1>{{ t.reservation_management }}</h1>
+        <button id="btn-add-reservation" class="btn-accent admin-add-btn">
+            {{ t.add_new_reservation }}
+        </button>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>{{ t.name }}</th>
+                    <th>{{ t.phone }}</th>
+                    <th>{{ t.email }}</th>
+                    <th>{{ t.date }}</th>
+                    <th>{{ t.time }}</th>
+                    <th>{{ t.people }}</th>
+                    <th>{{ t.status }}</th>
+                    <th>{{ t.actions }}</th>
+                </tr>
+            </thead>
+            <tbody id="reservation-tbody">
+                <tr>
+                    <td colspan="8">{{ t.loading }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="notification"></div>
+        <!-- Reservation Modal -->
+        <div id="reservation-modal" class="modal admin-modal">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <h3 id="reservation-form-title">{{ t.add_new_reservation }}</h3>
+                <form id="reservation-form" class="admin-form">
+                    <label
+                        >{{ t.name }}<input type="text" name="name" required
+                    /></label>
+                    <label
+                        >{{ t.phone }}<input type="text" name="phone" required
+                    /></label>
+                    <label
+                        >{{ t.email }}<input type="email" name="email" required
+                    /></label>
+                    <label
+                        >{{ t.date }}<input
+                            type="date"
+                            name="reservation_date"
+                            required
+                    /></label>
+                    <label
+                        >{{ t.time }}<input
+                            type="time"
+                            name="reservation_time"
+                            required
+                    /></label>
+                    <label
+                        >{{ t.people }}<input
+                            type="number"
+                            name="no_of_people"
+                            min="1"
+                            required
+                    /></label>
+                    <label
+                        >{{ t.status }}<select name="status" required>
+                            <option value="pending">
+                                {{ t.reservation_status_pending }}
+                            </option>
+                            <option value="confirmed">
+                                {{ t.reservation_status_confirmed }}
+                            </option>
+                            <option value="cancelled">
+                                {{ t.reservation_status_cancelled }}
+                            </option>
+                        </select></label
+                    >
+                    <button type="submit" class="btn-accent">
+                        {{ t.save }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %} {% block scripts %}
+<script
+    type="module"
+    src="{{ url_for('static', filename='js/admin-guard.js') }}"
+></script>
+<script
+    type="module"
+    src="{{ url_for('static', filename='js/admin/reservationAdmin.js') }}"
+></script>
+{% endblock %}

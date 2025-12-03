@@ -91,6 +91,22 @@ def admin_login():
 def admin_interface():
     return render_template("admin-interface.html")
 
+@app.route('/admin-menu')
+def admin_menu():
+    return render_template('admin-menu.html')
+
+@app.route('/admin-orders')
+def admin_orders():
+    return render_template('admin-orders.html')
+
+@app.route('/admin-reservations')
+def admin_reservations():
+    return render_template('admin-reservations.html')
+
+@app.route('/admin-users')
+def admin_users():
+    return render_template('admin-users.html')
+
 # -------------------------------
 # Login route with session support
 # -------------------------------

@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block title %}Admin Users Management{% endblock %}
+{% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/admin-interface.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="panel-layout">
+    {% include "admin_sidebar.html" %}
+    <main class="admin-section">
+        <button
+            class="btn-accent"
+            onclick="window.location.href='/admin-interface'"
+        >
+            &larr; Back to Admin Interface
+        </button>
+        <h1>Users Management</h1>
+        <!-- Add your users management table and controls here -->
+    </main>
+</div>
+{% endblock %}

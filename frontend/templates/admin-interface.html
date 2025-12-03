@@ -4,301 +4,33 @@ block styles %}
     rel="stylesheet"
     href="{{ url_for('static', filename='css/admin-interface.css') }}"
 />
-{% endblock %} {% block content %} {% include '_admin_sidebar.html' %} {#
-========== MENU MANAGEMENT ========== #}
-
-<section class="admin-section">
-    <h1>{{ t.menu_management }}</h1>
-
-    <button id="btn-add-item" class="btn-accent admin-add-btn">
-        {{ t.add_new_item }}
-    </button>
-
-    <table class="admin-table">
-        <thead>
-            <tr>
-                <th>{{ t.name }}</th>
-                <th>{{ t.category }}</th>
-                <th>{{ t.price }}</th>
-                <th>{{ t.dietary_info }}</th>
-                <th>{{ t.actions }}</th>
-            </tr>
-        </thead>
-
-        <tbody id="menu-tbody">
-            <tr>
-                <td colspan="5">{{ t.loading }}</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
-{# ========== RESERVATION MANAGEMENT ========== #}
-
-<section class="admin-section">
-    <h1>{{ t.reservation_management }}</h1>
-
-    <button id="btn-add-reservation" class="btn-accent admin-add-btn">
-        {{ t.add_new_reservation }}
-    </button>
-
-    <table class="admin-table">
-        <thead>
-            <tr>
-                <th>{{ t.name }}</th>
-                <th>{{ t.phone }}</th>
-                <th>{{ t.email }}</th>
-                <th>{{ t.date }}</th>
-                <th>{{ t.time }}</th>
-                <th>{{ t.people }}</th>
-                <th>{{ t.status }}</th>
-                <th>{{ t.actions }}</th>
-            </tr>
-        </thead>
-
-        <tbody id="reservation-tbody">
-            <tr>
-                <td colspan="8">{{ t.loading }}</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
-{# Shared notification area for both sections #}
+{% endblock %} {% block content %} {% include 'admin_sidebar.html' %}
+<div class="dashboard-group">
+    <h4 class="group-title">{{ t.dashboard }}</h4>
+    <div class="dashboard-stats">
+        <span class="stat-label">{{ t.stats }}</span>
+        <div class="dashboard-stat">
+            <span class="stat-label">{{ t.active_orders }}</span>
+            <span class="stat-value" id="dashboard-orders">0</span>
+        </div>
+        <div class="dashboard-stat">
+            <span class="stat-label">{{ t.active_reservations }}</span>
+            <span class="stat-value" id="dashboard-reservations">0</span>
+        </div>
+        <div class="dashboard-stat">
+            <span class="stat-label">{{ t.menu_items }}</span>
+            <span class="stat-value" id="dashboard-menu">0</span>
+        </div>
+        <div class="dashboard-stat">
+            <span class="stat-label">{{ t.active_users }}</span>
+            <span class="stat-value" id="dashboard-users">0</span>
+        </div>
+    </div>
+</div>
 <div id="notification"></div>
-
-{# ========== MENU MODAL ========== #}
-
-<div id="admin-modal" class="modal admin-modal">
-    <div class="modal-content">
-        <button class="modal-close">&times;</button>
-        <h3 id="form-title">{{ t.add_new_item }}</h3>
-
-        {# IMPORTANT: unique ID + admin-form class #}
-        <form id="item-form" class="admin-form">
-            <label>
-                {{ t.name }}:
-                <input type="text" name="name" required />
-            </label>
-
-            <label>
-                {{ t.price }}:
-                <input type="number" name="price" step="0.01" required />
-            </label>
-
-            <label>
-                {{ t.category }}:
-                <select name="category" required>
-                    <option value="">{{ t.select }}</option>
-                    <option value="starter">{{ t.cat_starter }}</option>
-                    <option value="main">{{ t.cat_main }}</option>
-                    <option value="dessert">{{ t.cat_dessert }}</option>
-                    <option value="side">{{ t.cat_side }}</option>
-                    <option value="drink">{{ t.cat_drink }}</option>
-                    <option value="special">{{ t.cat_special }}</option>
-                </select>
-            </label>
-
-            <label>
-                {{ t.description }}:
-                <textarea name="description" rows="3"></textarea>
-            </label>
-
-            <label>
-                {{ t.image_url }}:
-                <input type="text" name="image" />
-            </label>
-
-            <label>
-                {{ t.allergens }}:
-                <input
-                    type="text"
-                    name="allergens"
-                    placeholder="{{ t.allergens_placeholder }}"
-                />
-            </label>
-
-            <label>
-                {{ t.ingredients }}:
-                <input
-                    type="text"
-                    name="ingredients"
-                    placeholder="{{ t.ingredients_placeholder }}"
-                />
-            </label>
-
-            <fieldset>
-                <legend>{{ t.dietary }}</legend>
-
-                <label>
-                    <input type="checkbox" name="dietary" value="vegetarian" />
-                    {{ t.vegetarian }}
-                </label>
-                <label>
-                    <input type="checkbox" name="dietary" value="vegan" />
-                    {{ t.vegan }}
-                </label>
-                <label>
-                    <input type="checkbox" name="dietary" value="gluten-free" />
-                    {{ t.gluten_free }}
-                </label>
-                <label>
-                    <input type="checkbox" name="dietary" value="dairy-free" />
-                    {{ t.dairy_free }}
-                </label>
-                <label>
-                    <input type="checkbox" name="dietary" value="pescatarian" />
-                    {{ t.pescatarian }}
-                </label>
-                <label>
-                    <input type="checkbox" name="dietary" value="sugar-free" />
-                    {{ t.sugar_free }}
-                </label>
-                <label>
-                    <input type="checkbox" name="dietary" value="nut-free" />
-                    {{ t.nut_free }}
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        name="dietary"
-                        value="keto-friendly"
-                    />
-                    {{ t.keto_friendly }}
-                </label>
-            </fieldset>
-
-            <label>
-                {{ t.active }}:
-                <input type="checkbox" name="active" />
-            </label>
-
-            <fieldset>
-                <legend>{{ t.days_of_week }}</legend>
-
-                <label>
-                    <input type="checkbox" name="days_of_week" value="Monday" />
-                    {{ t.monday }}
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        name="days_of_week"
-                        value="Tuesday"
-                    />
-                    {{ t.tuesday }}
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        name="days_of_week"
-                        value="Wednesday"
-                    />
-                    {{ t.wednesday }}
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        name="days_of_week"
-                        value="Thursday"
-                    />
-                    {{ t.thursday }}
-                </label>
-                <label>
-                    <input type="checkbox" name="days_of_week" value="Friday" />
-                    {{ t.friday }}
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        name="days_of_week"
-                        value="Saturday"
-                    />
-                    {{ t.saturday }}
-                </label>
-                <label>
-                    <input type="checkbox" name="days_of_week" value="Sunday" />
-                    {{ t.sunday }}
-                </label>
-            </fieldset>
-
-            <button type="submit" class="btn-accent">{{ t.save }}</button>
-        </form>
-    </div>
-</div>
-
-{# ========== RESERVATION MODAL ========== #}
-
-<div id="reservation-modal" class="modal admin-modal">
-    <div class="modal-content">
-        <button class="modal-close">&times;</button>
-        <h3 id="reservation-form-title">{{ t.add_new_reservation }}</h3>
-
-        {# IMPORTANT: unique ID + admin-form class #}
-        <form id="reservation-form" class="admin-form">
-            <label>
-                {{ t.name }}
-                <input type="text" name="name" required />
-            </label>
-
-            <label>
-                {{ t.phone }}
-                <input type="text" name="phone" required />
-            </label>
-
-            <label>
-                {{ t.email }}
-                <input type="email" name="email" required />
-            </label>
-
-            <label>
-                {{ t.date }}
-                <input type="date" name="reservation_date" required />
-            </label>
-
-            <label>
-                {{ t.time }}
-                <input type="time" name="reservation_time" required />
-            </label>
-
-            <label>
-                {{ t.people }}
-                <input type="number" name="no_of_people" min="1" required />
-            </label>
-
-            <label>
-                {{ t.status }}
-                <select name="status" required>
-                    <option value="pending">
-                        {{ t.reservation_status_pending }}
-                    </option>
-                    <option value="confirmed">
-                        {{ t.reservation_status_confirmed }}
-                    </option>
-                    <option value="cancelled">
-                        {{ t.reservation_status_cancelled }}
-                    </option>
-                </select>
-            </label>
-
-            <button type="submit" class="btn-accent">{{ t.save }}</button>
-        </form>
-    </div>
-</div>
-
 {% endblock %} {% block scripts %}
 <script
     type="module"
     src="{{ url_for('static', filename='js/admin-guard.js') }}"
-></script>
-
-<script
-    type="module"
-    src="{{ url_for('static', filename='js/admin/menuAdmin.js') }}"
-></script>
-
-<script
-    type="module"
-    src="{{ url_for('static', filename='js/admin/reservationAdmin.js') }}"
 ></script>
 {% endblock %}
