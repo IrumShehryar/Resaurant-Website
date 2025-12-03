@@ -9,22 +9,31 @@ from mongoengine import (
     DateTimeField,
     FloatField
 )
-
 from api.utils.validators import validate_order_fields
 
 
+# ------------------------------
 # Embedded item structure
+# ------------------------------
 class OrderItem(EmbeddedDocument):
     item_name = StringField(required=True)
     quantity = IntField(required=True, min_value=1)
 
 
+# ------------------------------
+# Orders Model
+# ------------------------------
 class Orders(Document):
-    # Auto-filled from logged-in user OR provided manually
+    # Customer info
     name = StringField(required=True, min_length=3, max_length=100)
     phone = StringField(required=True, min_length=7, max_length=15)
     email = StringField(required=True, max_length=100)
     address = StringField(required=True, max_length=200)
+    payment_method = StringField(
+        required=True,
+        choices=("cash", "card", "paypal"),  # Add other payment methods if needed
+        default="cash"
+    )
 
     # Order items
     items = ListField(EmbeddedDocumentField(OrderItem), required=True)
@@ -38,12 +47,14 @@ class Orders(Document):
     order_date = StringField(required=True)  # format: YYYY-MM-DD
     order_time = StringField(required=True)  # format: HH:MM
 
+    # Order status
     status = StringField(
         required=True,
         choices=("pending", "confirmed", "cancelled"),
         default="pending",
     )
 
+    # Timestamp
     created_at = DateTimeField(default=datetime.utcnow)
 
     meta = {
@@ -62,9 +73,9 @@ class Orders(Document):
         )
 
 
-# -------------------------------------------------
-# MODEL HELPERS
-# -------------------------------------------------
+# ------------------------------
+# Model Helpers
+# ------------------------------
 
 def list_all_orders():
     return Orders.objects()
@@ -78,7 +89,8 @@ def get_order_by_id(order_id):
 
 
 def add_order(order_data):
-    # Convert items
+    """Adds a new order to the database."""
+    # Convert items from frontend format to OrderItem
     item_list = []
     for item in order_data.get("items", []):
         item_list.append(OrderItem(
@@ -91,13 +103,14 @@ def add_order(order_data):
         phone=order_data["phone"],
         email=order_data["email"],
         address=order_data["address"],
+        payment_method=order_data.get("payment_method", "cash"),
         items=item_list,
         subtotal=order_data["subtotal"],
         delivery_charges=order_data["delivery_charges"],
         total=order_data["total"],
         order_date=order_data["order_date"],
         order_time=order_data["order_time"],
-        status="pending",
+        status="pending"
     )
 
     new_order.save()
@@ -110,7 +123,7 @@ def update_order(order_id, order_data):
         return None
 
     updatable_fields = [
-        "name", "phone", "email", "address",
+        "name", "phone", "email", "address", "payment_method",
         "subtotal", "delivery_charges", "total",
         "order_date", "order_time", "status"
     ]

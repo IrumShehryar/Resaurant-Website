@@ -66,9 +66,17 @@ def create_order_controller():
     if missing:
         return {"error": f"Missing required fields: {', '.join(missing)}"}, 400
 
-    # 3️⃣ Save the order
-    item = add_order(data)
-    nice_item = order_schema.dump(item)
+    # 3️⃣ Set default payment method if not provided
+    data.setdefault("payment_method", "cash")
+
+    # 4️⃣ Save the order
+    new_order = add_order(data)
+
+    # 5️⃣ Serialize response
+    nice_item = order_schema.dump(new_order)
+    nice_item["order_id"] = str(new_order.id)
+    nice_item["payment_method"] = new_order.payment_method
+
     return nice_item, 201
 
 
@@ -78,12 +86,17 @@ def create_order_controller():
 @simple_errors
 def update_order_controller(order_id):
     data = request.get_json() or {}
-    item = update_order(order_id, data)
 
+    # Allow updating payment_method
+    if "payment_method" in data and data["payment_method"] not in ("cash", "card", "paypal"):
+        return {"error": "Invalid payment method"}, 400
+
+    item = update_order(order_id, data)
     if not item:
         return {"error": "Item not found"}, 404
 
     nice_item = order_schema.dump(item)
+    nice_item["order_id"] = str(item.id)
     return nice_item, 200
 
 
@@ -105,7 +118,6 @@ def delete_order_controller(order_id):
 # --------------------------------------------------------
 def get_logged_in_user_details():
     """Return user details to auto-fill the order form."""
-
     user_id = session.get("user_id")
     if not user_id:
         return {"error": "User not logged in"}, 401
