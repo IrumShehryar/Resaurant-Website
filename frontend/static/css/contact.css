@@ -1,52 +1,81 @@
-/* Contact page styles extracted from style.css */
+/* ===== CONTACT PAGE LAYOUT ===== */
 
 .contact-feature {
-    display: flex; 
-    align-items: flex-start;
-    justify-content: space-between; 
-    text-align: left; 
-    width:100%; 
-    max-width: 68.75rem;
-    margin: 0 auto; 
-    flex-wrap: wrap; 
- }
+    max-width: 70rem;
+    margin: 3rem auto 4rem;
+    padding: 2rem 2.5rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 2rem;
+    background: rgba(7, 18, 32, 0.92);
+    border-radius: 1.5rem;
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.45);
+}
 
-.contact-left{flex:1; max-width:32.5rem;}
-.contact-left h2{margin:auto 3rem ;}
-.contact-left p{margin:3rem ;line-height: 1.3;}
-.contact-left span { font-weight:bold;}
+/* LEFT COLUMN: contact details */
 
-.contact-right{flex: 0 1 32.5rem; display: flex; flex-direction: column; justify-content: center; align-items: center;}
-.contact-right h3 {
-    width: 100%;
-    text-align: center;
+.contact-left h2 {
+    font-size: 2rem;
+    color: #00ff88;
     margin-bottom: 1rem;
 }
-.contact-right iframe{
-    width:100%; max-width:100%; display: block;
-    margin:  auto ; border-radius: 4rem;padding: 2rem 2rem;
-    height: clamp(18rem, 40vh, 26rem);
+
+.contact-left p {
+    margin: 0.35rem 0;
+    font-size: 0.98rem;
+    line-height: 1.5;
+    color: #e0f4ff;
 }
 
-.transport-options {
-    margin-top: 1.5rem;
-    text-align: center;
+.contact-left p strong {
+    color: #a8d8ff;
+    font-weight: 700;
+    display: inline-block;
+    min-width: 6rem; /* aligns labels: Address, Phone, Email */
+}
+
+.contact-left p:last-of-type {
+    margin-top: 1rem;
+    color: #cfefff;
+}
+
+/* RIGHT COLUMN: map + getting here */
+
+.contact-right h3 {
+    font-size: 1.25rem;
+    color: #7dd3e0;
+    margin-bottom: 0.75rem;
+}
+
+.contact-right iframe {
     width: 100%;
+    height: 260px;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.4);
+    margin-bottom: 0.75rem;
 }
 
 .transport-options p {
     margin: 0;
+    font-size: 0.95rem;
 }
 
 .transport-options a {
     color: #00ff88;
     text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    border-bottom: 0.125rem solid transparent;
 }
 
 .transport-options a:hover {
-    color: #7dd3e0;
-    border-bottom-color: #00ff88;
+    text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 56rem) {
+    .contact-feature {
+        grid-template-columns: 1fr;
+        padding: 1.5rem 1.25rem;
+    }
 }

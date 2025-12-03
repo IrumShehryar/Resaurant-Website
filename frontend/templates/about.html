@@ -4,48 +4,64 @@
 
 {% block content %}
 
-<!-- ===== About Hero Section ===== -->
-<section class="about-hero">
-    <h1>{{ t.about_us }}</h1>
-    <p>
-        Welcome to Revontulet Flamehouse — where Nordic cuisine meets fire, flavor,
-        and the magic of the aurora borealis. Our restaurant blends traditional Finnish
-        tastes with modern cooking techniques for a unique dining experience inspired 
-        by the northern lights.
-    </p>
+<!-- ===== About Hero: text + burger image ===== -->
+<section class="about-hero about-hero--with-image">
+    <div class="about-hero-text">
+        <h1>{{ t.about_us }}</h1>
+        <p>
+            Welcome to Revontulet Flamehouse — where Nordic cuisine meets fire, flavor,
+            and the magic of the aurora borealis. Our restaurant blends traditional Finnish
+            tastes with modern cooking techniques for a unique dining experience inspired 
+            by the northern lights.
+        </p>
+    </div>
+
+    <figure class="about-hero-photo">
+        <img
+            src="{{ url_for('static', filename='assets/about-burger.jpg') }}"
+            alt="Nordic-inspired gourmet burger served on a wooden board"
+        />
+    </figure>
 </section>
 
-<!-- ===== 3 About Information Cards ===== -->
-<section class="about-cards">
+<!-- ===== Main layout: cards + drink image ===== -->
+<section class="about-layout">
+    <div class="about-cards">
+        <div class="about-card">
+            <h2>Our Story</h2>
+            <p>
+                Born in the heart of Espoo, Revontulet Flamehouse was created to bring the warmth 
+                of Lapland’s food and culture to the city. Our name — “Revontulet,” meaning 
+                Northern Lights — reflects our passion for blending tradition with a touch of 
+                arctic magic.
+            </p>
+        </div>
 
-    <div class="about-card">
-        <h2>Our Story</h2>
-        <p>
-            Born in the heart of Espoo, Revontulet Flamehouse was created to bring the warmth 
-            of Lapland’s food and culture to the city. Our name — “Revontulet,” meaning 
-            Northern Lights — reflects our passion for blending tradition with a touch of 
-            arctic magic.
-        </p>
+        <div class="about-card">
+            <h2>Our Philosophy</h2>
+            <p>
+                We believe in honest food, clean flavors, and seasonal ingredients. Every dish 
+                is crafted with respect for Nordic heritage, flame-cooking techniques, and the 
+                beauty of Finland’s landscapes.
+            </p>
+        </div>
+
+        <div class="about-card">
+            <h2>Nordic Ingredients</h2>
+            <p>
+                We source fresh produce from local farms, Finnish lakes, and trusted Nordic 
+                suppliers. From smoked salmon to wild berries, every plate celebrates the 
+                taste of the north.
+            </p>
+        </div>
     </div>
 
-    <div class="about-card">
-        <h2>Our Philosophy</h2>
-        <p>
-            We believe in honest food, clean flavors, and seasonal ingredients. Every dish 
-            is crafted with respect for Nordic heritage, flame-cooking techniques, and the 
-            beauty of Finland’s landscapes.
-        </p>
-    </div>
-
-    <div class="about-card">
-        <h2>Nordic Ingredients</h2>
-        <p>
-            We source fresh produce from local farms, Finnish lakes, and trusted Nordic 
-            suppliers. From smoked salmon to wild berries, every plate celebrates the 
-            taste of the north.
-        </p>
-    </div>
-
+    <aside class="about-side-image">
+        <img
+            src="{{ url_for('static', filename='assets/about-drink.jpg') }}"
+            alt="Aurora-inspired mocktail in a glass with ice"
+        />
+    </aside>
 </section>
 
 <!-- ===== Call To Action (Buttons) ===== -->
