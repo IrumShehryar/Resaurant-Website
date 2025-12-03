@@ -4,30 +4,37 @@ block styles %}
     rel="stylesheet"
     href="{{ url_for('static', filename='css/admin-interface.css') }}"
 />
-{% endblock %} {% block content %} {% include 'admin_sidebar.html' %}
-<div class="dashboard-group">
-    <h4 class="group-title">{{ t.dashboard }}</h4>
-    <div class="dashboard-stats">
-        <span class="stat-label">{{ t.stats }}</span>
-        <div class="dashboard-stat">
-            <span class="stat-label">{{ t.active_orders }}</span>
-            <span class="stat-value" id="dashboard-orders">0</span>
+{% endblock %} {% block content %}
+<div class="panel-layout">
+    {% include "admin_sidebar.html" %}
+    <main class="admin-section">
+        <div class="dashboard-group">
+            <h4 class="group-title">{{ t.dashboard }}</h4>
+            <div class="dashboard-stats">
+                <span class="stat-label">{{ t.stats }}</span>
+                <div class="dashboard-stat">
+                    <span class="stat-label">{{ t.active_orders }}</span>
+                    <span class="stat-value" id="dashboard-orders">0</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">{{ t.active_reservations }}</span>
+                    <span class="stat-value" id="dashboard-reservations"
+                        >0</span
+                    >
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">{{ t.menu_items }}</span>
+                    <span class="stat-value" id="dashboard-menu">0</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">{{ t.active_users }}</span>
+                    <span class="stat-value" id="dashboard-users">0</span>
+                </div>
+            </div>
         </div>
-        <div class="dashboard-stat">
-            <span class="stat-label">{{ t.active_reservations }}</span>
-            <span class="stat-value" id="dashboard-reservations">0</span>
-        </div>
-        <div class="dashboard-stat">
-            <span class="stat-label">{{ t.menu_items }}</span>
-            <span class="stat-value" id="dashboard-menu">0</span>
-        </div>
-        <div class="dashboard-stat">
-            <span class="stat-label">{{ t.active_users }}</span>
-            <span class="stat-value" id="dashboard-users">0</span>
-        </div>
-    </div>
+        <div id="notification"></div>
+    </main>
 </div>
-<div id="notification"></div>
 {% endblock %} {% block scripts %}
 <script
     type="module"

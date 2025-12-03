@@ -7,38 +7,33 @@
 {% endblock %} {% block content %}
 <div class="panel-layout">
     {% include "admin_sidebar.html" %}
-    <div class="dashboard-group">
-        <h4 class="group-title">Menu Stats</h4>
-        <div class="dashboard-stats">
-            <div class="dashboard-stat">
-                <span class="stat-label">Starters</span>
-                <span class="stat-value" id="menu-starters">0</span>
-            </div>
-            <div class="dashboard-stat">
-                <span class="stat-label">Mains</span>
-                <span class="stat-value" id="menu-mains">0</span>
-            </div>
-            <div class="dashboard-stat">
-                <span class="stat-label">Desserts</span>
-                <span class="stat-value" id="menu-desserts">0</span>
-            </div>
-            <div class="dashboard-stat">
-                <span class="stat-label">Drinks</span>
-                <span class="stat-value" id="menu-drinks">0</span>
-            </div>
-            <div class="dashboard-stat">
-                <span class="stat-label">Hot Selling Item</span>
-                <span class="stat-value" id="menu-hot">-</span>
+    <main class="admin-section">
+        <div class="dashboard-group">
+            <h4 class="group-title">Menu Stats</h4>
+            <div class="dashboard-stats">
+                <div class="dashboard-stat">
+                    <span class="stat-label">Starters</span>
+                    <span class="stat-value" id="menu-starters">0</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">Mains</span>
+                    <span class="stat-value" id="menu-mains">0</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">Desserts</span>
+                    <span class="stat-value" id="menu-desserts">0</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">Drinks</span>
+                    <span class="stat-value" id="menu-drinks">0</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">Hot Selling Item</span>
+                    <span class="stat-value" id="menu-hot">-</span>
+                </div>
             </div>
         </div>
-    </div>
-    <main class="admin-section">
-        <button
-            class="btn-accent"
-            onclick="window.location.href='/admin-interface'"
-        >
-            &larr; Back to Admin Interface
-        </button>
+        <div style="height: 2rem"></div>
         <h1>{{ t.menu_management }}</h1>
         <button id="btn-add-item" class="btn-accent admin-add-btn">
             {{ t.add_new_item }}
