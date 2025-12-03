@@ -1,0 +1,246 @@
+{% extends "base.html" %} {% block title %}Admin Menu Management{% endblock %}
+{% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/admin-interface.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="panel-layout">
+    {% include "admin_sidebar.html" %}
+    <main class="admin-section">
+        <div class="dashboard-group">
+            <h4 class="group-title">Menu Stats</h4>
+            <div class="dashboard-stats">
+                <div class="dashboard-stat">
+                    <span class="stat-label">Starters</span>
+                    <span class="stat-value" id="menu-starters">0</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">Mains</span>
+                    <span class="stat-value" id="menu-mains">0</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">Desserts</span>
+                    <span class="stat-value" id="menu-desserts">0</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">Drinks</span>
+                    <span class="stat-value" id="menu-drinks">0</span>
+                </div>
+                <div class="dashboard-stat">
+                    <span class="stat-label">Hot Selling Item</span>
+                    <span class="stat-value" id="menu-hot">-</span>
+                </div>
+            </div>
+        </div>
+        <div style="height: 2rem"></div>
+        <h1>{{ t.menu_management }}</h1>
+        <button id="btn-add-item" class="btn-accent admin-add-btn">
+            {{ t.add_new_item }}
+        </button>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>{{ t.name }}</th>
+                    <th>{{ t.category }}</th>
+                    <th>{{ t.price }}</th>
+                    <th>{{ t.dietary_info }}</th>
+                    <th>{{ t.actions }}</th>
+                </tr>
+            </thead>
+            <tbody id="menu-tbody">
+                <tr>
+                    <td colspan="5">{{ t.loading }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="notification"></div>
+        <!-- Menu Modal -->
+        <div id="admin-modal" class="modal admin-modal">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <h3 id="form-title">{{ t.add_new_item }}</h3>
+                <form id="item-form" class="admin-form">
+                    <!-- ...form fields as in original... -->
+                    <label>
+                        {{ t.name }}:
+                        <input type="text" name="name" required />
+                    </label>
+                    <label>
+                        {{ t.price }}:
+                        <input
+                            type="number"
+                            name="price"
+                            step="0.01"
+                            required
+                        />
+                    </label>
+                    <label>
+                        {{ t.category }}:
+                        <select name="category" required>
+                            <option value="">{{ t.select }}</option>
+                            <option value="starter">{{ t.cat_starter }}</option>
+                            <option value="main">{{ t.cat_main }}</option>
+                            <option value="dessert">{{ t.cat_dessert }}</option>
+                            <option value="side">{{ t.cat_side }}</option>
+                            <option value="drink">{{ t.cat_drink }}</option>
+                            <option value="special">{{ t.cat_special }}</option>
+                        </select>
+                    </label>
+                    <label>
+                        {{ t.description }}:
+                        <textarea name="description" rows="3"></textarea>
+                    </label>
+                    <label>
+                        {{ t.image_url }}:
+                        <input type="text" name="image" />
+                    </label>
+                    <label>
+                        {{ t.allergens }}:
+                        <input
+                            type="text"
+                            name="allergens"
+                            placeholder="{{ t.allergens_placeholder }}"
+                        />
+                    </label>
+                    <label>
+                        {{ t.ingredients }}:
+                        <input
+                            type="text"
+                            name="ingredients"
+                            placeholder="{{ t.ingredients_placeholder }}"
+                        />
+                    </label>
+                    <fieldset>
+                        <legend>{{ t.dietary }}</legend>
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="dietary"
+                                value="vegetarian"
+                            />{{ t.vegetarian }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="dietary"
+                                value="vegan"
+                            />{{ t.vegan }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="dietary"
+                                value="gluten-free"
+                            />{{ t.gluten_free }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="dietary"
+                                value="dairy-free"
+                            />{{ t.dairy_free }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="dietary"
+                                value="pescatarian"
+                            />{{ t.pescatarian }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="dietary"
+                                value="sugar-free"
+                            />{{ t.sugar_free }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="dietary"
+                                value="nut-free"
+                            />{{ t.nut_free }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="dietary"
+                                value="keto-friendly"
+                            />{{ t.keto_friendly }}</label
+                        >
+                    </fieldset>
+                    <label>
+                        {{ t.active }}:
+                        <input type="checkbox" name="active" />
+                    </label>
+                    <fieldset>
+                        <legend>{{ t.days_of_week }}</legend>
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="days_of_week"
+                                value="Monday"
+                            />{{ t.monday }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="days_of_week"
+                                value="Tuesday"
+                            />{{ t.tuesday }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="days_of_week"
+                                value="Wednesday"
+                            />{{ t.wednesday }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="days_of_week"
+                                value="Thursday"
+                            />{{ t.thursday }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="days_of_week"
+                                value="Friday"
+                            />{{ t.friday }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="days_of_week"
+                                value="Saturday"
+                            />{{ t.saturday }}</label
+                        >
+                        <label
+                            ><input
+                                type="checkbox"
+                                name="days_of_week"
+                                value="Sunday"
+                            />{{ t.sunday }}</label
+                        >
+                    </fieldset>
+                    <button type="submit" class="btn-accent">
+                        {{ t.save }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %} {% block scripts %}
+<script
+    type="module"
+    src="{{ url_for('static', filename='js/admin-guard.js') }}"
+></script>
+<script
+    type="module"
+    src="{{ url_for('static', filename='js/admin/menuAdmin.js') }}"
+></script>
+{% endblock %}
