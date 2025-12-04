@@ -111,6 +111,10 @@ const showDetail = async (id) => {
 document.addEventListener("DOMContentLoaded", () => {
   loadMenu();
   initCartUI();
+  // Expose addToCart globally for dietary filter event handlers
+  import('./cart.js').then(mod => {
+    window.addToCart = mod.addToCart;
+  });
 
   const menuListEl = document.getElementById("menuList");
   if (menuListEl) {

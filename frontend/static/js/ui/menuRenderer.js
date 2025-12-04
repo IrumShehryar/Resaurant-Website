@@ -102,6 +102,9 @@ export function renderMenuPage(items = [], options = {}) {
       const wrapper = document.createElement('div');
       wrapper.className = 'menu-row__card';
       const card = createMenuCard(it);
+      card.__itemData = it; // Store original item data for cloning
+      // Also set on wrapper for easier access if needed
+      wrapper.__itemData = it;
       wrapper.appendChild(card);
       row.appendChild(wrapper);
     });
