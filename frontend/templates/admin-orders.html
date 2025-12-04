@@ -34,21 +34,93 @@
 <table class="admin-table">
     <thead>
         <tr>
+            <th>Order no</th>
             <th>Name</th>
-            <th>Order Number</th>
+            <th>Phone</th>
+            <th>Total€</th>
             <th>Status</th>
-            <th>Total</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody id="orders-tbody">
         <tr>
-            <td colspan="5">Loading...</td>
+            <td colspan="6">Loading...</td>
         </tr>
     </tbody>
 </table>
 <div id="notification"></div>
 <!-- Add your orders management modal here if needed -->
+ <!-- Order Edit Modal -->
+<div id="order-admin-modal" class="modal admin-modal">
+    <div class="modal-content">
+        <button class="modal-close">&times;</button>
+        <h3 id="order-form-title">{{ t.edit_order }}</h3>
+        <form id="order-form" class="admin-form">
+            <input type="hidden" name="orderId" id="editOrderId" />
+            <label>
+                {{ t.name }}:
+                <input type="text" name="name" id="editOrderName" required />
+            </label>
+            <label>
+                {{ t.phone }}:
+                <input type="text" name="phone" id="editOrderPhone" required />
+            </label>
+            <label>
+                {{ t.email }}:
+                <input type="email" name="email" id="editOrderEmail" required />
+            </label>
+            <label>
+                {{ t.address }}:
+                <input type="text" name="address" id="editOrderAddress" required />
+            </label>
+            <label>
+                {{ t.payment_method }}:
+                <select name="payment_method" id="editOrderPayment" required>
+                    <option value="cash">{{ t.cash }}</option>
+                    <option value="card">{{ t.card }}</option>
+                    <option value="paypal">{{ t.paypal }}</option>
+                </select>
+            </label>
+            <label>
+                {{ t.items }}:
+                <textarea name="items" id="editOrderItems" rows="3" required placeholder="{{ t.items_placeholder }}"></textarea>
+            </label>
+            <label>
+                {{ t.subtotal }}:
+                <input type="number" name="subtotal" id="editOrderSubtotal" min="0" step="0.01" required />
+            </label>
+            <label>
+                {{ t.delivery_charges }}:
+                <input type="number" name="delivery_charges" id="editOrderDelivery" min="0" step="0.01" required />
+            </label>
+            <label>
+                {{ t.total }}:
+                <input type="number" name="total" id="editOrderTotal" min="0" step="0.01" required />
+            </label>
+            <label>
+                {{ t.order_date }}:
+                <input type="date" name="order_date" id="editOrderDate" required />
+            </label>
+            <label>
+                {{ t.order_time }}:
+                <input type="time" name="order_time" id="editOrderTime" required />
+            </label>
+            <label>
+                {{ t.status }}:
+                <select name="status" id="editOrderStatus" required>
+                    <option value="pending">{{ t.pending }}</option>
+                    <option value="confirmed">{{ t.confirmed }}</option>
+                    <option value="cancelled">{{ t.cancelled }}</option>
+                </select>
+            </label>
+            <label>
+                {{ t.created_at }}:
+                <input type="text" name="created_at" id="editOrderCreated" readonly />
+            </label>
+            <button type="submit" class="btn-accent">{{ t.save }}</button>
+        </form>
+    </div>
+</div>
 {% endblock %} {% block scripts %}
 <script
     type="module"
