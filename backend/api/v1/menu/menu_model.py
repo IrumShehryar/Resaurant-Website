@@ -21,7 +21,7 @@ class MenuItem(Document):
     price = FloatField(required= True, min_value=0.01,max_value=999)
     category = StringField(required = True, choices = ["starter","main","dessert","side","drink","special"])
     image = StringField(max_length=500)
-    dietary = ListField(StringField(choices =["vegetarian","vegan","gluten-free","dairy-free","pescatarian","sugar-free","nut-free","keto-friendly"]))
+    dietary = ListField(StringField(choices =["vegetarian","vegan","non-vegetarian","gluten-free","dairy-free","pescatarian","sugar-free","nut-free","keto-friendly","alcoholic","non-alcoholic"]))
     allergens = ListField(StringField(max_length=200))
     ingredients = ListField(StringField(max_length=200))
     days_of_week = ListField(StringField(choices =["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]))
@@ -60,8 +60,8 @@ class MenuItem(Document):
             if self.price < 3 or self.price > 8:
                 raise ValidationError('Sides must be priced between 3 and 8')
         elif self.category == 'drink':
-            if self.price < 2 or self.price > 8:
-                raise ValidationError('Drinks must be priced between 2 and 8')
+            if self.price < 2 or self.price > 15:
+                raise ValidationError('Drinks must be priced between 2 and 15')
         elif self.category == 'special':
             if self.price < 15 or self.price > 35:
                 raise ValidationError('Specials must be priced between 15 and 35')
