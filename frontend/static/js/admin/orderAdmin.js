@@ -6,7 +6,7 @@ import { renderTable } from "../utils/tableRenderer.js";
 import { createCrudManager } from "../services/crudServices.js";
 
 // ========== DOM Elements ==========
-const modal = document.getElementById("orders-modal");
+const modal = document.getElementById("order-admin-modal");
 const closeBtn = modal ? modal.querySelector(".modal-close") : null;
 const addBtn = document.getElementById("btn-add-order");
 const form = document.getElementById("order-form");
