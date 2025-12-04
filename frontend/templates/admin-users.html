@@ -34,4 +34,9 @@
         <!-- Add your users management table and controls here -->
     </main>
 </div>
+{% endblock %} {% block scripts %}
+<script
+    type="module"
+    src="{{ url_for('static', filename='js/admin/usersAdmin.js') }}"
+></script>
 {% endblock %}

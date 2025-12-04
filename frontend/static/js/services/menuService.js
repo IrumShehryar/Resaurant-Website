@@ -11,15 +11,14 @@ import fetchData from "../utils/fetchData.js";
 
 /**
  * Fetch all menu items from the backend API.
- *
+ * Public: No token required.
  * @returns {Promise<Array<Object>>} Promise that resolves to an array of menu item objects.
  */
 export const getAllMenu = () => fetchData(apiUrl("menu"));
 
-
 /**
  * Fetch a single menu item by id.
- *
+ * Public: No token required.
  * @param {number|string} id - Item id to fetch. The service passes it to the API as-is.
  * @returns {Promise<Object>} Promise that resolves to the item object.
  */

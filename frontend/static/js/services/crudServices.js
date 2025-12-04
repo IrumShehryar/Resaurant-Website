@@ -1,3 +1,6 @@
+import fetchData from '../utils/fetchData.js';
+import { apiUrl } from '../utils/config.js';
+
 /**
  * Generic CRUD Service Factory
  * 

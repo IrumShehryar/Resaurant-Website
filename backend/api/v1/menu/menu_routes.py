@@ -19,7 +19,7 @@ from .menu_controller import (
     update_menu_item_controller,
     delete_menu_item_controller,
 )
-from api.utils.auth_utils import token_required
+from api.utils.auth_utils import token_required, admin_required
 
 menu_bp = Blueprint("menu", __name__, url_prefix="/api/v1/menu")
 
@@ -67,7 +67,7 @@ def get_menu_item_route(item_id):
 
 
 @menu_bp.route("/", methods=["POST"])
-@token_required
+@admin_required
 def create_menu(current_user):
     """
     @api {post} /menu Create New Menu Item
@@ -77,14 +77,11 @@ def create_menu(current_user):
     
     Admin-only: requires a valid JWT for a user with role "admin".
     """
-    if current_user.role != "admin":
-        return {"message": "Forbidden"}, 403
-
     return create_menu_item_controller()
 
 
 @menu_bp.route("/<item_id>", methods=["PUT"])
-@token_required
+@admin_required
 def update_menu(current_user, item_id):
     """
     @api {put} /menu/:id Update Menu Item
@@ -94,14 +91,11 @@ def update_menu(current_user, item_id):
     
     Admin-only: requires a valid JWT for a user with role "admin".
     """
-    if current_user.role != "admin":
-        return {"message": "Forbidden"}, 403
-
     return update_menu_item_controller(item_id)
 
 
 @menu_bp.route("/<item_id>", methods=["DELETE"])
-@token_required
+@admin_required
 def delete_menu(current_user, item_id):
     """
     @api {delete} /menu/:id Delete Menu Item
@@ -111,7 +105,4 @@ def delete_menu(current_user, item_id):
     
     Admin-only: requires a valid JWT for a user with role "admin".
     """
-    if current_user.role != "admin":
-        return {"message": "Forbidden"}, 403
-
     return delete_menu_item_controller(item_id)
