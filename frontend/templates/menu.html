@@ -42,6 +42,9 @@ endblock %} {% block styles %}
 
         <div class="filter-group">
             <h4 class="group-title">{{ t.diet }}</h4>
+            <button class="filter-btn diet" data-diet="non-vegetarian">
+                {{ t.non_vegetarian }}
+            </button>
 
             <button class="filter-btn diet" data-diet="vegetarian">
                 {{ t.vegetarian }}
@@ -61,6 +64,9 @@ endblock %} {% block styles %}
 
             <button class="filter-btn diet" data-diet="non alcoholic">
                 {{ t.non_alcoholic }}
+            </button>
+            <button class="filter-btn diet" data-diet="alcoholic">
+                {{ t.alcoholic }}
             </button>
         </div>
     </nav>

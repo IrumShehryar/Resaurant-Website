@@ -10,7 +10,8 @@
  */
 import { resolveImageUrl } from "../utils/image-resolver.js";
 
-export const renderItemDetail = (item) => {
+// Accepts translation object 't' as second argument
+export const renderItemDetail = (item, t = {}) => {
 	const allergensArr = Array.isArray(item.allergens) ? item.allergens : (item.allergens ? [item.allergens] : []);
 	const dietaryArr = Array.isArray(item.dietary) ? item.dietary : (item.dietary ? [item.dietary] : []);
 	const imgSrc = resolveImageUrl(item);
@@ -28,9 +29,14 @@ export const renderItemDetail = (item) => {
 	}
 	let dietaryHTML = '';
 	if (dietaryArr && dietaryArr.length) {
-		dietaryHTML = dietaryArr.map(d => `<span class="tag tag--dietary">${d}</span>`).join(' ');
+		dietaryHTML = dietaryArr.map(d => {
+			// Try translation, fallback to raw value
+			const key = d.replace(/-/g, '_');
+			const label = t[key] || t[d] || d;
+			return `<span class="tag tag--dietary">${label}</span>`;
+		}).join(' ');
 	} else {
-		dietaryHTML = 'None';
+		dietaryHTML = t.none || 'None';
 	}
 	let allergensHTML = '';
 	if (allergensArr && allergensArr.length) {
@@ -47,7 +53,7 @@ export const renderItemDetail = (item) => {
 		<p class="menu-detail__meta menu-detail__meta--dietary" aria-label="Suitable for">Suitable for: ${dietaryHTML}</p>
 		<p class="menu-detail__meta menu-detail__meta--allergens" aria-label="Allergens">Allergens: ${allergensHTML}</p>
 		${ingredientsHTML}
-		<p class="menu-detail__price"><strong><span class="menu-detail__price-label">Price:</span> <span class="menu-detail__price-amount">${price}c</span></strong></p>
+		<p class="menu-detail__price"><strong><span class="menu-detail__price-label">Price:</span> <span class="menu-detail__price-amount">${price}€</span></strong></p>
 		<button id="modal-close">Close</button>
 	</div>
 	<div class="menu-detail__img">${img}</div>
