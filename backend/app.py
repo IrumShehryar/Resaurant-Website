@@ -12,6 +12,7 @@ from api.v1.orders.orders_routes import orders_bp
 from api.v1.users.users_model import User
 from api.utils.db import mongo_connect
 from api.utils.admin_stats import admin_stats_bp
+from api.v1.menu.menu_stats import menu_stats_bp
 
 from werkzeug.security import check_password_hash
 from bson import ObjectId
@@ -38,6 +39,7 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(reservation_bp)
 app.register_blueprint(orders_bp)
 app.register_blueprint(admin_stats_bp)
+app.register_blueprint(menu_stats_bp)
 
 # Language switch
 @app.route("/set_language/<lang>")

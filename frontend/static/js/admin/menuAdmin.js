@@ -30,6 +30,8 @@ import { validateMenuItemForm } from '../utils/validation.js'
 import { showNotification, createModalManager } from '../utils/tableManager.js'
 import { renderTable } from "../utils/tableRenderer.js";
 import { createCrudManager} from '../services/crudServices.js'
+import { apiUrl } from "../utils/config.js";
+import fetchData from "../utils/fetchData.js";
 
 // ========== DOM Elements ==========
 const modal = document.getElementById('admin-modal')
@@ -240,3 +242,49 @@ menuTbody.addEventListener('click',async(e) =>{
 // ========== Initialize Page ==========
 // Load menu items on page load
 loadMenuItems();
+
+// ========== Menu Stats Dashboard ========== //
+
+
+async function updateMenuStats() {
+    try {
+        const stats = await fetchData(apiUrl("menu/stats"));
+        // Category counts
+        const catMap = {
+            Starter: "menu-starters",
+            Main: "menu-mains",
+            Dessert: "menu-desserts",
+            Side: "menu-sides",
+            Drink: "menu-drinks"
+        };
+        for (const [cat, id] of Object.entries(catMap)) {
+            if (stats.category_counts && stats.category_counts[cat] !== undefined) {
+                document.getElementById(id).textContent = stats.category_counts[cat];
+            }
+        }
+        // Dietary counts
+        const dietMap = {
+            "Vegetarian": "menu-vegetarian",
+            "Vegan": "menu-vegan",
+            "Gluten-Free": "menu-gluten-free",
+            "Non-Vegetarian": "menu-non-vegetarian",
+            "Alcoholic": "menu-alcoholic",
+            "Non-Alcoholic": "menu-non-alcoholic"
+        };
+        for (const [diet, id] of Object.entries(dietMap)) {
+            if (stats.dietary_counts && stats.dietary_counts[diet] !== undefined) {
+                document.getElementById(id).textContent = stats.dietary_counts[diet];
+            }
+        }
+        // Hot selling item
+        if (stats.hot_selling_item && stats.hot_selling_item.item) {
+            document.getElementById("menu-hot").textContent = `${stats.hot_selling_item.item} (${stats.hot_selling_item.count})`;
+        } else {
+            document.getElementById("menu-hot").textContent = "-";
+        }
+    } catch (err) {
+        console.error("Failed to load menu stats", err);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", updateMenuStats);
