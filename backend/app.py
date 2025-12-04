@@ -9,8 +9,10 @@ from api.v1.users.users_routes import users_bp
 from api.v1.auth.auth_routes import auth_bp
 from api.v1.reservation.reservation_route import reservation_bp
 from api.v1.orders.orders_routes import orders_bp
-from api.utils.db import mongo_connect
 from api.v1.users.users_model import User
+from api.utils.db import mongo_connect
+from api.utils.admin_stats import admin_stats_bp
+
 from werkzeug.security import check_password_hash
 from bson import ObjectId
 
@@ -35,6 +37,7 @@ app.register_blueprint(users_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(reservation_bp)
 app.register_blueprint(orders_bp)
+app.register_blueprint(admin_stats_bp)
 
 # Language switch
 @app.route("/set_language/<lang>")
@@ -93,7 +96,10 @@ def admin_interface():
 
 @app.route('/admin-menu')
 def admin_menu():
-    return render_template('admin-menu.html')
+    # Determine language, default to English
+    lang = session.get('lang', 'en')
+    t = translations.get(lang, translations['en'])
+    return render_template('admin-menu.html', t=t)
 
 @app.route('/admin-orders')
 def admin_orders():

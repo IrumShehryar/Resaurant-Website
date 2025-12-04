@@ -14,21 +14,19 @@ block styles %}
                 <span class="stat-label">{{ t.stats }}</span>
                 <div class="dashboard-stat">
                     <span class="stat-label">{{ t.active_orders }}</span>
-                    <span class="stat-value" id="dashboard-orders">0</span>
+                    <span class="stat-value" id="dashboard-orders"></span>
                 </div>
                 <div class="dashboard-stat">
                     <span class="stat-label">{{ t.active_reservations }}</span>
-                    <span class="stat-value" id="dashboard-reservations"
-                        >0</span
-                    >
+                    <span class="stat-value" id="dashboard-reservations"></span>
                 </div>
                 <div class="dashboard-stat">
                     <span class="stat-label">{{ t.menu_items }}</span>
-                    <span class="stat-value" id="dashboard-menu">0</span>
+                    <span class="stat-value" id="dashboard-menu"></span>
                 </div>
                 <div class="dashboard-stat">
                     <span class="stat-label">{{ t.active_users }}</span>
-                    <span class="stat-value" id="dashboard-users">0</span>
+                    <span class="stat-value" id="dashboard-users"></span>
                 </div>
             </div>
         </div>
@@ -39,5 +37,9 @@ block styles %}
 <script
     type="module"
     src="{{ url_for('static', filename='js/admin-guard.js') }}"
+></script>
+<script
+    type="module"
+    src="{{ url_for('static', filename='js/admin/dashboard.js') }}"
 ></script>
 {% endblock %}

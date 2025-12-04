@@ -81,6 +81,14 @@ translations = {
         "add_new_item": "Add New Item",
         "admin_login": "Admin Login",
 
+        # Admin Dashboard Stats
+        "dashboard": "Dashboard",
+        "stats": "Stats",
+        "active_orders": "Total Orders",
+        "active_reservations": "Total Reservations",
+        "menu_items": "Total Menu Items",
+        "active_users": "Total Users",
+
         # Miscellaneous
         "name": "Name",
         "price": "Price (€)",
@@ -178,6 +186,13 @@ translations = {
         "name": "Nimi",
         "price": "Hinta (€)",
         "dietary_info": "Ruokavalio",
+        # Admin Dashboard Stats
+        "dashboard": "Ylläpito",
+        "stats": "Tilastot",
+        "active_orders": "Tilausten määrä",
+        "active_reservations": "Varausten määrä",
+        "menu_items": "Ruokalistan tuotteet",
+        "active_users": "Käyttäjien määrä",
         "actions": "Toiminnot",
         "loading": "Ladataan...",
 
