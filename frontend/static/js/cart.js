@@ -137,7 +137,7 @@ export function addToCart(item) {
   saveCartToStorage();
 
   showCartButton();
-  showNotification(`${item.name} added to cart!`);
+  showNotification(`${item.name} ${window.t && window.t.added_to_cart ? window.t.added_to_cart : 'added to cart!'}`);
   console.log("Cart updated:", cart);
 }
 

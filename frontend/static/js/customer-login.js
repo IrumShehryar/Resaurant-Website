@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log("Login role:", role);
 
     
-    let mode = "login"; // default
+    // Track current form mode (login/register)
+    let mode = "login";
 
     const getNextUrl = () => nextUrlInput && nextUrlInput.value ? nextUrlInput.value : "/order-confirmation";
 
@@ -89,33 +90,38 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
         const toggleLink = e.target;
 
-        if (toggleLink.textContent.includes("Sign up")) {
-            mode = "register";
-            authBox.querySelector("h2").textContent = "Sign Up";
-            authForm.innerHTML = `
-                <label>Full Name:<input type="text" name="name" required></label>
-                <label>Username:<input type="text" name="username" required></label>
-                <label>Email:<input type="email" name="email" required></label>
-                <label>Phone:<input type="text" name="phone" required></label>
-                <label>Address:<input type="text" name="address" required></label>
-                <label>Password:<input type="password" name="password" required></label>
-                <label>Confirm Password:<input type="password" name="confirm_password" required></label>
-                <button type="submit">Sign Up</button>
-            `;
-            if (toggleText) toggleText.innerHTML = `Already have an account? <a href="#" id="toggle-link">Log in here</a>`;
-        } else {
-            mode = "login";
-            authBox.querySelector("h2").textContent = "Log In";
-            authForm.innerHTML = `
-                <label>Username:<input type="text" name="username" required></label>
-                <label>Password:<input type="password" name="password" required></label>
-                <button type="submit">Log In</button>
-            `;
-            if (toggleText) toggleText.innerHTML = `Don't have an account? <a href="#" id="toggle-link">Sign up here</a>`;
-        }
+            if (toggleLink.textContent.includes("Sign up")) {
+                mode = "register";
+                authBox.querySelector("h2").textContent = "Sign Up";
+                authForm.innerHTML = `
+                    <label>Full Name:<input type="text" name="name" required></label>
+                    <label>Username:<input type="text" name="username" required></label>
+                    <label>Email:<input type="email" name="email" required></label>
+                    <label>Phone:<input type="text" name="phone" required></label>
+                    <label>Address:<input type="text" name="address" required></label>
+                    <label>Password:<input type="password" name="password" required></label>
+                    <label>Confirm Password:<input type="password" name="confirm_password" required></label>
+                    <button type="submit">Sign Up</button>
+                `;
+                if (toggleText) toggleText.innerHTML = `Already have an account? <a href="#" id="toggle-link">Log in here</a>`;
+            } else {
+                mode = "login";
+                authBox.querySelector("h2").textContent = "Log In";
+                authForm.innerHTML = `
+                    <label>Username:<input type="text" name="username" required></label>
+                    <label>Password:<input type="password" name="password" required></label>
+                    <button type="submit">Log In</button>
+                `;
+                if (toggleText) toggleText.innerHTML = `Don't have an account? <a href="#" id="toggle-link">Sign up here</a>`;
+            }
+            const newToggleLink = document.getElementById("toggle-link");
+            if (newToggleLink) newToggleLink.addEventListener("click", toggleForm);
+            attachFormSubmit();
 
-        const newToggleLink = document.getElementById("toggle-link");
-        if (newToggleLink) newToggleLink.addEventListener("click", toggleForm);
+        setTimeout(() => {
+            const newToggleLink = document.getElementById("toggle-link");
+            if (newToggleLink) newToggleLink.addEventListener("click", toggleForm);
+        }, 0);
 
         attachFormSubmit();
     };

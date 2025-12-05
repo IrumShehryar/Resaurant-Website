@@ -92,7 +92,12 @@ export function renderMenuPage(items = [], options = {}) {
 
     const heading = document.createElement('h3');
     heading.className = 'menu-category__heading';
-    heading.textContent = cat;
+      // Use translation key for category heading if available
+      if (window.t) {
+        heading.textContent = window.t[`cat_${cat}`] || window.t[cat] || cat;
+      } else {
+        heading.textContent = cat;
+      }
     section.appendChild(heading);
 
     const row = document.createElement('div');
