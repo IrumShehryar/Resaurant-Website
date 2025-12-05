@@ -166,11 +166,12 @@ def update_menu_item(item_id,item_data):
     # FIX: Added ObjectId() conversion for item_id
     # ISSUE: String ID must be converted to MongoDB ObjectId for database query
     item = MenuItem.objects.get(id=ObjectId(item_id))
-    item.update(**item_data)
-    # FIX: Re-fetch the updated item before returning
-    # ISSUE: .update() doesn't return the updated document, so we fetch it again
-    # to ensure the response contains the latest data
-    return MenuItem.objects.get(id=ObjectId(item_id))
+    # Use setattr to update fields and enforce validation on save
+    # setattr(object, name, value) sets object.name = value dynamically
+    for key, value in item_data.items():
+        setattr(item, key, value)
+    item.save()  # This will call clean() and validate all fields
+    return item
 
 def delete_menu_item(item_id):
     """
