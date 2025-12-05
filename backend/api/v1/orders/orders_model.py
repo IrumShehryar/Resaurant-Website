@@ -69,6 +69,13 @@ class Orders(Document):
             name=self.name,
             email=self.email,
             phone=self.phone,
+            address=self.address,
+            items=self.items,
+            subtotal=self.subtotal,
+            delivery_charges=self.delivery_charges,
+            total=self.total,
+            payment_method=self.payment_method,
+            status=self.status,
             order_date=self.order_date,
             order_time=self.order_time,
         )

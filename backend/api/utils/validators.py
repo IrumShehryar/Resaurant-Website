@@ -172,6 +172,19 @@ def validate_order_fields(
     Raises mongoengine.ValidationError if something is wrong.
     """
 
+    print(f"[DEBUG] name: '{name}' type: {type(name)}")
+    print(f"[DEBUG] email: '{email}' type: {type(email)}")
+    print(f"[DEBUG] phone: '{phone}' type: {type(phone)}")
+    print(f"[DEBUG] address: '{address}' type: {type(address)}")
+    print(f"[DEBUG] items: '{items}' type: {type(items)}")
+    print(f"[DEBUG] subtotal: '{subtotal}' type: {type(subtotal)}")
+    print(f"[DEBUG] delivery_charges: '{delivery_charges}' type: {type(delivery_charges)}")
+    print(f"[DEBUG] total: '{total}' type: {type(total)}")
+    print(f"[DEBUG] payment_method: '{payment_method}' type: {type(payment_method)}")
+    print(f"[DEBUG] status: '{status}' type: {type(status)}")
+    print(f"[DEBUG] order_date: '{order_date}' type: {type(order_date)}")
+    print(f"[DEBUG] order_time: '{order_time}' type: {type(order_time)}")
+
     # --- name checks ---
     if not name or not str(name).strip():
         raise ValidationError("Name cannot be empty")
@@ -190,22 +203,25 @@ def validate_order_fields(
     if not re.match(r"^[0-9+\-\s()]{7,20}$", phone):
         raise ValidationError("Invalid phone number format")
 
-    print("[DEBUG] validate_order_fields called")
-    print(f"[DEBUG] Address received for validation: '{address}'")
     # --- address check ---
-    # TEMP: Relax address validation to allow any non-None value
-    if address is None:
+    if address is None or not str(address).strip():
         raise ValidationError("Address cannot be empty")
 
     # --- items check ---
     if not items or not isinstance(items, list) or len(items) == 0:
         raise ValidationError("Order must contain at least one item")
     for item in items:
-        if not isinstance(item, dict):
-            raise ValidationError("Each item must be a dict with item_name and quantity")
-        if not item.get("item_name") or not str(item["item_name"]).strip():
+        # Accept both dict and OrderItem (mongoengine) objects
+        if isinstance(item, dict):
+            item_name = item.get("item_name")
+            quantity = item.get("quantity")
+        else:
+            # Try to get attributes for OrderItem or similar objects
+            item_name = getattr(item, "item_name", None)
+            quantity = getattr(item, "quantity", None)
+        if not item_name or not str(item_name).strip():
             raise ValidationError("Each item must have a name")
-        if not isinstance(item.get("quantity"), int) or item["quantity"] <= 0:
+        if not isinstance(quantity, int) or quantity <= 0:
             raise ValidationError("Each item must have a quantity > 0")
 
     # --- subtotal, delivery_charges, total ---

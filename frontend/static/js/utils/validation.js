@@ -18,6 +18,10 @@ export function validateOrderFormFields({ name, email, phone, order_date, order_
     if (!/^[0-9+\-\s()]{7,20}$/.test(phone)) {
         return { valid: false, message: "Invalid phone number format" };
     }
+    // Address validation
+    if (!arguments[0].address || arguments[0].address.trim().length === 0) {
+        return { valid: false, message: "Address cannot be empty" };
+    }
     if (!order_date || order_date.trim().length === 0 || !/^\d{4}-\d{2}-\d{2}$/.test(order_date)) {
         return { valid: false, message: "Invalid order date format (use YYYY-MM-DD)" };
     }
