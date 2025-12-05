@@ -28,6 +28,7 @@
 import { getAllMenu } from "../services/menuService.js";
 import { validateMenuItemForm } from '../utils/validation.js'
 import { showNotification, createModalManager } from '../utils/tableManager.js'
+import { extractErrorMessage } from '../utils/errorMessage.js'
 import { renderTable } from "../utils/tableRenderer.js";
 import { createCrudManager} from '../services/crudServices.js'
 import { apiUrl } from "../utils/config.js";
@@ -207,8 +208,9 @@ form.addEventListener('submit', async(e)=>{
         
         // Show success notification
         showNotification('Item saved successfully!', 'success', notificationElement)
-    } catch(error) {
-        showNotification('Error saving item', 'error', notificationElement)
+    } catch (error) {
+        // Use generic error extraction for backend errors
+        showNotification(extractErrorMessage(error, 'Error saving item'), 'error', notificationElement);
     }
 })
 
