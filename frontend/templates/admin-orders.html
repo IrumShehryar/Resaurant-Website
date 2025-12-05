@@ -31,6 +31,10 @@
         </div>
     </main>
 </div>
+
+<button id="btn-add-order" class="btn-accent admin-add-btn">
+    {{ t.add_new_order }}
+</button>
 <table class="admin-table">
     <thead>
         <tr>
@@ -56,7 +60,7 @@
         <button class="modal-close">&times;</button>
         <h3 id="order-form-title">{{ t.edit_order }}</h3>
         <form id="order-form" class="admin-form">
-            <input type="hidden" name="orderId" id="editOrderId" />
+            <input type="hidden" name="orderId" id="editOrderId"readonlys />
             <label>
                 {{ t.name }}:
                 <input type="text" name="name" id="editOrderName" required />
