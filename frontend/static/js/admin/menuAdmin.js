@@ -26,7 +26,7 @@
  */
 
 import { getAllMenu } from "../services/menuService.js";
-import { validateMenuItemForm } from '../utils/validation.js'
+import { validateMenuItemFields } from '../utils/validation.js'
 import { showNotification, createModalManager } from '../utils/tableManager.js'
 import { extractErrorMessage } from '../utils/errorMessage.js'
 import { renderTable } from "../utils/tableRenderer.js";
@@ -144,76 +144,57 @@ menuTbody.addEventListener('click',async(e)=>{
  * Uses generic menuCrud.create() and menuCrud.update() methods
  * Refreshes cache after operation completes
  */
-form.addEventListener('submit', async(e)=>{
-    e.preventDefault()
-    const formData = new FormData(form)
-    
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+
     // ========== Validate form ==========
-    const name = formData.get('name')
-    const price = parseFloat(formData.get('price'))
-    const category = formData.get('category')
-    const dietaryArray = Array.from(document.querySelectorAll('input[name="dietary"]:checked'))
-        .map(checkbox => checkbox.value)
-    
-    const validation = validateMenuItemForm(name, price, category, dietaryArray)
+    const name = formData.get('name');
+    const price = parseFloat(formData.get('price'));
+    const category = formData.get('category');
+    const dietaryArray = Array.from(document.querySelectorAll('input[name="dietary"]:checked')).map(cb => cb.value);
+    const allergens = formData.get('allergens').split(',').map(a => a.trim()).filter(a => a);
+    const ingredients = formData.get('ingredients').split(',').map(i => i.trim()).filter(i => i);
+    const days_of_week = Array.from(document.querySelectorAll('input[name="days_of_week"]:checked')).map(cb => cb.value);
+    const active = document.querySelector('input[name="active"]').checked;
+
+    const validation = validateMenuItemFields({
+        name, price, category, dietary: dietaryArray, allergens, ingredients, days_of_week, active
+    });
     if (!validation.valid) {
-        showNotification(validation.message, 'error', notificationElement)
-        return
+        showNotification(validation.message, 'error', notificationElement);
+        return;
     }
-    
-    // ========== Parse multi-select fields ==========
-    const allergens = formData.get('allergens')
-        .split(',')
-        .map(item => item.trim())
-        .filter(item => item)
-
-    const ingredients = formData.get('ingredients')
-        .split(',')
-        .map(item => item.trim())
-        .filter(item => item);
-
-    const days_of_week = Array.from(document.querySelectorAll('input[name="days_of_week"]:checked'))
-        .map(checkbox => checkbox.value)
 
     // ========== Build item object ==========
     const itemData = {
-        name: formData.get('name'),
-        price: parseFloat(formData.get('price')),
-        category: formData.get('category'),
+        name,
+        price,
+        category,
         description: formData.get('description'),
         image: formData.get('image'),
-        allergens: allergens,
-        ingredients: ingredients,
+        allergens,
+        ingredients,
         dietary: dietaryArray,
-        active: document.querySelector('input[name="active"]').checked,
-        days_of_week: days_of_week
+        active,
+        days_of_week
     };
-    
-    // ========== Save to database using generic CRUD ==========
-    try{
-        if(currentEditId){
-           // Update existing item using generic menuCrud.update()
-           await menuCrud.update(currentEditId,itemData)
-        }else{
-            // Create new item using generic menuCrud.create()
-            await menuCrud.create(itemData)
-        }
 
-        // ========== Post-save cleanup ==========
-        modal.style.display = 'none'
-        form.reset()
-        
-        // Refresh cache and table
+    // ========== Save to database using generic CRUD ==========
+    try {
+        if (currentEditId) {
+            await menuCrud.update(currentEditId, itemData);
+        } else {
+            await menuCrud.create(itemData);
+        }
+        modal.style.display = 'none';
+        form.reset();
         loadMenuItems();
-        
-        // Show success notification
-        showNotification('Item saved successfully!', 'success', notificationElement)
+        showNotification('Item saved successfully!', 'success', notificationElement);
     } catch (error) {
-        // Use generic error extraction for backend errors
         showNotification(extractErrorMessage(error, 'Error saving item'), 'error', notificationElement);
     }
-})
-
+});
 /**
  * Delete button: Remove item from database
  * Asks for confirmation before deletion

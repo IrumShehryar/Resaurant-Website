@@ -10,6 +10,7 @@ The dataset is intentionally small and self-contained so the project can
 run without a database during development and testing.
 """
 from mongoengine import Document , StringField, FloatField, ListField, BooleanField, ValidationError
+from api.utils.validators import validate_menu_item_fields
 from bson import ObjectId
 import re
 # Mock data (16 items) for Revontulet Flamehouse
@@ -29,60 +30,20 @@ class MenuItem(Document):
     
     def clean(self):
         """
-        Custom validation logic for MenuItem.
-        
-        Validates:
-        1. Name is not empty/whitespace
-        2. Price ranges by category (starters: €5-€12, mains: €12-€25, desserts: €5-€10, etc.)
-        3. If active=True, must have at least one day_of_week
-        4. Dietary preferences consistency with allergens
-        
-        Raises:
-            ValidationError: If any validation rule fails
+        Delegates all menu item validation to validate_menu_item_fields in validators.py
         """
-        # Check name is not empty
-        if not self.name or not self.name.strip():
-            raise ValidationError('Name cannot be empty')
-        if not re.search(r"[A-Za-z]", self.name):
-            raise ValidationError("Name must contain at least one letter")
-       
-        # Price range validation by category
-        if self.category == 'starter':
-            if self.price < 4 or self.price > 12:
-                raise ValidationError('Starters must be priced between 4 and 12')
-        elif self.category == 'main':
-            if self.price < 10 or self.price > 25:
-                raise ValidationError('Main courses must be priced between  10 and  25')
-        elif self.category == 'dessert':
-            if self.price < 5 or self.price > 10:
-                raise ValidationError('Desserts must be priced between 5 and 10')
-        elif self.category == 'side':
-            if self.price < 3 or self.price > 8:
-                raise ValidationError('Sides must be priced between 3 and 8')
-        elif self.category == 'drink':
-            if self.price < 2 or self.price > 15:
-                raise ValidationError('Drinks must be priced between 2 and 15')
-        elif self.category == 'special':
-            if self.price < 15 or self.price > 35:
-                raise ValidationError('Specials must be priced between 15 and 35')
-        
-        # If active, must have at least one day assigned
-        if self.active and (not self.days_of_week or len(self.days_of_week) == 0):
-            raise ValidationError('Active items must be assigned to at least one day of the week')
-        
-        # Vegan items shouldn't have dairy allergens
-        if 'vegan' in (self.dietary or []) and self.allergens:
-            dairy_allergens = ['dairy', 'milk', 'cheese', 'cream', 'butter']
-            item_allergens = [a.lower() for a in self.allergens]
-            if any(dairy in item_allergens for dairy in dairy_allergens):
-                raise ValidationError('Vegan items cannot contain dairy allergens')
-        
-        # Gluten-free items shouldn't have gluten allergens
-        if 'gluten-free' in (self.dietary or []) and self.allergens:
-            gluten_allergens = ['gluten', 'wheat', 'barley', 'rye']
-            item_allergens = [a.lower() for a in self.allergens]
-            if any(gluten in item_allergens for gluten in gluten_allergens):
-                raise ValidationError('Gluten-free items cannot contain gluten allergens')
+        validate_menu_item_fields(
+            name=self.name,
+            price=self.price,
+            category=self.category,
+            dietary=self.dietary,
+            allergens=self.allergens,
+            ingredients=self.ingredients,
+            days_of_week=self.days_of_week,
+            active=self.active,
+            description=self.description,
+            image=self.image
+        )
     
 
 def list_all_menu_items():
