@@ -86,6 +86,17 @@ if (addBtn) {
         if (formTitle) {
             formTitle.textContent = defaultFormTitle; // back to "Add new order" (translated in HTML)
         }
+        // Fix the items label every time modal opens
+        const itemsField = document.getElementById("editOrderItems");
+        if (itemsField) {
+            // Find the label that is the parent of the textarea
+            const label = itemsField.closest("label");
+            if (label) {
+                label.textContent = "Items (Format: item_name:quantity, e.g. Pizza:2, Burger:1):";
+                // Re-append the textarea to the label (since setting textContent removes children)
+                label.appendChild(itemsField);
+            }
+        }
         modalManager.open(modal);
     });
 }
@@ -120,11 +131,17 @@ if (orderTbody) {
         form.payment_method.value = item.payment_method || "cash";
 
         // Fix label bug: ensure correct field and label
-        const itemsField = form.items || document.getElementById("editOrderItems");
+        const itemsField = document.getElementById("editOrderItems");
         if (itemsField) {
             itemsField.value = Array.isArray(item.items)
                 ? item.items.map(i => `${i.item_name}:${i.quantity}`).join(", ")
                 : "";
+            // Also fix the label if needed
+            const label = itemsField.closest("label");
+            if (label) {
+                label.textContent = "Items (Format: item_name:quantity, e.g. Pizza:2, Burger:1):";
+                label.appendChild(itemsField);
+            }
         }
         
         form.subtotal.value = item.subtotal || "";

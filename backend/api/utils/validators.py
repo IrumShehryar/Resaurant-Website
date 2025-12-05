@@ -172,18 +172,6 @@ def validate_order_fields(
     Raises mongoengine.ValidationError if something is wrong.
     """
 
-    print(f"[DEBUG] name: '{name}' type: {type(name)}")
-    print(f"[DEBUG] email: '{email}' type: {type(email)}")
-    print(f"[DEBUG] phone: '{phone}' type: {type(phone)}")
-    print(f"[DEBUG] address: '{address}' type: {type(address)}")
-    print(f"[DEBUG] items: '{items}' type: {type(items)}")
-    print(f"[DEBUG] subtotal: '{subtotal}' type: {type(subtotal)}")
-    print(f"[DEBUG] delivery_charges: '{delivery_charges}' type: {type(delivery_charges)}")
-    print(f"[DEBUG] total: '{total}' type: {type(total)}")
-    print(f"[DEBUG] payment_method: '{payment_method}' type: {type(payment_method)}")
-    print(f"[DEBUG] status: '{status}' type: {type(status)}")
-    print(f"[DEBUG] order_date: '{order_date}' type: {type(order_date)}")
-    print(f"[DEBUG] order_time: '{order_time}' type: {type(order_time)}")
 
     # --- name checks ---
     if not name or not str(name).strip():

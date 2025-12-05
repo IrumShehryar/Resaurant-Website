@@ -16,7 +16,7 @@ export function validateOrderFormFields({ name, email, phone, order_date, order_
         return { valid: false, message: "Phone number cannot be empty" };
     }
     if (!/^[0-9+\-\s()]{7,20}$/.test(phone)) {
-        return { valid: false, message: "Invalid phone number format" };
+        return { valid: false, message: "Phone number must be at least 7 digits and contain only numbers, spaces, or + - ( )" };
     }
     // Address validation
     if (!arguments[0].address || arguments[0].address.trim().length === 0) {
