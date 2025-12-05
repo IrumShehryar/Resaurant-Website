@@ -62,7 +62,7 @@ const showCartButton = () => {
   }
 
   const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-  cartBtn.textContent = `🛒 View Cart (${totalItems})`;
+  cartBtn.textContent = `🛒 ${window.t && window.t.view_cart ? window.t.view_cart : 'View Cart'} (${totalItems})`;
   cartBtn.style.display = totalItems > 0 ? "block" : "none";
 };
 

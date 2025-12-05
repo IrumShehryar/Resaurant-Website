@@ -1,5 +1,44 @@
+    
 translations = {
     "en": {
+                            "alcoholic": "Alcoholic",
+                        "reservation_date": "Reservation Date",
+                        "reservation_time": "Reservation Time",
+                        "highlights": "Highlights",
+                    "details": "Details",
+                    "add_to_cart": "Add to Cart",
+                "admin_panel": "Admin Panel",
+            # Orders Admin Dashboard
+            "order_stats": "Order Stats",
+            "active_orders": "Active Orders",
+            "pending_orders": "Pending Orders",
+            "cancelled_orders": "Cancelled Orders",
+            "completed_orders": "Completed Orders",
+            "order_no": "Order no",
+            "total_euro": "Total€",
+
+            # Users Admin Dashboard
+            "user_stats": "User Stats",
+            "total_users": "Total Users",
+            "admins": "Admins",
+            "customers": "Customers",
+            "blocked": "Blocked",
+            "role": "Role",
+
+            # Left Panel
+            "manage_menu": "Manage Menu",
+            "manage_reservations": "Manage Reservations",
+            "manage_orders": "Manage Orders",
+            "manage_users": "Manage Users",
+
+            # Days of Week (for highlights etc.)
+            "monday": "Monday",
+            "tuesday": "Tuesday",
+            "wednesday": "Wednesday",
+            "thursday": "Thursday",
+            "friday": "Friday",
+            "saturday": "Saturday",
+            "sunday": "Sunday",
         # Navigation Links
         "home": "Home",
         "menu": "Menu",
@@ -69,6 +108,7 @@ translations = {
         "reservation_status_cancelled": "cancelled",
         "number_of_guests": "Number of Guests",
         "reserve_button": "Reserve",
+        
 
         # Admin/Management
         "admin_title": "Admin Interface - Revontulet Flamehouse",
@@ -88,6 +128,12 @@ translations = {
         "active_reservations": "Total Reservations",
         "menu_items": "Total Menu Items",
         "active_users": "Total Users",
+
+        # Reservation Admin Dashboard (added)
+        "reservation_stats": "Reservation Stats",
+        "new_reservations": "New Reservations",
+        "reservation_date": "Reservation Date",
+        "reservation_time": "Reservation Time",
 
         # Miscellaneous
         "name": "Name",
@@ -167,6 +213,44 @@ translations = {
         "password": "Password",
     },
     "fi": {
+                            "alcoholic": "Alkoholillinen",
+                        "reservation_date": "Varauspäivä",
+                        "reservation_time": "Varausaika",
+                        "highlights": "Kohokohdat",
+                    "details": "Lisätiedot",
+                    "add_to_cart": "Lisää ostoskoriin",
+                "admin_panel": "Ylläpitopaneeli",
+            # Orders Admin Dashboard
+            "order_stats": "Tilaustilastot",
+            "active_orders": "Aktiiviset tilaukset",
+            "pending_orders": "Odottaa käsittelyä",
+            "cancelled_orders": "Peruutetut tilaukset",
+            "completed_orders": "Valmiit tilaukset",
+            "order_no": "Tilaus nro",
+            "total_euro": "Yhteensä €",
+
+            # Users Admin Dashboard
+            "user_stats": "Käyttäjätilastot",
+            "total_users": "Käyttäjiä yhteensä",
+            "admins": "Ylläpitäjät",
+            "customers": "Asiakkaat",
+            "blocked": "Estetyt",
+            "role": "Rooli",
+
+            # Left Panel
+            "manage_menu": "Hallinnoi menu",
+            "manage_reservations": "Hallinnoi varauksia",
+            "manage_orders": "Hallinnoi tilauksia",
+            "manage_users": "Hallinnoi käyttäjiä",
+
+            # Days of Week (for highlights etc.)
+            "monday": "Maanantai",
+            "tuesday": "Tiistai",
+            "wednesday": "Keskiviikko",
+            "thursday": "Torstai",
+            "friday": "Perjantai",
+            "saturday": "Lauantai",
+            "sunday": "Sunnuntai",
         "home": "Etusivu",
         "menu": "Ruokalista",
         "cart": "Ostoskori",

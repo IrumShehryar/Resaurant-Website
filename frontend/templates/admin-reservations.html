@@ -10,28 +10,34 @@ endblock %} {% block styles %}
     <main class="admin-section">
         <div class="dashboard-group reservation-dashboard-panel">
             <h4 class="group-title" style="text-align: center">
-                Reservation Stats
+                {{ t.reservation_stats }}
             </h4>
             <div class="dashboard-stats">
                 <div class="dashboard-stat">
-                    <span class="stat-label">Pending</span>
+                    <span class="stat-label"
+                        >{{ t.reservation_status_pending }}</span
+                    >
                     <span class="stat-value" id="reservations-pending">0</span>
                 </div>
                 <div class="dashboard-stat">
-                    <span class="stat-label">Confirmed</span>
+                    <span class="stat-label"
+                        >{{ t.reservation_status_confirmed }}</span
+                    >
                     <span class="stat-value" id="reservations-confirmed"
                         >0</span
                     >
                 </div>
                 <div class="dashboard-stat">
-                    <span class="stat-label">Cancelled</span>
+                    <span class="stat-label"
+                        >{{ t.reservation_status_cancelled }}</span
+                    >
                     <span class="stat-value" id="reservations-cancelled"
                         >0</span
                     >
                 </div>
                 <div class="dashboard-stat">
-                    <span class="stat-label">Total</span>
-                    <span class="stat-value" id="reservations-total">0</span>
+                    <span class="stat-label">{{ t.new_reservations }}</span>
+                    <span class="stat-value" id="reservations-new">0</span>
                 </div>
             </div>
         </div>
@@ -46,8 +52,8 @@ endblock %} {% block styles %}
             <th>{{ t.name }}</th>
             <th>{{ t.phone }}</th>
             <th>{{ t.email }}</th>
-            <th>{{ t.date }}</th>
-            <th>{{ t.time }}</th>
+            <th>{{ t.reservation_date }}</th>
+            <th>{{ t.reservation_time }}</th>
             <th>{{ t.people }}</th>
             <th>{{ t.status }}</th>
             <th>{{ t.actions }}</th>

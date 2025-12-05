@@ -74,10 +74,13 @@ endblock %} {% block styles %}
     <main class="menu-main" id="menu-main">
         <div class="highlight-wrapper">
             <h3 class="highlight-heading">
-                {% if highlight_day %} {{ highlight_day }} {{ t.highlights }} {%
-                else %} {{ t.todays_highlights }} {% endif %}
+                {% if highlight_day %} {{ t[highlight_day|lower] }} {{
+                t.highlights }} {% else %} {{ t.todays_highlights }} {% endif %}
             </h3>
 
+            <script>
+                window.t = {{ t|tojson }};
+            </script>
             <section
                 id="highlight-root"
                 class="page-highlight"
