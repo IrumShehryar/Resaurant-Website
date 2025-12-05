@@ -1,3 +1,49 @@
+// Order form validation
+export function validateOrderFormFields({ name, email, phone, order_date, order_time, total, status, items }) {
+    if (!name || name.trim().length < 3) {
+        return { valid: false, message: "Name must be at least 3 characters" };
+    }
+    if (!/[A-Za-zÅÄÖåäö]/.test(name)) {
+        return { valid: false, message: "Name must contain at least one letter" };
+    }
+    if (!email || email.trim().length === 0) {
+        return { valid: false, message: "Email cannot be empty" };
+    }
+    if (!email.includes("@")) {
+        return { valid: false, message: "Invalid email address" };
+    }
+    if (!phone || phone.trim().length === 0) {
+        return { valid: false, message: "Phone number cannot be empty" };
+    }
+    if (!/^[0-9+\-\s()]{7,20}$/.test(phone)) {
+        return { valid: false, message: "Invalid phone number format" };
+    }
+    if (!order_date || order_date.trim().length === 0 || !/^\d{4}-\d{2}-\d{2}$/.test(order_date)) {
+        return { valid: false, message: "Invalid order date format (use YYYY-MM-DD)" };
+    }
+    if (!order_time || order_time.trim().length === 0 || !/^\d{2}:\d{2}$/.test(order_time)) {
+        return { valid: false, message: "Invalid order time format (use HH:MM)" };
+    }
+    if (!total || isNaN(total) || Number(total) <= 0) {
+        return { valid: false, message: "Order amount is required" };
+    }
+    if (!status || status.trim().length === 0) {
+        return { valid: false, message: "Status must be added" };
+    }
+    // Items format validation
+    if (!Array.isArray(items) || items.length === 0) {
+        return { valid: false, message: "Order must contain at least one item in 'name:quantity' format" };
+    }
+    for (const item of items) {
+        if (!item.item_name || typeof item.item_name !== "string" || item.item_name.trim().length < 1) {
+            return { valid: false, message: "Each item must have a name" };
+        }
+        if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
+            return { valid: false, message: `Invalid quantity for item '${item.item_name}'. Use format 'pizza:1'` };
+        }
+    }
+    return { valid: true };
+}
 
 export function validateMenuItemFields({ name, price, category, dietary, allergens, ingredients, days_of_week, active }) {
     const allowedCategories = ["starter", "main", "dessert", "side", "drink", "special"];

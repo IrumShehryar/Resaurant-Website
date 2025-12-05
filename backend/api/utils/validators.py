@@ -157,8 +157,15 @@ def validate_order_fields(
     name: str,
     email: str,
     phone: str,
-    order_date: str,
-    order_time: str,
+    address: str = None,
+    items: list = None,
+    subtotal = None,
+    delivery_charges = None,
+    total = None,
+    payment_method: str = None,
+    status: str = None,
+    order_date: str = None,
+    order_time: str = None,
 ) -> None:
     """
     Validate order fields.
@@ -182,6 +189,42 @@ def validate_order_fields(
         raise ValidationError("Phone number cannot be empty")
     if not re.match(r"^[0-9+\-\s()]{7,20}$", phone):
         raise ValidationError("Invalid phone number format")
+
+    print("[DEBUG] validate_order_fields called")
+    print(f"[DEBUG] Address received for validation: '{address}'")
+    # --- address check ---
+    # TEMP: Relax address validation to allow any non-None value
+    if address is None:
+        raise ValidationError("Address cannot be empty")
+
+    # --- items check ---
+    if not items or not isinstance(items, list) or len(items) == 0:
+        raise ValidationError("Order must contain at least one item")
+    for item in items:
+        if not isinstance(item, dict):
+            raise ValidationError("Each item must be a dict with item_name and quantity")
+        if not item.get("item_name") or not str(item["item_name"]).strip():
+            raise ValidationError("Each item must have a name")
+        if not isinstance(item.get("quantity"), int) or item["quantity"] <= 0:
+            raise ValidationError("Each item must have a quantity > 0")
+
+    # --- subtotal, delivery_charges, total ---
+    if subtotal is None or float(subtotal) < 0:
+        raise ValidationError("Subtotal is required and must be >= 0")
+    if delivery_charges is None or float(delivery_charges) < 0:
+        raise ValidationError("Delivery charges are required and must be >= 0")
+    if total is None or float(total) <= 0:
+        raise ValidationError("Total is required and must be > 0")
+
+    # --- payment method ---
+    allowed_payments = ("cash", "card", "paypal")
+    if not payment_method or payment_method not in allowed_payments:
+        raise ValidationError(f"Payment method must be one of: {', '.join(allowed_payments)}")
+
+    # --- status ---
+    allowed_status = ("pending", "ready", "completed", "cancelled")
+    if not status or status not in allowed_status:
+        raise ValidationError(f"Status must be one of: {', '.join(allowed_status)}")
 
     # --- date & time format checks ---
     if order_date is None or order_time is None:

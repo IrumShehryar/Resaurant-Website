@@ -5,6 +5,8 @@ import { showNotification, createModalManager } from "../utils/tableManager.js";
 import { renderTable } from "../utils/tableRenderer.js";
 import { createCrudManager } from "../services/crudServices.js";
 import { countStatuses, countCreatedToday } from "../utils/statusCounter.js";
+import { extractErrorMessage } from "../utils/errorMessage.js";
+import { validateOrderFormFields } from "../utils/validation.js";
 
 // ========== DOM Elements ==========
 const modal = document.getElementById("order-admin-modal");
@@ -117,9 +119,13 @@ if (orderTbody) {
         form.address.value = item.address || "";
         form.payment_method.value = item.payment_method || "cash";
 
-        form.items.value = Array.isArray(item.items)
-         ? item.items.map(i => `${i.item_name}:${i.quantity}`).join(", ")
-        : "";
+        // Fix label bug: ensure correct field and label
+        const itemsField = form.items || document.getElementById("editOrderItems");
+        if (itemsField) {
+            itemsField.value = Array.isArray(item.items)
+                ? item.items.map(i => `${i.item_name}:${i.quantity}`).join(", ")
+                : "";
+        }
         
         form.subtotal.value = item.subtotal || "";
         form.delivery_charges.value = item.delivery_charges || "";
@@ -140,28 +146,33 @@ if (form) {
         e.preventDefault();
         const formData = new FormData(form);
 
+        // Parse items field: expects format like "pizza:2, burger:1"
+        // Converts to array: [ { item_name: "pizza", quantity: 2 }, ... ]
+        const itemsRaw = formData.get("items").trim();
+        const items = itemsRaw.split(",").map(entry => {
+            const [item_name, quantity] = entry.split(":").map(s => s.trim());
+            return { item_name, quantity: Number(quantity) };
+        }).filter(item => item.item_name && item.quantity);
+
+        // Build data object for backend
         const data = {
             name: formData.get("name").trim(),
+            email: formData.get("email").trim(),
             phone: formData.get("phone").trim(),
+            address: formData.get("address").trim(), // required by backend
+            order_date: formData.get("order_date").trim(),
+            order_time: formData.get("order_time").trim(),
+            subtotal: Number(formData.get("subtotal")), // required by backend
+            delivery_charges: Number(formData.get("delivery_charges")), // required by backend
             total: Number(formData.get("total")),
             status: formData.get("status"),
+            items, // array of { item_name, quantity }
         };
 
-        // Simple validation
-        if (!data.name || data.name.length < 3) {
-            showNotification("Name must be at least 3 characters", "error", notificationElement);
-            return;
-        }
-        if (!data.phone) {
-            showNotification("Phone is required", "error", notificationElement);
-            return;
-        }
-        if (!data.total || data.total <= 0) {
-            showNotification("Order amount is required", "error", notificationElement);
-            return;
-        }
-        if (!data.status){
-            showNotification("Status must be added", "error", notificationElement);
+        // Unified validation
+        const validation = validateOrderFormFields(data);
+        if (!validation.valid) {
+            showNotification(validation.message, "error", notificationElement);
             return;
         }
 
@@ -181,7 +192,7 @@ if (form) {
             showNotification("Order saved successfully!", "success", notificationElement);
         } catch (error) {
             console.error(error);
-            showNotification("Error saving Order", "error", notificationElement);
+            showNotification(extractErrorMessage(error, "Error saving Order"), "error", notificationElement);
         }
     });
 }
