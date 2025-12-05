@@ -50,7 +50,7 @@ class Orders(Document):
     # Order status
     status = StringField(
         required=True,
-        choices=("pending", "confirmed", "cancelled"),
+        choices=("pending", "ready", "completed","cancelled"),
         default="pending",
     )
 

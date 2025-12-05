@@ -55,6 +55,8 @@ const getOrderFromRow = (row) => {
 
 // ========== Event Listeners ==========
 
+
+
 // Add button: open modal to create new order
 if (addBtn) {
     addBtn.addEventListener("click", () => {
@@ -89,14 +91,18 @@ if (orderTbody) {
         }
 
         // Populate form fields
+        //*form.order_id.value = item.order_id || "";
+      // Populate form fields
         form.name.value = item.name || "";
         form.phone.value = item.phone || "";
         form.email.value = item.email || "";
         form.address.value = item.address || "";
         form.payment_method.value = item.payment_method || "cash";
-        form.items.value = item.items && Array.isArray(item.items)
-            ? item.items.map(i => `${i.item_name}:${i.quantity}`).join(", ")
-            : "";
+
+        form.items.value = Array.isArray(item.items)
+         ? item.items.map(i => `${i.item_name}:${i.quantity}`).join(", ")
+        : "";
+        
         form.subtotal.value = item.subtotal || "";
         form.delivery_charges.value = item.delivery_charges || "";
         form.total.value = item.total || "";
@@ -110,7 +116,7 @@ if (orderTbody) {
 
 
 
-// Form submission: create or update reservation
+// Form submission: create or update order
 if (form) {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
