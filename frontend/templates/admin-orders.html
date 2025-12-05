@@ -54,13 +54,13 @@
 </table>
 <div id="notification"></div>
 <!-- Add your orders management modal here if needed -->
- <!-- Order Edit Modal -->
+<!-- Order Edit Modal -->
 <div id="order-admin-modal" class="modal admin-modal">
     <div class="modal-content">
         <button class="modal-close">&times;</button>
         <h3 id="order-form-title">{{ t.edit_order }}</h3>
         <form id="order-form" class="admin-form">
-            <input type="hidden" name="orderId" id="editOrderId"readonlys />
+            <input type="hidden" name="id" id="editOrderId" readonly />
             <label>
                 {{ t.name }}:
                 <input type="text" name="name" id="editOrderName" required />
@@ -75,7 +75,12 @@
             </label>
             <label>
                 {{ t.address }}:
-                <input type="text" name="address" id="editOrderAddress" required />
+                <input
+                    type="text"
+                    name="address"
+                    id="editOrderAddress"
+                    required
+                />
             </label>
             <label>
                 {{ t.payment_method }}:
@@ -87,34 +92,71 @@
             </label>
             <label>
                 {{ t.items }}:
-                <textarea name="items" id="editOrderItems" rows="3" required placeholder="{{ t.items_placeholder }}"></textarea>
+                <textarea
+                    name="items"
+                    id="editOrderItems"
+                    rows="3"
+                    required
+                    placeholder="{{ t.items_placeholder }}"
+                ></textarea>
             </label>
             <label>
                 {{ t.subtotal }}:
-                <input type="number" name="subtotal" id="editOrderSubtotal" min="0" step="0.01" required />
+                <input
+                    type="number"
+                    name="subtotal"
+                    id="editOrderSubtotal"
+                    min="0"
+                    step="0.01"
+                    required
+                />
             </label>
             <label>
                 {{ t.delivery_charges }}:
-                <input type="number" name="delivery_charges" id="editOrderDelivery" min="0" step="0.01" required />
+                <input
+                    type="number"
+                    name="delivery_charges"
+                    id="editOrderDelivery"
+                    min="0"
+                    step="0.01"
+                    required
+                />
             </label>
             <label>
                 {{ t.total }}:
-                <input type="number" name="total" id="editOrderTotal" min="0" step="0.01" required />
+                <input
+                    type="number"
+                    name="total"
+                    id="editOrderTotal"
+                    min="0"
+                    step="0.01"
+                    required
+                />
             </label>
             <label>
                 {{ t.order_date }}:
-                <input type="date" name="order_date" id="editOrderDate" required />
+                <input
+                    type="date"
+                    name="order_date"
+                    id="editOrderDate"
+                    required
+                />
             </label>
             <label>
                 {{ t.order_time }}:
-                <input type="time" name="order_time" id="editOrderTime" required />
+                <input
+                    type="time"
+                    name="order_time"
+                    id="editOrderTime"
+                    required
+                />
             </label>
             <label>
                 {{ t.status }}:
                 <select name="status" id="editOrderStatus" required>
                     <option value="pending">{{ t.pending }}</option>
                     <option value="ready">{{ t.ready }}</option>
-                       <option value="completed">{{ t.completed }}</option>
+                    <option value="completed">{{ t.completed }}</option>
                     <option value="cancelled">{{ t.cancelled }}</option>
                 </select>
             </label>

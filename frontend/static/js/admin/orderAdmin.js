@@ -37,7 +37,7 @@ async function loadOrders() {
         // Show main columns in table
         renderTable(
             items,
-            [ "order_id","name","phone","total","status"],
+            [ "id","name","phone","total","status"],
             orderTbody
         );
     } catch (error) {
@@ -91,8 +91,7 @@ if (orderTbody) {
         }
 
         // Populate form fields
-        //*form.order_id.value = item.order_id || "";
-      // Populate form fields
+        form.id.value = item.id || "";
         form.name.value = item.name || "";
         form.phone.value = item.phone || "";
         form.email.value = item.email || "";
@@ -109,7 +108,7 @@ if (orderTbody) {
         form.order_date.value = item.order_date || "";
         form.order_time.value = item.order_time || "";
         form.status.value = item.status || "pending";
-        form.created_at.value = item.created_at || "";
+       // form.created_at.value = item.created_at || "";
         modal.style.display = "block";
     });
 }

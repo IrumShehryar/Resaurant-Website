@@ -23,46 +23,6 @@ const applyFilters = () => {
             if (diets.includes(activeDietKey)) {
                 const wrapper = c.closest('.menu-row__card') || c;
                 const clone = wrapper.cloneNode(true);
-                // Always get item data from closest .menu-card or its parent
-                let itemData = null;
-                const nestedOriginal = wrapper.querySelector('.menu-card');
-                if (wrapper.__itemData) {
-                    itemData = wrapper.__itemData;
-                } else if (c.__itemData) {
-                    itemData = c.__itemData;
-                } else if (nestedOriginal && nestedOriginal.__itemData) {
-                    itemData = nestedOriginal.__itemData;
-                }
-                // Attach item data to clone and nested .menu-card
-                clone.__itemData = itemData;
-                const nestedClone = clone.querySelector('.menu-card');
-                if (nestedClone) nestedClone.__itemData = itemData;
-                // Re-attach Details button event listener
-                const btn = clone.querySelector('.btn-detail');
-                if (btn && itemData) {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        clone.dispatchEvent(new CustomEvent('show-detail', {
-                            bubbles: true,
-                            detail: { id: itemData.id || itemData._id, item: itemData }
-                        }));
-                    });
-                }
-                // Re-attach Add to Cart button event listener
-                const btnAdd = clone.querySelector('.btn-add');
-                if (btnAdd && itemData) {
-                    btnAdd.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        if (window.addToCart) {
-                            window.addToCart(itemData);
-                        } else {
-                            clone.dispatchEvent(new CustomEvent('add-to-cart', {
-                                bubbles: true,
-                                detail: { id: itemData.id || itemData._id, item: itemData }
-                            }));
-                        }
-                    });
-                }
                 grid.appendChild(clone);
                 matchCount += 1;
             }
