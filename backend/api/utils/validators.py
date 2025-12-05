@@ -1,3 +1,91 @@
+def validate_menu_item_fields(
+    name: str,
+    price,
+    category: str,
+    dietary: list,
+    allergens: list = None,
+    ingredients: list = None,
+    days_of_week: list = None,
+    active: bool = True,
+    description: str = None,
+    image: str = None
+) -> None:
+    """
+    Validate all menu item fields. Raises ValidationError if any rule fails.
+    """
+    allowed_categories = ["starter", "main", "dessert", "side", "drink", "special"]
+    allowed_dietary = [
+        "vegetarian", "vegan", "non-vegetarian", "gluten-free", "dairy-free",
+        "pescatarian", "sugar-free", "nut-free", "keto-friendly", "alcoholic", "non-alcoholic"
+    ]
+    allowed_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+    # Name checks
+    if not name or not str(name).strip():
+        raise ValidationError("Name cannot be empty")
+    if len(name.strip()) < 3:
+        raise ValidationError("Name must be at least 3 characters")
+    if not re.search(r"[A-Za-z]", name):
+        raise ValidationError("Name must contain at least one letter")
+
+    # Category
+    if category not in allowed_categories:
+        raise ValidationError(f"Invalid category: {category}")
+
+    # Price checks by category
+    try:
+        price_val = float(price)
+    except (TypeError, ValueError):
+        raise ValidationError("Price must be a number")
+    if price_val <= 0:
+        raise ValidationError("Price must be greater than 0")
+    if category == 'starter' and not (4 <= price_val <= 12):
+        raise ValidationError('Starters must be priced between 4 and 12')
+    elif category == 'main' and not (10 <= price_val <= 25):
+        raise ValidationError('Main courses must be priced between 10 and 25')
+    elif category == 'dessert' and not (5 <= price_val <= 10):
+        raise ValidationError('Desserts must be priced between 5 and 10')
+    elif category == 'side' and not (3 <= price_val <= 8):
+        raise ValidationError('Sides must be priced between 3 and 8')
+    elif category == 'drink' and not (2 <= price_val <= 15):
+        raise ValidationError('Drinks must be priced between 2 and 15')
+    elif category == 'special' and not (15 <= price_val <= 35):
+        raise ValidationError('Specials must be priced between 15 and 35')
+
+    # Dietary
+    if not isinstance(dietary, list):
+        raise ValidationError("Dietary must be a list")
+    for d in dietary:
+        if d not in allowed_dietary:
+            raise ValidationError(f"Invalid dietary value: {d}")
+    if len(dietary) == 0:
+        raise ValidationError("Select at least one dietary option")
+
+    # Allergens/Ingredients
+    if allergens is not None and not isinstance(allergens, list):
+        raise ValidationError("Allergens must be a list")
+    if ingredients is not None and not isinstance(ingredients, list):
+        raise ValidationError("Ingredients must be a list")
+
+    # Active & days_of_week
+    if active:
+        if not days_of_week or not isinstance(days_of_week, list) or len(days_of_week) == 0:
+            raise ValidationError("Active items must be assigned to at least one day of the week")
+        for day in days_of_week:
+            if day not in allowed_days:
+                raise ValidationError(f"Invalid day of week: {day}")
+
+    # Dietary/allergen consistency
+    if 'vegan' in dietary and allergens:
+        dairy_allergens = ['dairy', 'milk', 'cheese', 'cream', 'butter']
+        item_allergens = [a.lower() for a in allergens]
+        if any(dairy in item_allergens for dairy in dairy_allergens):
+            raise ValidationError('Vegan items cannot contain dairy allergens')
+    if 'gluten-free' in dietary and allergens:
+        gluten_allergens = ['gluten', 'wheat', 'barley', 'rye']
+        item_allergens = [a.lower() for a in allergens]
+        if any(gluten in item_allergens for gluten in gluten_allergens):
+            raise ValidationError('Gluten-free items cannot contain gluten allergens')
 import re
 from datetime import datetime
 from mongoengine import ValidationError
@@ -69,13 +157,21 @@ def validate_order_fields(
     name: str,
     email: str,
     phone: str,
-    order_date: str,
-    order_time: str,
+    address: str = None,
+    items: list = None,
+    subtotal = None,
+    delivery_charges = None,
+    total = None,
+    payment_method: str = None,
+    status: str = None,
+    order_date: str = None,
+    order_time: str = None,
 ) -> None:
     """
     Validate order fields.
     Raises mongoengine.ValidationError if something is wrong.
     """
+
 
     # --- name checks ---
     if not name or not str(name).strip():
@@ -94,6 +190,45 @@ def validate_order_fields(
         raise ValidationError("Phone number cannot be empty")
     if not re.match(r"^[0-9+\-\s()]{7,20}$", phone):
         raise ValidationError("Invalid phone number format")
+
+    # --- address check ---
+    if address is None or not str(address).strip():
+        raise ValidationError("Address cannot be empty")
+
+    # --- items check ---
+    if not items or not isinstance(items, list) or len(items) == 0:
+        raise ValidationError("Order must contain at least one item")
+    for item in items:
+        # Accept both dict and OrderItem (mongoengine) objects
+        if isinstance(item, dict):
+            item_name = item.get("item_name")
+            quantity = item.get("quantity")
+        else:
+            # Try to get attributes for OrderItem or similar objects
+            item_name = getattr(item, "item_name", None)
+            quantity = getattr(item, "quantity", None)
+        if not item_name or not str(item_name).strip():
+            raise ValidationError("Each item must have a name")
+        if not isinstance(quantity, int) or quantity <= 0:
+            raise ValidationError("Each item must have a quantity > 0")
+
+    # --- subtotal, delivery_charges, total ---
+    if subtotal is None or float(subtotal) < 0:
+        raise ValidationError("Subtotal is required and must be >= 0")
+    if delivery_charges is None or float(delivery_charges) < 0:
+        raise ValidationError("Delivery charges are required and must be >= 0")
+    if total is None or float(total) <= 0:
+        raise ValidationError("Total is required and must be > 0")
+
+    # --- payment method ---
+    allowed_payments = ("cash", "card", "paypal")
+    if not payment_method or payment_method not in allowed_payments:
+        raise ValidationError(f"Payment method must be one of: {', '.join(allowed_payments)}")
+
+    # --- status ---
+    allowed_status = ("pending", "ready", "completed", "cancelled")
+    if not status or status not in allowed_status:
+        raise ValidationError(f"Status must be one of: {', '.join(allowed_status)}")
 
     # --- date & time format checks ---
     if order_date is None or order_time is None:

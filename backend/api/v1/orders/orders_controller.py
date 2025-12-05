@@ -59,24 +59,15 @@ def create_order_controller():
             data.setdefault("email", user.email)
             data.setdefault("address", user.address)
 
-    # 2️⃣ Validate required fields
-    required_fields = ["name", "phone", "email", "address", "items", "order_date", "order_time"]
-    missing = [field for field in required_fields if field not in data]
-
-    if missing:
-        return {"error": f"Missing required fields: {', '.join(missing)}"}, 400
-
-    # 3️⃣ Set default payment method if not provided
+    # Set default payment method if not provided
     data.setdefault("payment_method", "cash")
-
-    # 4️⃣ Save the order
-    new_order = add_order(data)
-
-    # 5️⃣ Serialize response
+    try:
+        new_order = add_order(data)  # model-level validation will run
+    except Exception as e:
+        return {"error": str(e)}, 400
     nice_item = order_schema.dump(new_order)
     nice_item["order_id"] = str(new_order.id)
     nice_item["payment_method"] = new_order.payment_method
-
     return nice_item, 201
 
 
@@ -87,14 +78,12 @@ def create_order_controller():
 def update_order_controller(order_id):
     data = request.get_json() or {}
 
-    # Allow updating payment_method
-    if "payment_method" in data and data["payment_method"] not in ("cash", "card", "paypal"):
-        return {"error": "Invalid payment method"}, 400
-
-    item = update_order(order_id, data)
+    try:
+        item = update_order(order_id, data)  # model-level validation will run
+    except Exception as e:
+        return {"error": str(e)}, 400
     if not item:
         return {"error": "Item not found"}, 404
-
     nice_item = order_schema.dump(item)
     nice_item["order_id"] = str(item.id)
     return nice_item, 200

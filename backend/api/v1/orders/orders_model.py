@@ -12,6 +12,7 @@ from mongoengine import (
 from api.utils.validators import validate_order_fields
 
 
+
 # ------------------------------
 # Embedded item structure
 # ------------------------------
@@ -68,6 +69,13 @@ class Orders(Document):
             name=self.name,
             email=self.email,
             phone=self.phone,
+            address=self.address,
+            items=self.items,
+            subtotal=self.subtotal,
+            delivery_charges=self.delivery_charges,
+            total=self.total,
+            payment_method=self.payment_method,
+            status=self.status,
             order_date=self.order_date,
             order_time=self.order_time,
         )
@@ -141,6 +149,23 @@ def update_order(order_id, order_data):
                 quantity=item["quantity"]
             ))
         order.items = new_items
+
+    # Validate all fields before saving
+   
+    validate_order_fields(
+        name=order.name,
+        email=order.email,
+        phone=order.phone,
+        address=order.address,
+        items=[{"item_name": i.item_name, "quantity": i.quantity} for i in order.items],
+        subtotal=order.subtotal,
+        delivery_charges=order.delivery_charges,
+        total=order.total,
+        payment_method=order.payment_method,
+        status=order.status,
+        order_date=order.order_date,
+        order_time=order.order_time,
+    )
 
     order.save()
     return order
