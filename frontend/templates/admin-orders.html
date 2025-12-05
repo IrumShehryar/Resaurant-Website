@@ -9,22 +9,24 @@
     {% include "admin_sidebar.html" %}
     <main class="admin-section">
         <div class="dashboard-group orders-dashboard-panel">
-            <h4 class="group-title" style="text-align: center">Order Stats</h4>
+            <h4 class="group-title" style="text-align: center">
+                {{ t.order_stats }}
+            </h4>
             <div class="dashboard-stats">
                 <div class="dashboard-stat">
-                    <span class="stat-label">Active Orders</span>
+                    <span class="stat-label">{{ t.active_orders }}</span>
                     <span class="stat-value" id="orders-ready">0</span>
                 </div>
                 <div class="dashboard-stat">
-                    <span class="stat-label">Pending Orders</span>
+                    <span class="stat-label">{{ t.pending_orders }}</span>
                     <span class="stat-value" id="orders-pending">0</span>
                 </div>
                 <div class="dashboard-stat">
-                    <span class="stat-label">Cancelled Orders</span>
+                    <span class="stat-label">{{ t.cancelled_orders }}</span>
                     <span class="stat-value" id="orders-cancelled">0</span>
                 </div>
                 <div class="dashboard-stat">
-                    <span class="stat-label">Completed Orders</span>
+                    <span class="stat-label">{{ t.completed_orders }}</span>
                     <span class="stat-value" id="orders-completed">0</span>
                 </div>
             </div>
@@ -38,17 +40,17 @@
 <table class="admin-table">
     <thead>
         <tr>
-            <th>Order no</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Total€</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>{{ t.order_no }}</th>
+            <th>{{ t.name }}</th>
+            <th>{{ t.phone }}</th>
+            <th>{{ t.total_euro }}</th>
+            <th>{{ t.status }}</th>
+            <th>{{ t.actions }}</th>
         </tr>
     </thead>
     <tbody id="orders-tbody">
         <tr>
-            <td colspan="6">Loading...</td>
+            <td colspan="6">{{ t.loading }}</td>
         </tr>
     </tbody>
 </table>
