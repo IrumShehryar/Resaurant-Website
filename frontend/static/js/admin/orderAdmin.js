@@ -116,7 +116,7 @@ if (orderTbody) {
 
 
 
-// Form submission: create or update reservation
+// Form submission: create or update order
 if (form) {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();

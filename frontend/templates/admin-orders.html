@@ -113,14 +113,15 @@
                 {{ t.status }}:
                 <select name="status" id="editOrderStatus" required>
                     <option value="pending">{{ t.pending }}</option>
-                    <option value="confirmed">{{ t.confirmed }}</option>
+                    <option value="ready">{{ t.ready }}</option>
+                       <option value="completed">{{ t.completed }}</option>
                     <option value="cancelled">{{ t.cancelled }}</option>
                 </select>
             </label>
-            <label>
+            <!--<label>
                 {{ t.created_at }}:
                 <input type="text" name="created_at" id="editOrderCreated" readonly />
-            </label>
+            </label>-->
             <button type="submit" class="btn-accent">{{ t.save }}</button>
         </form>
     </div>

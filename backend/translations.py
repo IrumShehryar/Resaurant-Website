@@ -122,6 +122,8 @@ translations = {
             "confirmed": "Confirmed",
             "cancelled": "Cancelled",
             "add_new_order": "Add New Order",
+             "ready": "Ready",
+            "completed": "Completed",
         "cart_title": "Cart",
         "your_cart": "Your Cart",
         "cart_empty": "Your cart is empty",
@@ -256,7 +258,8 @@ translations = {
     "confirmed": "Vahvistettu",
     "cancelled": "Peruutettu",
     "add_new_order": "Lisää Uusi Tilaus",
-
+        "ready": "Valmis",
+        "completed": "Suoritettu",
         "monday": "Maanantai",
         "tuesday": "Tiistai",
         "wednesday": "Keskiviikko",
