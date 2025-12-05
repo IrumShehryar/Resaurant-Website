@@ -57,11 +57,11 @@ export const createMenuCard = (item) => {
       <button
         class="btn btn-secondary btn-detail"
         aria-label="Show details for ${item.name}">
-        Details
+          ${window.t.details}
       </button>
 
       <!-- "Add to cart" button. We also put the id here for quick access via dataset. -->
-      <button class="btn btn-accent btn-add" data-id="${item.id|| item._id}">Add to cart</button>
+        <button class="btn btn-accent btn-add" data-id="${item.id|| item._id}">${window.t.add_to_cart}</button>
     </div>
   `;
 

@@ -62,7 +62,7 @@ const showCartButton = () => {
   }
 
   const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-  cartBtn.textContent = `🛒 View Cart (${totalItems})`;
+  cartBtn.textContent = `🛒 ${window.t && window.t.view_cart ? window.t.view_cart : 'View Cart'} (${totalItems})`;
   cartBtn.style.display = totalItems > 0 ? "block" : "none";
 };
 
@@ -137,7 +137,7 @@ export function addToCart(item) {
   saveCartToStorage();
 
   showCartButton();
-  showNotification(`${item.name} added to cart!`);
+  showNotification(`${item.name} ${window.t && window.t.added_to_cart ? window.t.added_to_cart : 'added to cart!'}`);
   console.log("Cart updated:", cart);
 }
 

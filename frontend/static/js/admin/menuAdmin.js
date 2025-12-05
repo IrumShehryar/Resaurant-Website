@@ -189,26 +189,37 @@ form.addEventListener('submit', async(e)=>{
     };
     
     // ========== Save to database using generic CRUD ==========
-    try{
-        if(currentEditId){
-           // Update existing item using generic menuCrud.update()
-           await menuCrud.update(currentEditId,itemData)
-        }else{
+    try {
+        if (currentEditId) {
+            // Update existing item using generic menuCrud.update()
+            await menuCrud.update(currentEditId, itemData)
+        } else {
             // Create new item using generic menuCrud.create()
             await menuCrud.create(itemData)
         }
 
-        // ========== Post-save cleanup ==========
+        // ========== Post-save cleanup ========== 
         modal.style.display = 'none'
         form.reset()
-        
         // Refresh cache and table
         loadMenuItems();
-        
         // Show success notification
         showNotification('Item saved successfully!', 'success', notificationElement)
-    } catch(error) {
-        showNotification('Error saving item', 'error', notificationElement)
+    } catch (error) {
+        // ========== Show backend error message in notification ========== 
+        // If backend returns a specific error, show it; otherwise, show generic error
+        let errorMsg = 'Error saving item';
+        if (error && error.message) {
+            // Try to extract backend error message from error.message
+            // Our fetchData throws: new Error(`Error ${response.status}: ${errorMessage}`)
+            const match = error.message.match(/Error \d+: (.*)/);
+            if (match && match[1]) {
+                errorMsg = match[1];
+            } else {
+                errorMsg = error.message;
+            }
+        }
+        showNotification(errorMsg, 'error', notificationElement);
     }
 })
 

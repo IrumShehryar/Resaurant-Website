@@ -4,6 +4,7 @@ import { getAllReservations } from "../services/reservationService.js";
 import { showNotification, createModalManager } from "../utils/tableManager.js";
 import { renderTable } from "../utils/tableRenderer.js";
 import { createCrudManager } from "../services/crudServices.js";
+import { countStatuses, countCreatedToday } from "../utils/statusCounter.js";
 
 // ========== DOM Elements ==========
 const modal = document.getElementById("reservation-modal");
@@ -36,6 +37,23 @@ async function loadReservations() {
         allReservations = items;
         console.log("Reservations received:", items);
 
+        // --- Dynamic Reservation Stats ---
+        // 1. Count by status
+        const reservationStatuses = ["pending", "confirmed", "cancelled"];
+        const reservationCounts = countStatuses(items, "status", reservationStatuses);
+        // 2. Count new reservations today (if you want to show this stat)
+        const newReservationsToday = countCreatedToday(items, "created_at"); // Change field if needed
+
+        // 3. Update DOM (make sure you have these IDs in your HTML)
+        const pendingEl = document.getElementById("reservations-pending");
+        const confirmedEl = document.getElementById("reservations-confirmed");
+        const cancelledEl = document.getElementById("reservations-cancelled");
+        const newTodayEl = document.getElementById("reservations-new");
+        if (pendingEl) pendingEl.textContent = reservationCounts.pending;
+        if (confirmedEl) confirmedEl.textContent = reservationCounts.confirmed;
+        if (cancelledEl) cancelledEl.textContent = reservationCounts.cancelled;
+        if (newTodayEl) newTodayEl.textContent = newReservationsToday;
+
         // Show main columns in table
         renderTable(
             items,
@@ -45,7 +63,7 @@ async function loadReservations() {
     } catch (error) {
         console.error("Error loading reservation:", error);
         reservationTbody.innerHTML =
-            '<tr><td colspan="7">Error loading reservations</td></tr>';
+            '<tr><td colspan="8">Error loading reservations</td></tr>';
     }
 }
 

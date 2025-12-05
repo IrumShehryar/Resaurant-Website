@@ -1,100 +1,91 @@
-{% extends "base.html" %}
-
-{% block title %}
-Order Confirmation — Revontulet Flamehouse
-{% endblock %}
-
-
-{% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/order-confirmation.css') }}">
-{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %} Order Confirmation — Revontulet
+Flamehouse {% endblock %} {% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/order-confirmation.css') }}"
+/>
+{% endblock %} {% block content %}
 
 <section class="hero">
     <div class="hero-content">
-
         <!-- LEFT — Delivery Information -->
         <div class="hero-left">
             <div class="summary-box">
-
-                <h2>Delivery Information</h2>
-                <hr class="summary-line">
+                <h2>{{ t.delivery_information }}</h2>
+                <hr class="summary-line" />
 
                 <div class="info-row">
-                    <label>Name</label>
-                    <p id="user-name">{{ user.name or "Not provided" }}</p>
+                    <label>{{ t.name }}</label>
+                    <p id="user-name">{{ user.name or t.not_provided }}</p>
                 </div>
 
                 <div class="info-row">
-                    <label>Mobile Number</label>
-                    <p id="user-phone">{{ user.phone or "Not provided" }}</p>
+                    <label>{{ t.mobile_number }}</label>
+                    <p id="user-phone">{{ user.phone or t.not_provided }}</p>
                 </div>
 
                 <div class="info-row">
-                    <label>Email</label>
-                    <p id="user-email">{{ user.email or "Not provided" }}</p>
+                    <label>{{ t.email }}</label>
+                    <p id="user-email">{{ user.email or t.not_provided }}</p>
                 </div>
 
                 <div class="info-row">
-                    <label>Address</label>
-                    <p id="user-address">{{ user.address or "Not provided" }}</p>
+                    <label>{{ t.address }}</label>
+                    <p id="user-address">
+                        {{ user.address or t.not_provided }}
+                    </p>
                 </div>
 
                 <div class="info-row">
-                    <label>Payment Method</label>
+                    <label>{{ t.payment_method }}</label>
                     <select name="payment_method" id="payment_method">
-                        <option value="cash" selected>Cash</option>
+                        <option value="cash" selected>{{ t.cash }}</option>
                     </select>
                 </div>
 
                 <div class="info-row">
-                    <label>Order Number</label>
+                    <label>{{ t.order_number }}</label>
                     <p id="order-number">---</p>
                 </div>
 
                 <div class="info-row">
-                    <label>Order Time</label>
+                    <label>{{ t.order_time }}</label>
                     <p id="order-time">---</p>
                 </div>
-
             </div>
         </div>
 
         <!-- RIGHT — Cost Summary -->
         <div class="hero-right">
             <div class="summary-box">
-
-                <h2>Cost Summary</h2>
-                <hr class="summary-line">
+                <h2>{{ t.cost_summary }}</h2>
+                <hr class="summary-line" />
 
                 <div class="summary-row">
-                    <span>Subtotal</span>
+                    <span>{{ t.subtotal }}</span>
                     <span id="subtotal">€0.00</span>
                 </div>
 
                 <div class="summary-row">
-                    <span>Delivery Fee</span>
+                    <span>{{ t.delivery_fee }}</span>
                     <span id="delivery-fee">€0.00</span>
                 </div>
 
-                <hr class="summary-line">
+                <hr class="summary-line" />
 
                 <div class="summary-row total-row">
-                    <span>Total Amount</span>
+                    <span>{{ t.total_amount }}</span>
                     <span id="total-amount">€0.00</span>
                 </div>
 
-                <button id="place-order-final" class="place-order-btn">Place Order</button>
-
+                <button id="place-order-final" class="place-order-btn">
+                    {{ t.place_order }}
+                </button>
             </div>
         </div>
-
     </div>
 </section>
 
-{% endblock %}
-
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <script src="{{ url_for('static', filename='js/order-confirmation.js') }}"></script>
 {% endblock %}

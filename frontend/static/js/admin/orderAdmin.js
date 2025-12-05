@@ -4,6 +4,7 @@ import { getAllOrders } from "../services/orderService.js";
 import { showNotification, createModalManager } from "../utils/tableManager.js";
 import { renderTable } from "../utils/tableRenderer.js";
 import { createCrudManager } from "../services/crudServices.js";
+import { countStatuses, countCreatedToday } from "../utils/statusCounter.js";
 
 // ========== DOM Elements ==========
 const modal = document.getElementById("order-admin-modal");
@@ -34,10 +35,28 @@ async function loadOrders() {
         allOrders = items;
         console.log("order received:", items);
 
+        // --- Dynamic Order Stats ---
+                // 1. Count by status
+                const orderStatuses = ["pending", "ready", "completed","cancelled"];
+                const orderCounts = countStatuses(items, "status", orderStatuses);
+            // Change field if needed
+        
+                // 3. Update DOM (make sure you have these IDs in your HTML)
+                const pendingEl = document.getElementById("orders-pending");
+                const readyEl = document.getElementById("orders-ready");
+                const completedEl = document.getElementById("orders-completed");
+                const cancelledEl = document.getElementById("orders-cancelled");
+                //const newTodayEl = document.getElementById("orders-new");
+                if (pendingEl) pendingEl.textContent = orderCounts.pending;
+                if (readyEl) readyEl.textContent = orderCounts.ready;
+                if (completedEl) completedEl.textContent = orderCounts.completed;
+                if (cancelledEl) cancelledEl.textContent = orderCounts.cancelled;
+                //if (newTodayEl) newTodayEl.textContent = newReservationsToday;
+
         // Show main columns in table
         renderTable(
             items,
-            [ "order_id","name","phone","total","status"],
+            [ "id","name","phone","total","status"],
             orderTbody
         );
     } catch (error) {
@@ -91,8 +110,7 @@ if (orderTbody) {
         }
 
         // Populate form fields
-        //*form.order_id.value = item.order_id || "";
-      // Populate form fields
+        form.id.value = item.id || "";
         form.name.value = item.name || "";
         form.phone.value = item.phone || "";
         form.email.value = item.email || "";
@@ -109,7 +127,7 @@ if (orderTbody) {
         form.order_date.value = item.order_date || "";
         form.order_time.value = item.order_time || "";
         form.status.value = item.status || "pending";
-        form.created_at.value = item.created_at || "";
+       // form.created_at.value = item.created_at || "";
         modal.style.display = "block";
     });
 }
