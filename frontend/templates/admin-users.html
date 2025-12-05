@@ -9,22 +9,24 @@
     {% include "admin_sidebar.html" %}
     <main class="admin-section">
         <div class="dashboard-group users-dashboard-panel">
-            <h4 class="group-title" style="text-align:center;">User Stats</h4>
+            <h4 class="group-title" style="text-align: center">
+                {{ t.user_stats }}
+            </h4>
             <div class="dashboard-stats">
                 <div class="dashboard-stat">
-                    <span class="stat-label">Total Users</span>
+                    <span class="stat-label">{{ t.total_users }}</span>
                     <span class="stat-value" id="users-total">0</span>
                 </div>
                 <div class="dashboard-stat">
-                    <span class="stat-label">Admins</span>
+                    <span class="stat-label">{{ t.admins }}</span>
                     <span class="stat-value" id="users-admins">0</span>
                 </div>
                 <div class="dashboard-stat">
-                    <span class="stat-label">Customers</span>
+                    <span class="stat-label">{{ t.customers }}</span>
                     <span class="stat-value" id="users-customers">0</span>
                 </div>
                 <div class="dashboard-stat">
-                    <span class="stat-label">Blocked</span>
+                    <span class="stat-label">{{ t.blocked }}</span>
                     <span class="stat-value" id="users-blocked">0</span>
                 </div>
             </div>
@@ -34,16 +36,16 @@
 <table class="admin-table">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>{{ t.name }}</th>
+            <th>{{ t.email }}</th>
+            <th>{{ t.role }}</th>
+            <th>{{ t.status }}</th>
+            <th>{{ t.actions }}</th>
         </tr>
     </thead>
     <tbody id="users-tbody">
         <tr>
-            <td colspan="5">Loading...</td>
+            <td colspan="5">{{ t.loading }}</td>
         </tr>
     </tbody>
 </table>

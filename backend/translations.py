@@ -1,6 +1,7 @@
     
 translations = {
     "en": {
+                                        "menu_stats": "Menu Stats",
                                     "about_hero_intro": "Welcome to Revontulet Flamehouse — where Nordic cuisine meets fire, flavor, and the magic of the aurora borealis. Our restaurant blends traditional Finnish tastes with modern cooking techniques for a unique dining experience inspired by the northern lights.",
                                     "our_story": "Our Story",
                                     "our_story_text": "Born in the heart of Espoo, Revontulet Flamehouse was created to bring the warmth of Lapland’s food and culture to the city. Our name — 'Revontulet,' meaning Northern Lights — reflects our passion for blending tradition with a touch of arctic magic.",
@@ -232,6 +233,9 @@ translations = {
         "password": "Password",
     },
     "fi": {
+                                                "non_vegetarian": "Ei-kasvis",
+                                            "admin_interface": "Ylläpitopaneeli",
+                                        "menu_stats": "Menutilastot",
                                     "about_hero_intro": "Tervetuloa Revontulet Flamehouseen — missä pohjoismainen keittiö kohtaa tulen, maun ja revontulten taian. Ravintolamme yhdistää perinteiset suomalaiset maut moderneihin ruoanlaittotekniikoihin ainutlaatuiseksi ruokailukokemukseksi, jonka inspiraationa ovat revontulet.",
             "full_name": "Full Name",
             "email": "Email",
@@ -274,6 +278,9 @@ translations = {
                 "admin_panel": "Ylläpitopaneeli",
             # Orders Admin Dashboard
             "order_stats": "Tilaustilastot",
+            # Reservation Admin Dashboard
+            "reservation_stats": "Varaustilastot",
+            "new_reservations": "Uudet varaukset",
             "active_orders": "Aktiiviset tilaukset",
             "pending_orders": "Odottaa käsittelyä",
             "cancelled_orders": "Peruutetut tilaukset",

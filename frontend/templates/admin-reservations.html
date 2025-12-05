@@ -81,25 +81,28 @@ endblock %} {% block styles %}
             <label
                 >{{ t.email }}<input type="email" name="email" required
             /></label>
-            <label
-                >{{ t.date }}<input
+            <label>
+                {{ t.reservation_date }}<input
                     type="date"
                     name="reservation_date"
                     required
-            /></label>
-            <label
-                >{{ t.time }}<input
+                />
+            </label>
+            <label>
+                {{ t.reservation_time }}<input
                     type="time"
                     name="reservation_time"
                     required
-            /></label>
-            <label
-                >{{ t.people }}<input
+                />
+            </label>
+            <label>
+                {{ t.number_of_guests }}<input
                     type="number"
                     name="no_of_people"
                     min="1"
                     required
-            /></label>
+                />
+            </label>
             <label
                 >{{ t.status }}<select name="status" required>
                     <option value="pending">
