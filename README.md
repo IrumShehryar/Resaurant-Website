@@ -106,21 +106,25 @@ Screenshots of all Lighthouse reports are available in the project documentation
 
 ## 📝 HTML & CSS Validation
 
-All main pages are being validated using the W3C HTML Validator and CSS Validator. Validation screenshots and reports will be included in the `docs/validation/` folder.
+All main pages and CSS files are validated using the W3C HTML Validator, CSS Validator, and the VS Code CSS validation extension. Validation screenshots and reports are included in the [`documentation/validation/`](documentation/validation/) folder.
+
+**Validation Evidence:**
+
+-   See [`documentation/validation/`](documentation/validation/) for screenshots of:
+    -   HTML validation results for all main pages
+    -   CSS validation results for all main stylesheets (e.g., `main.css`, `admin-interface.css`, etc.)
+
+Each screenshot is named after the corresponding page or stylesheet for easy reference.
 
 ---
 
 ## 📄 Documentation
 
 -   API documentation: see `backend/apidoc.json`
--   User and admin guides, validation evidence, and extra screenshots: see `docs/`
+-   User and admin guides, validation evidence, and extra screenshots: see `documentation/`
 
 ---
 
 ## 👥 Authors
 
 Irum Shehryar and team
-
-```
-
-```
