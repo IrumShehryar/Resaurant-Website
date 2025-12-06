@@ -2,6 +2,7 @@ from mongoengine import Document , StringField, DateTimeField,ValidationError,si
 from datetime import datetime
 from bson import ObjectId
 import bcrypt
+from api.utils.validators import validate_user_fields
 
 class User(Document):
     name = StringField(required= True,min_length=3,max_length=50)
@@ -27,9 +28,16 @@ class User(Document):
         return self.role == "admin"
     
     def clean(self):
-        # Custom validation logic
-        if "@" not in self.email:
-            raise ValidationError("Invalid email address")
+        # Centralized validation logic
+     
+        validate_user_fields(
+            name=self.name,
+            username=self.username,
+            email=self.email,
+            password=self.password,
+            phone=self.phone,
+            address=self.address
+        )
     
     @staticmethod
     def verify_credentials(username,password):

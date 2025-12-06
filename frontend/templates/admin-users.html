@@ -51,7 +51,8 @@
 </table>
 <div id="notification"></div>
 <!-- Add your users management modal here if needed -->
-{% endblock %} {% block scripts %}
+{% endblock %} {% block scripts %} {% include '_admin_table_translations.html'
+%}
 <script
     type="module"
     src="{{ url_for('static', filename='js/admin/usersAdmin.js') }}"

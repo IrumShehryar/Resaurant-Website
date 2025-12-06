@@ -2,6 +2,7 @@ from flask import request
 from .users_model import list_all_users,find_user_by_id, update_user,delete_user,User
 from .users_schema import UserSchema
 from api.utils.simple_errors import simple_errors
+from api.utils.validators import validate_user_fields
 
 
 @simple_errors
@@ -27,6 +28,7 @@ def register_user():
     data = request.get_json() or {}
     data.pop("role", None)  # force role to default "user"
     
+
     user = User(**data)
     new_user = user.save()
     nice_user = UserSchema().dump(new_user)
@@ -49,11 +51,20 @@ def get_current_user(current_user):
 
 @simple_errors
 def update_user_controller(user_id):
+    data = request.get_json()
     try:
-        user=update_user(user_id,request.get_json())
-        return user.to_json(),200
-    except:
-          return {"error": "User not found"}, 404
+        validate_user_fields(
+            name=data.get("name", ""),
+            username=data.get("username", ""),
+            email=data.get("email", ""),
+            password=data.get("password", ""),
+            phone=data.get("phone", ""),
+            address=data.get("address", "")
+        )
+        user = update_user(user_id, data)
+        return user.to_json(), 200
+    except Exception as ve:
+        return {"error": str(ve)}, 400
       
 @simple_errors
 def delete_user_controller(user_id):
