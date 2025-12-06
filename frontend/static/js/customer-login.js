@@ -1,5 +1,8 @@
 import { apiUrl } from "./utils/config.js";
 import fetchData from "./utils/fetchData.js";
+import { extractErrorMessage } from "./utils/errorMessage.js";
+import { validateUserFormFields } from "./utils/validation.js";
+import { showNotification } from "./utils/tableManager.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     const authBox = document.getElementById("auth-box");
@@ -22,6 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const authForm = document.getElementById("auth-form");
     const toggleText = document.getElementById("toggle-text");
+    const notificationElement = document.getElementById("notification");
 
     if (!authForm) {
         revealAuthBox();
@@ -147,37 +151,32 @@ document.addEventListener("DOMContentLoaded", async () => {
                     body: JSON.stringify({ username, password })
                 });
 
-                // Admin login: store token and redirect
                 if (role === "admin" && data.token) {
                     localStorage.setItem("authToken", data.token);
                     window.location.href = "/admin-interface";
                     return;
                 }
 
-                // User login: show success and redirect
                 if (data.user) {
                     authBox.innerHTML = `
                         <h2>Successfully Logged In</h2>
-                        <p>Welcome, ${data.user.name || data.user.username}!</p>
+                        <p>Welcome, ${data.user.name || data.user.username}!<\/p>
                         <div class="auth-button-wrapper">
-                            <button id="logout-btn" class="btn-order-now"> Logout</button>
-                        </div>
+                            <button id="logout-btn" class="btn-order-now"> Logout<\/button>
+                        <\/div>
                     `;
                     attachLogoutHandler();
-
                     setTimeout(() => {
                         window.location.href = nextUrl;
                     }, 1000);
-
                     revealAuthBox();
                     return;
                 }
 
-                // If neither admin nor user login succeeded
-                alert(data.message || "Login failed");
+                showNotification(data.message || "Login failed", "error", notificationElement);
             } catch (err) {
                 console.error(err);
-                alert("Login failed: " + err.message);
+                showNotification(extractErrorMessage(err, "Login failed"), "error", notificationElement);
             }
 
         } else {
@@ -190,7 +189,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             const confirmPassword = formData.get("confirm_password");
 
             if (password !== confirmPassword) {
-                alert("Passwords do not match");
+                showNotification("Passwords do not match", "error", notificationElement);
+                return;
+            }
+
+            // Frontend validation
+            const validation = validateUserFormFields({ name, email, phone, password });
+            if (!validation.valid) {
+                showNotification(validation.message, "error", notificationElement);
                 return;
             }
 
@@ -201,11 +207,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                     credentials: "same-origin",
                     body: JSON.stringify({ name, username, email, phone, address, password })
                 });
-
-                window.location.reload();
+                showNotification("Registration successful!", "success", notificationElement);
+                setTimeout(() => window.location.reload(), 1200);
             } catch (err) {
                 console.error(err);
-                alert("Registration failed: " + err.message);
+                showNotification(extractErrorMessage(err, "Registration failed"), "error", notificationElement);
             }
         }
     };
