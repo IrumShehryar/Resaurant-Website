@@ -44,13 +44,13 @@ Flamehouse{% endblock %} {% block content %}
 </section>
 
 <!-- ===== Call To Action (Buttons) ===== -->
-<section class="about-cta">
+<div class="about-cta">
     <a href="{{ url_for('menu') }}" class="btn-accent"
         >{{ t.explore_our_menu }}</a
     >
     <a href="{{ url_for('reservation') }}" class="btn-accent"
         >{{ t.reserve_a_table }}</a
     >
-</section>
+</div>
 
 {% endblock %}
