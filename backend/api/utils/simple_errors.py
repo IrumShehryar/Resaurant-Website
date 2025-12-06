@@ -1,7 +1,16 @@
+"""
+simple_errors.py
+
+Provides a decorator for simplified error handling in Flask routes using MongoEngine ValidationError.
+"""
+
 from functools import wraps
 from mongoengine import ValidationError
 
 def simple_errors(f):
+    """
+    Decorator to catch ValidationError and other exceptions, returning formatted error responses.
+    """
     @wraps(f)
     def wrapper(*args, **kwargs):
         try:

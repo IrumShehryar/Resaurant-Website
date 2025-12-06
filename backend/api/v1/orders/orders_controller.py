@@ -1,3 +1,9 @@
+"""
+orders_controller.py
+
+Controller helpers for the orders JSON API. Handles CRUD operations and session-based user info for orders.
+"""
+
 from flask import request, session
 from .orders_model import (
     list_all_orders,
@@ -19,6 +25,10 @@ orders_schema = OrdersSchema(many=True)
 # GET ALL ORDERS
 # --------------------------------------------------------
 def get_order():
+    """
+    Controller: GET /api/v1/orders
+    Returns all orders as JSON.
+    """
     items = list_all_orders()
     items_json = orders_schema.dump(items)
     return items_json, 200
@@ -28,6 +38,10 @@ def get_order():
 # GET ORDER BY ID
 # --------------------------------------------------------
 def get_order_controller(order_id):
+    """
+    Controller: GET /api/v1/orders/<order_id>
+    Returns a single order by ID as JSON.
+    """
     try:
         item = get_order_by_id(order_id)
     except (ValueError, TypeError):
@@ -45,7 +59,10 @@ def get_order_controller(order_id):
 # --------------------------------------------------------
 @simple_errors
 def create_order_controller():
-    """Create a new order and auto-fill user info from Flask session."""
+    """
+    Controller: POST /api/v1/orders
+    Creates a new order and auto-fills user info from session.
+    """
     data = request.get_json() or {}
 
     # 1️⃣ Get logged-in user ID from session

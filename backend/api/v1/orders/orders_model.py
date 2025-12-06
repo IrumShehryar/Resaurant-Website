@@ -1,3 +1,9 @@
+"""
+orders_model.py
+
+MongoEngine models for orders and order items, including validation and embedded item structure.
+"""
+
 from datetime import datetime
 from mongoengine import (
     Document,
@@ -17,6 +23,9 @@ from api.utils.validators import validate_order_fields
 # Embedded item structure
 # ------------------------------
 class OrderItem(EmbeddedDocument):
+    """
+    Embedded document for individual order items.
+    """
     item_name = StringField(required=True)
     quantity = IntField(required=True, min_value=1)
 
@@ -25,6 +34,9 @@ class OrderItem(EmbeddedDocument):
 # Orders Model
 # ------------------------------
 class Orders(Document):
+    """
+    MongoEngine document for customer orders, including user info, items, pricing, and status.
+    """
     # Customer info
     name = StringField(required=True, min_length=3, max_length=100)
     phone = StringField(required=True, min_length=7, max_length=15)

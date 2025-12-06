@@ -1,4 +1,9 @@
-# File: utils/auth_utils.py
+"""
+auth_utils.py
+
+Utility functions and decorators for JWT authentication and admin access control.
+"""
+
 from functools import wraps
 from flask import request, jsonify
 import os
@@ -8,6 +13,10 @@ from api.v1.users.users_model import User
 
 
 def get_jwt_secret():
+    """
+    Retrieves the JWT secret key from environment variables.
+    Raises RuntimeError if not set.
+    """
     secret = os.getenv("JWT_SECRET_KEY")
     if not secret:
         raise RuntimeError("JWT_SECRET_KEY is not set")
@@ -15,7 +24,10 @@ def get_jwt_secret():
 
 
 def token_required(f):
-    """Require JWT; inject `current_user` on success."""
+    """
+    Decorator to require JWT authentication for a route.
+    Injects `current_user` on success.
+    """
 
     @wraps(f)  # preserve original function metadata
     def decorated(*args, **kwargs):
@@ -47,8 +59,11 @@ def token_required(f):
 
     return decorated
 
+
 def admin_required(f):
-    """Require JWT and admin role."""
+    """
+    Decorator to require JWT authentication and admin role for a route.
+    """
     @token_required
     @wraps(f)
     def decorated(current_user, *args, **kwargs):

@@ -6,7 +6,9 @@ endblock %} {% block styles %}
 />
 {% endblock %} {% block content %}
 
+<!-- Panel Layout: Contains filter navigation and menu items -->
 <div class="panel-layout">
+    <!-- Left Panel: Category and diet filters -->
     <nav class="left-panel" aria-label="Diet and category filters">
         <div class="filter-group">
             <h4 class="group-title">{{ t.category }}</h4>
@@ -70,7 +72,7 @@ endblock %} {% block styles %}
             </button>
         </div>
     </nav>
-
+    <!-- Main Menu Items: Displayed here -->
     <div class="menu-main">
         <div class="highlight-wrapper">
             <h3 class="highlight-heading">

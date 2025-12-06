@@ -5,9 +5,11 @@
     href="{{ url_for('static', filename='css/admin-interface.css') }}"
 />
 {% endblock %} {% block content %}
+<!-- Admin Menu Management: Dashboard stats and sidebar navigation -->
 <div class="panel-layout">
     {% include "admin_sidebar.html" %}
     <div class="admin-section">
+        <!-- Dashboard group: menu stats and dietary options -->
         <div class="dashboard-group menu-dashboard-panel">
             <h4 class="group-title" style="text-align: center">
                 {{ t.menu_stats }}

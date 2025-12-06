@@ -1,6 +1,11 @@
+/* =============================
+   MENU PAGE LAYOUT & COMPONENTS
+   ============================= */
 /* Menu page styles extracted from style.css */
 
-/* Layout: panel across the top, content below */
+/* =============================
+   PANEL LAYOUT & FILTERS
+   ============================= */
 .panel-layout {
   display: grid;
   grid-template-columns: 1fr;
@@ -8,8 +13,6 @@
   gap: 1rem;
   align-items: start;
 }
-
-/* Panel visual & vertical layout */
 .left-panel {
   display: flex;
   flex-direction: column; /* stack groups vertically */
@@ -26,49 +29,9 @@
   z-index: 40;
 }
 
-/* Removed sidebar and filter button CSS from menu.css since it's now in main.css */
-
-/* Responsive: collapse to single column on small screens */
-@media (max-width: 1024px) {
-  .panel-layout { grid-template-columns: 1fr; }
-  .left-panel { position: static; flex-direction: row; overflow-x: auto; gap: .5rem; padding: .5rem; width: 100%; }
-  .filter-group { display: flex; gap: .5rem; align-items: center; margin-bottom: 0; }
-  .filter-btn { flex: 0 0 auto; }
-}
-
-@media (min-width: 1025px) {
-  /* On wide screens: make layout two columns — compact left panel + content */
-  .panel-layout {
-    grid-template-columns: 16rem 1fr;
-    grid-template-rows: 1fr;
-    align-items: start;
-    gap: 1.5rem;
-  }
-
-  /* keep groups visually separated inside the narrow panel */
-  .filter-group { margin: 0 0 0.75rem 0; display: block; }
-
-  /* constrain the panel to a small width column (fills the grid column) */
-  .left-panel { width: 100%; max-width: 16rem; }
-  .left-panel { position: sticky; top: 5rem; align-self: start; }
-
-  /* Align the right column's top with the left panel's start so the
-     highlight heading sits level with the category panel on wide screens. */
-  .menu-layout > .menu-main {
-    padding-top: 0; /* remove the default main padding-top (desktop only) */
-  }
-}
-/* Keep filter groups stacked; show single column list (one item per line) */
-.filter-group { display: block; margin: 0; }
-.filter-group .group-title { margin-bottom: 0.25rem; }
-.filter-btn { display: block; width: 100%; text-align: left; padding: 0.5rem 0.75rem; }
-.filter-btn + .filter-btn { margin-top: 0.25rem; }
-
-@media (max-width: 480px) {
-  /* slightly more compact on very small screens */
-  .left-panel { padding: 0.5rem; }
-  .filter-btn { padding: 0.45rem 0.6rem; }
-}
+/* =============================
+   MENU GRID & CARDS
+   ============================= */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
@@ -109,7 +72,7 @@
   bottom: -0.5rem;
   border-radius: calc(0.625rem + 0.5rem);
   pointer-events: none;
-  /* use purple glow for the outer ring to match new visual style */
+  /* use purple glow to match new visual style */
   box-shadow: 0 0 0.875rem rgba(179,102,255,0.08);
   transition: box-shadow 220ms ease, opacity 220ms ease;
   opacity: 1;
@@ -463,7 +426,6 @@
 .highlight-grid .highlight-item:nth-child(2) .highlight-card-inner { animation-delay: 0.6s; }
 .highlight-grid .highlight-item:nth-child(3) .highlight-card-inner { animation-delay: 0.9s; }
 
-/* slightly stronger accent for the main highlight */
 .highlight-item.highlight-main .highlight-card-inner {
   border: 0.12rem solid rgba(var(--modal-accent-rgb), 0.20);
 }
@@ -750,4 +712,25 @@
   .menu-row__card { flex: 0 0 100%; }
   .menu-card img { height: 9rem; }
   .menu-row { padding: 0.5rem 0.75rem; }
+}
+
+@media (max-width: 1024px) {
+  .panel-layout { grid-template-columns: 1fr; }
+  .left-panel { position: static; flex-direction: row; overflow-x: auto; gap: .5rem; padding: .5rem; width: 100%; }
+  .filter-group { display: flex; gap: .5rem; align-items: center; margin-bottom: 0; }
+  .filter-btn { flex: 0 0 auto; }
+}
+@media (min-width: 1025px) {
+  .panel-layout {
+    grid-template-columns: 16rem 1fr;
+    grid-template-rows: 1fr;
+    align-items: start;
+    gap: 1.5rem;
+  }
+  .filter-group { margin: 0 0 0.75rem 0; display: block; }
+  .left-panel { width: 100%; max-width: 16rem; }
+  .left-panel { position: sticky; top: 5rem; align-self: start; }
+  .menu-layout > .menu-main {
+    padding-top: 0;
+  }
 }

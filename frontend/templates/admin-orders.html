@@ -5,9 +5,11 @@
     href="{{ url_for('static', filename='css/admin-interface.css') }}"
 />
 {% endblock %} {% block content %}
+<!-- Admin Orders Management: Dashboard stats, orders table, and sidebar navigation -->
 <div class="panel-layout">
     {% include "admin_sidebar.html" %}
     <div class="admin-section">
+        <!-- Dashboard group: order stats -->
         <div class="dashboard-group orders-dashboard-panel">
             <h4 class="group-title" style="text-align: center">
                 {{ t.order_stats }}
@@ -33,7 +35,7 @@
         </div>
     </div>
 </div>
-
+<!-- Orders table and modals for management -->
 <button id="btn-add-order" class="btn-accent admin-add-btn">
     {{ t.add_new_order }}
 </button>

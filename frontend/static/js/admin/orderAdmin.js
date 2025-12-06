@@ -1,3 +1,11 @@
+/**
+ * Admin Order Management
+ * Handles loading, rendering, and CRUD operations for orders in the admin interface.
+ * Utilizes reusable utilities for table rendering, modal management, notifications, and status counting.
+ *
+ * @module orderAdmin
+ */
+
 // static/js/admin/reservationsAdmin.js
 
 import { getAllOrders } from "../services/orderService.js";
@@ -31,6 +39,14 @@ let allOrders = [];
 
 // ========== Load & Render ==========
 
+/**
+ * Loads all orders and updates the order table and stats in the admin dashboard.
+ * Fetches data from the order service and updates DOM elements for status counts.
+ *
+ * @async
+ * @function loadOrders
+ * @returns {Promise<void>}
+ */
 async function loadOrders() {
     try {
         const items = await getAllOrders();
@@ -74,7 +90,12 @@ async function loadOrders() {
     }
 }
 
-// Helper: get item from cached array by row data-id
+/**
+ * Helper to get an order object from a table row element.
+ *
+ * @param {HTMLElement} row - Table row element with data-id attribute.
+ * @returns {Object|undefined} The order object, or undefined if not found.
+ */
 const getOrderFromRow = (row) => {
     const id = row.dataset.id;
     return allOrders.find((r) => r.id === id);

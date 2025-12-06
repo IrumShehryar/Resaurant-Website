@@ -1,9 +1,16 @@
-// In-memory cart, always synced with localStorage
+/**
+ * In-memory cart management, synced with localStorage.
+ * Provides functions to load, save, and display cart, and handle checkout.
+ */
 let cart = [];
 
 // ----------------------------------------------
 // Load and save cart from/to localStorage
 // ----------------------------------------------
+/**
+ * Loads cart data from localStorage.
+ * @function loadCartFromStorage
+ */
 const loadCartFromStorage = () => {
   try {
     const raw = localStorage.getItem("cart");
@@ -14,6 +21,10 @@ const loadCartFromStorage = () => {
   }
 };
 
+/**
+ * Saves cart data to localStorage.
+ * @function saveCartToStorage
+ */
 const saveCartToStorage = () => {
   try {
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -25,6 +36,10 @@ const saveCartToStorage = () => {
 // ----------------------------------------------
 // Floating Cart Button
 // ----------------------------------------------
+/**
+ * Shows the floating cart button and attaches event listeners.
+ * @function showCartButton
+ */
 const showCartButton = () => {
   let cartBtn = document.getElementById("floating-cart-btn");
 
@@ -114,6 +129,10 @@ const showNotification = (message) => {
 // ----------------------------------------------
 // Add to Cart (main function)
 // ----------------------------------------------
+/**
+ * Adds an item to the cart.
+ * @function addToCart
+ */
 export function addToCart(item) {
   const id = item._id || item.id;
   if (!id) {

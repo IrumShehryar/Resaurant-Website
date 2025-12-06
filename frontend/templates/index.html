@@ -1,37 +1,35 @@
-{% extends "base.html" %}
-{% block title %}{{ t.home_title }}{% endblock %}
-{% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
-{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}{{ t.home_title }}{% endblock %} {%
+block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/index.css') }}"
+/>
+{% endblock %} {% block content %}
 
+<!-- Hero Section: Main landing content, tagline, features, and hero image -->
 <section class="hero">
     <div class="hero-content">
         <div class="hero-left">
+            <!-- Tagline and main title -->
             <p class="hero-tagline">{{ t.hero_tagline }}</p>
-
             <h1 class="hero-title">{{ t.hero_main_title }}</h1>
-
-            <p class="hero-description">
-                {{ t.hero_description }}
-            </p>
-
+            <p class="hero-description">{{ t.hero_description }}</p>
+            <!-- Features list -->
             <div class="hero-features">
                 <span>🌌 {{ t.hero_feature_1 }}</span>
                 <span>❄️ {{ t.hero_feature_2 }}</span>
                 <span>🔥 {{ t.hero_feature_3 }}</span>
             </div>
         </div>
-
         <div class="hero-right">
-            <img 
+            <!-- Hero image -->
+            <img
                 class="hero-image"
                 src="{{ url_for('static', filename='assets/hero1.jpg') }}"
                 alt="{{ t.hero_image_alt }}"
             />
         </div>
     </div>
-
     <div class="hero-fade" aria-hidden="true"></div>
 </section>
 

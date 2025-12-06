@@ -1,28 +1,9 @@
 /**
- * ADMIN INTERFACE - Menu Management
- * 
- * Uses refactored reusable utilities:
- * - renderTable() from tableRenderer.js (generic table rendering)
- * - createCrudManager() from crudServices.js (generic CRUD operations)
- * - createModalManager() from tableManager.js (modal open/close)
- * - showNotification() from tableManager.js (toast messages)
- * 
- * Architecture:
- * - In-memory cache (allItems) eliminates redundant API calls
- * - data-id attributes on table rows enable fast item lookup
- * - Single responsibility: menu management controller
- * 
- * Performance Optimization:
- * - When page loads, all items fetched ONCE and cached in allItems
- * - Edit/Delete operations use cache instead of calling API again
- * - Cache refreshed after each create/update/delete operation
- * - Result: Instant response when clicking Edit/Delete buttons
- * 
- * Reusable Pattern:
- * To build orders.js or reservations.js, copy this file and change:
- *   1. Endpoint: createCrudManager('orders')
- *   2. Columns: renderTable(items, ['id', 'customer', 'total', 'status'], ...)
- *   3. Form fields: form.customerName, form.orderDate, etc.
+ * Admin Menu Management
+ * Handles loading, rendering, and CRUD operations for menu items in the admin interface.
+ * Utilizes reusable utilities for table rendering, modal management, notifications, and status counting.
+ *
+ * @module menuAdmin
  */
 
 import { getAllMenu } from "../services/menuService.js";
@@ -53,11 +34,12 @@ let currentEditId = null
 let allItems = []
 
 /**
- * Load all menu items and populate table
- * Called on page load and after each create/update/delete
- * 
- * Performance: Caches all items in memory (allItems) to avoid
- * fetching full dataset when user clicks Edit/Delete
+ * Loads all menu items and updates the menu table in the admin dashboard.
+ * Fetches data from the menu service and updates DOM elements for menu items.
+ *
+ * @async
+ * @function loadMenuItems
+ * @returns {Promise<void>}
  */
 const loadMenuItems = async () => {
     try {

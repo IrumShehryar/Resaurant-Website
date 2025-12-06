@@ -1,6 +1,20 @@
 import { apiUrl } from "../utils/config.js";
 import fetchData from "../utils/fetchData.js";
 
+/**
+ * Admin Dashboard Stats Updater
+ * Updates statistics for orders, reservations, menu items, and users in the admin dashboard.
+ *
+ * @module dashboard
+ */
+
+/**
+ * Fetches and updates admin statistics in the dashboard.
+ *
+ * @async
+ * @function updateAdminStats
+ * @returns {Promise<void>}
+ */
 async function updateAdminStats() {
     try {
         const stats = await fetchData(apiUrl("admin/stats"));
@@ -13,6 +27,14 @@ async function updateAdminStats() {
         console.error("Failed to load admin stats", err);
     }
 }
+
+/**
+ * Fetches and updates menu statistics in the dashboard.
+ *
+ * @async
+ * @function updateMenuStats
+ * @returns {Promise<void>}
+ */
 async function updateMenuStats() {
     try {
         const stats = await fetchData(apiUrl("menu/stats"));
@@ -36,6 +58,14 @@ async function updateMenuStats() {
     }
 }
 
+/**
+ * Event listener to update menu stats on DOMContentLoaded.
+ * @event DOMContentLoaded
+ */
 document.addEventListener("DOMContentLoaded", updateMenuStats);
 
+/**
+ * Event listener to update admin stats on DOMContentLoaded.
+ * @event DOMContentLoaded
+ */
 document.addEventListener("DOMContentLoaded", updateAdminStats);

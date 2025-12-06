@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Head: Meta tags, title, stylesheets, fonts, and block for page-specific styles -->
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{% block title %}Revontulet Flamehouse{% endblock %}</title>
@@ -19,6 +20,7 @@
     <body>
         <div class="container">
             <!-- ===== HEADER STARTS HERE ===== -->
+            <!-- Header: Site logo and navigation bar -->
             <header>
                 <div class="logo">
                     <img
@@ -110,11 +112,13 @@
             </header>
             <!-- ===== HEADER ENDS HERE ===== -->
 
+            <!-- Main content block for page-specific content -->
             <main>
                 {% block content %}{% endblock %}
             </main>
 
             <!-- ===== FOOTER STARTS HERE ===== -->
+            <!-- Footer: Contact info, address, phone, hours, social links -->
             <footer class="footer-box">
                 <div class="footer-content">
                     <div class="footer-section">

@@ -1,5 +1,8 @@
 /* frontend/static/css/cart.css - extracted cart styles */
 
+/* =============================
+   CART PAGE LAYOUT & COMPONENTS
+   ============================= */
 .cart-empty {
   display: none;
   text-align: center;
@@ -16,6 +19,9 @@
   display: inline-block;
 }
 
+/* =============================
+   CART SUMMARY & BUTTONS
+   ============================= */
 .cart-summary .summary-inner {
   text-align: right;
   padding: 2rem;
@@ -25,20 +31,16 @@
   color: #00ff88;
   font-weight: bold;
 }
-
 .summary-total {
   font-size: 1.2rem;
   color: #a8d8ff;
   margin-bottom: 1rem;
 }
-
 .cart-summary .btn {
   color: #00ff88;
   text-decoration: none;
   display: inline-block;
 }
-
-/* Ensure checkout button text is black in the cart layout (more specific than .cart-summary .btn) */
 .cart-summary .btn.btn-checkout {
   color: #0b0b0b;
 }

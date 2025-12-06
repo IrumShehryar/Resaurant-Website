@@ -5,9 +5,11 @@ endblock %} {% block styles %}
     href="{{ url_for('static', filename='css/admin-interface.css') }}"
 />
 {% endblock %} {% block content %}
+<!-- Admin Reservations Management: Dashboard stats, reservations table, and sidebar navigation -->
 <div class="panel-layout">
     {% include "admin_sidebar.html" %}
     <div class="admin-section">
+        <!-- Dashboard group: reservation stats -->
         <div class="dashboard-group reservation-dashboard-panel">
             <h4 class="group-title" style="text-align: center">
                 {{ t.reservation_stats }}
@@ -43,6 +45,7 @@ endblock %} {% block styles %}
         </div>
     </div>
 </div>
+<!-- Reservations table and modals for management -->
 <button id="btn-add-reservation" class="btn-accent admin-add-btn">
     {{ t.add_new_reservation }}
 </button>
