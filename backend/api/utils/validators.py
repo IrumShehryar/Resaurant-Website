@@ -1,3 +1,41 @@
+# -----------------------------
+# User Validation
+# -----------------------------
+def validate_user_fields(
+    name: str,
+    username: str,
+    email: str,
+    password: str,
+    phone: str = None,
+    address: str = None
+) -> None:
+    """
+    Validate user fields. Raises ValidationError if any rule fails.
+    """
+    if not name or not str(name).strip():
+        raise ValidationError("Name cannot be empty")
+    if len(name.strip()) < 3:
+        raise ValidationError("Name must be at least 3 characters")
+    if not re.search(r"[A-Za-zÅÄÖåäö]", name):
+        raise ValidationError("Name must contain at least one letter")
+    if not username or not str(username).strip():
+        raise ValidationError("Username cannot be empty")
+    if len(username.strip()) < 3:
+        raise ValidationError("Username must be at least 3 characters")
+    if not email or not str(email).strip():
+        raise ValidationError("Email cannot be empty")
+    if "@" not in email:
+        raise ValidationError("Invalid email address")
+    if not password:
+        raise ValidationError("Password cannot be empty")
+    # Use model password validation for consistency
+    from api.v1.users.users_model import User
+    User.validate_password(password)
+    if phone and (not isinstance(phone, str) or len(phone.strip()) < 7):
+        raise ValidationError("Phone number must be at least 7 digits")
+    if address and (not str(address).strip()):
+        raise ValidationError("Address cannot be empty")
+    
 def validate_menu_item_fields(
     name: str,
     price,
