@@ -71,7 +71,7 @@ endblock %} {% block styles %}
         </div>
     </nav>
 
-    <main class="menu-main" id="menu-main">
+    <div class="menu-main">
         <div class="highlight-wrapper">
             <h3 class="highlight-heading">
                 {% if highlight_day %} {{ t[highlight_day|lower] }} {{
@@ -89,9 +89,9 @@ endblock %} {% block styles %}
             ></section>
         </div>
 
-        <h2 class="menu-heading">{{ t.our_menu }}</h2>
+        <h2 class="menu-heading">{{ t.our_menu or 'Our Menu' }}</h2>
         <div id="menuList" class="menu-grid"></div>
-    </main>
+    </div>
 </div>
 
 {% endblock %} {% block scripts %}
