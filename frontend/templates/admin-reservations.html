@@ -7,7 +7,7 @@ endblock %} {% block styles %}
 {% endblock %} {% block content %}
 <div class="panel-layout">
     {% include "admin_sidebar.html" %}
-    <main class="admin-section">
+    <div class="admin-section">
         <div class="dashboard-group reservation-dashboard-panel">
             <h4 class="group-title" style="text-align: center">
                 {{ t.reservation_stats }}
@@ -41,7 +41,7 @@ endblock %} {% block styles %}
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 </div>
 <button id="btn-add-reservation" class="btn-accent admin-add-btn">
     {{ t.add_new_reservation }}
@@ -105,6 +105,7 @@ endblock %} {% block styles %}
             </label>
             <label
                 >{{ t.status }}<select name="status" required>
+                    <option value="">Select status</option>
                     <option value="pending">
                         {{ t.reservation_status_pending }}
                     </option>

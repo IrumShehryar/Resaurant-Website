@@ -7,7 +7,7 @@
 {% endblock %} {% block content %}
 <div class="panel-layout">
     {% include "admin_sidebar.html" %}
-    <main class="admin-section">
+    <div class="admin-section">
         <div class="dashboard-group menu-dashboard-panel">
             <h4 class="group-title" style="text-align: center">
                 {{ t.menu_stats }}
@@ -64,7 +64,7 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 </div>
 <button id="btn-add-item" class="btn-accent admin-add-btn">
     {{ t.add_new_item }}

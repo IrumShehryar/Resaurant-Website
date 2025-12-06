@@ -7,7 +7,7 @@
 {% endblock %} {% block content %}
 <div class="panel-layout">
     {% include "admin_sidebar.html" %}
-    <main class="admin-section">
+    <div class="admin-section">
         <div class="dashboard-group orders-dashboard-panel">
             <h4 class="group-title" style="text-align: center">
                 {{ t.order_stats }}
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 </div>
 
 <button id="btn-add-order" class="btn-accent admin-add-btn">
@@ -62,7 +62,7 @@
         <button class="modal-close">&times;</button>
         <h3 id="order-form-title">{{ t.edit_order }}</h3>
         <form id="order-form" class="admin-form">
-            <input type="hidden" name="id" id="editOrderId" readonly />
+            <input type="hidden" name="id" id="editOrderId" />
             <label>
                 {{ t.name }}:
                 <input type="text" name="name" id="editOrderName" required />
@@ -87,6 +87,7 @@
             <label>
                 {{ t.payment_method }}:
                 <select name="payment_method" id="editOrderPayment" required>
+                    <option value="">Select payment method</option>
                     <option value="cash">{{ t.cash }}</option>
                     <option value="card">{{ t.card }}</option>
                     <option value="paypal">{{ t.paypal }}</option>
@@ -156,6 +157,7 @@
             <label>
                 {{ t.status }}:
                 <select name="status" id="editOrderStatus" required>
+                    <option value="">Select status</option>
                     <option value="pending">{{ t.pending }}</option>
                     <option value="ready">{{ t.ready }}</option>
                     <option value="completed">{{ t.completed }}</option>
@@ -164,7 +166,7 @@
             </label>
             <!--<label>
                 {{ t.created_at }}:
-                <input type="text" name="created_at" id="editOrderCreated" readonly />
+                <input type="text" name="created_at" id="editOrderCreated" />
             </label>-->
             <button type="submit" class="btn-accent">{{ t.save }}</button>
         </form>
