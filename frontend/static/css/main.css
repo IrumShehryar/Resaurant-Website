@@ -148,7 +148,7 @@ header {
     position: relative;
     z-index: 1000;
     pointer-events: auto;
-    
+}
     header::before {
     content: "";
     position: absolute;
@@ -164,8 +164,7 @@ header {
     );
     pointer-events: none;
     z-index: 0;
-}
-}
+    }
 
 nav{ 
      flex-grow: 1;

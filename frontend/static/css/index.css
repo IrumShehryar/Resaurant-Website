@@ -96,7 +96,7 @@
 .hero-right {
     flex: 1;
     display: flex;
-    align-items: right;
+    /* align-items: right; */
     max-width: 31.25rem;
     padding-left: 2rem;
 }
