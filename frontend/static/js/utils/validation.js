@@ -1,3 +1,37 @@
+// User form validation
+export function validateUserFormFields({ name, email, phone, password }) {
+    if (!name || name.trim().length < 3) {
+        return { valid: false, message: "Name must be at least 3 characters" };
+    }
+    if (!/[A-Za-zÅÄÖåäö]/.test(name)) {
+        return { valid: false, message: "Name must contain at least one letter" };
+    }
+    if (!email || email.trim().length === 0) {
+        return { valid: false, message: "Email cannot be empty" };
+    }
+    if (!email.includes("@")) {
+        return { valid: false, message: "Invalid email address" };
+    }
+    if (!phone || phone.trim().length === 0) {
+        return { valid: false, message: "Phone number cannot be empty" };
+    }
+    if (!/^[0-9+\-\s()]{7,20}$/.test(phone)) {
+        return { valid: false, message: "Phone number must be at least 7 digits and contain only numbers, spaces, or + - ( )" };
+    }
+    if (!password || password.length < 8) {
+        return { valid: false, message: "Password must be at least 8 characters long." };
+    }
+    if (!/[A-Z]/.test(password)) {
+        return { valid: false, message: "Password must contain at least one uppercase letter." };
+    }
+    if (!/[a-z]/.test(password)) {
+        return { valid: false, message: "Password must contain at least one lowercase letter." };
+    }
+    if (!/[0-9]/.test(password)) {
+        return { valid: false, message: "Password must contain at least one digit." };
+    }
+    return { valid: true };
+}
 // Reservation form validation
 export function validateReservationFormFields({ name, email, phone, no_of_people, reservation_date, reservation_time }) {
     if (!name || name.trim().length < 3) {
