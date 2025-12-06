@@ -64,7 +64,17 @@ const loadMenuItems = async () => {
         const items = await getAllMenu();
         allItems = items;
         console.log('Data received:', items);
-        renderTable(items, ['name', 'category', 'price', 'dietary'], menuTbody);
+        // Pass translation keys for Edit/Delete/No items yet
+        renderTable(
+            items,
+            ['name', 'category', 'price', 'dietary'],
+            menuTbody,
+            {
+                edit: typeof t !== 'undefined' && t.edit ? t.edit : 'Muokkaa',
+                delete: typeof t !== 'undefined' && t.delete ? t.delete : 'Poista',
+                no_items_yet: typeof t !== 'undefined' && t.no_items_yet ? t.no_items_yet : 'Ei tietoja'
+            }
+        );
     } catch (error) {
         console.error('Error loading menu:', error);
         menuTbody.innerHTML = '<tr><td colspan="5">Error loading menu</td></tr>';

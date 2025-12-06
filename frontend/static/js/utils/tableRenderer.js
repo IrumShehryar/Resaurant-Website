@@ -20,17 +20,20 @@
  * Example usage in orders.js:
  *   renderTable(orders, ['id', 'customer', 'total', 'status'], ordersTbody)
  */
-export const renderTable = (items, columns, tbody) => {
+// Accepts optional translation object for button labels
+export const renderTable = (items, columns, tbody, t = {}) => {
+    const editLabel = t.edit || t.edit_button || 'Edit';
+    const deleteLabel = t.delete || t.delete_button || 'Delete';
     if (items.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="${columns.length + 1}">No items yet</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="${columns.length + 1}">${t.no_items_yet || 'No items yet'}</td></tr>`;
         return;
     }
     tbody.innerHTML = items.map(item => `
         <tr data-id="${item.id}">
             ${columns.map(col => `<td>${item[col]}</td>`).join('')}
             <td>
-                <button class="btn-edit">Edit</button>
-                <button class="btn-delete">Delete</button>
+                <button class="btn-edit">${editLabel}</button>
+                <button class="btn-delete">${deleteLabel}</button>
             </td>
         </tr>
     `).join('');

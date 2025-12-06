@@ -78,7 +78,7 @@
                                 {% if session.get('user_id') %}
                                     <!-- User logged in → show name and Logout button -->
                                    <!-- <span class="user-name" style="margin-right: 10px; font-weight: 600; color: #2d7a2d;">{{ session.get('user_name') }}</span>-->
-                                    <a href="{{ url_for('logout') }}" class="btn-logout">
+                                    <a href="{{ url_for('logout') }}" class="btn-logout" id="logout-link" data-logout-label="{{ t.logout or 'Logout' }}">
                                         {{ t.logout or "Logout" }}
                                     </a>
                                 {% else %}
@@ -164,6 +164,8 @@
         </div>
 
         <script>
+            // Expose translated logout label globally for JS
+            window.t_logout = "{{ t.logout or 'Logout' }}";
             // Show Admin Panel button if admin token exists and handle admin logout
             document.addEventListener("DOMContentLoaded", () => {
                 const adminPanelLink = document.getElementById("admin-panel-link");
@@ -178,7 +180,8 @@
                     }
                     // Change Login to Logout for admin
                     if (loginLink) {
-                        loginLink.textContent = "Logout";
+                        // Use global translation for logout
+                        loginLink.textContent = window.t_logout || 'Logout';
                         loginLink.classList.add("btn-logout");
                         loginLink.addEventListener("click", (e) => {
                             e.preventDefault();

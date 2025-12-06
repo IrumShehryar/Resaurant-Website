@@ -1,3 +1,34 @@
+// Reservation form validation
+export function validateReservationFormFields({ name, email, phone, no_of_people, reservation_date, reservation_time }) {
+    if (!name || name.trim().length < 3) {
+        return { valid: false, message: "Name must be at least 3 characters" };
+    }
+    if (!/[A-Za-zÅÄÖåäö]/.test(name)) {
+        return { valid: false, message: "Name must contain at least one letter" };
+    }
+    if (!email || email.trim().length === 0) {
+        return { valid: false, message: "Email cannot be empty" };
+    }
+    if (!email.includes("@")) {
+        return { valid: false, message: "Invalid email address" };
+    }
+    if (!phone || phone.trim().length === 0) {
+        return { valid: false, message: "Phone number cannot be empty" };
+    }
+    if (!/^[0-9+\-\s()]{7,20}$/.test(phone)) {
+        return { valid: false, message: "Phone number must be at least 7 digits and contain only numbers, spaces, or + - ( )" };
+    }
+    if (no_of_people == null || isNaN(no_of_people) || Number(no_of_people) < 1) {
+        return { valid: false, message: "Number of people must be at least 1" };
+    }
+    if (!reservation_date || !/^\d{4}-\d{2}-\d{2}$/.test(reservation_date)) {
+        return { valid: false, message: "Invalid reservation date format (use YYYY-MM-DD)" };
+    }
+    if (!reservation_time || !/^\d{2}:\d{2}$/.test(reservation_time)) {
+        return { valid: false, message: "Invalid reservation time format (use HH:MM)" };
+    }
+    return { valid: true };
+}
 // Order form validation
 export function validateOrderFormFields({ name, email, phone, order_date, order_time, total, status, items }) {
     if (!name || name.trim().length < 3) {

@@ -2,6 +2,8 @@
 
 import { apiUrl } from "./utils/config.js";
 import fetchData from "./utils/fetchData.js";
+import { validateReservationFormFields } from "./utils/validation.js";
+import { extractErrorMessage } from "./utils/errorMessage.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("reservation-form");
@@ -26,6 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
             reservation_time: formData.get("time"),  // "HH:MM"
         };
 
+        // Frontend validation
+        const validation = validateReservationFormFields(payload);
+        if (!validation.valid) {
+            messageBox.textContent = validation.message;
+            messageBox.style.color = "red";
+            return;
+        }
+
         try {
             const data = await fetchData(apiUrl("reservation"), {
                 method: "POST",
@@ -42,11 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
             form.reset();
         } catch (error) {
             console.error("Reservation error:", error);
-
-            const text =
-                (error && (error.error || error.message)) ||
-                "Failed to create reservation.";
-            messageBox.textContent = text;
+            messageBox.textContent = extractErrorMessage(error, "Failed to create reservation.");
             messageBox.style.color = "red";
         }
     });
