@@ -1,3 +1,9 @@
+"""
+validators.py
+
+Validation functions for user, menu item, and other model fields.
+"""
+
 # -----------------------------
 # User Validation
 # -----------------------------
@@ -11,6 +17,15 @@ def validate_user_fields(
 ) -> None:
     """
     Validate user fields. Raises ValidationError if any rule fails.
+    Args:
+        name (str): User's name.
+        username (str): Username.
+        email (str): Email address.
+        password (str): Password.
+        phone (str, optional): Phone number.
+        address (str, optional): Address.
+    Raises:
+        ValidationError: If any validation rule fails.
     """
     if not name or not str(name).strip():
         raise ValidationError("Name cannot be empty")
@@ -50,6 +65,19 @@ def validate_menu_item_fields(
 ) -> None:
     """
     Validate all menu item fields. Raises ValidationError if any rule fails.
+    Args:
+        name (str): Name of the menu item.
+        price: Price of the menu item.
+        category (str): Category of the menu item.
+        dietary (list): Dietary tags.
+        allergens (list, optional): Allergens.
+        ingredients (list, optional): Ingredients.
+        days_of_week (list, optional): Days when item is available.
+        active (bool, optional): If the item is active.
+        description (str, optional): Description.
+        image (str, optional): Image URL or path.
+    Raises:
+        ValidationError: If any validation rule fails.
     """
     allowed_categories = ["starter", "main", "dessert", "side", "drink", "special"]
     allowed_dietary = [

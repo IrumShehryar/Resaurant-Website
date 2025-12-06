@@ -1,5 +1,10 @@
 // utils/errorMessage.js
-// Generic function to extract backend error messages for notifications
+/**
+ * Extracts backend error messages for notifications.
+ * @param {Error} error - Error object thrown by fetch or API call.
+ * @param {string} [fallback='Error occurred'] - Fallback message if extraction fails.
+ * @returns {string} Extracted error message or fallback.
+ */
 export function extractErrorMessage(error, fallback = 'Error occurred') {
     try {
         const errorObj = JSON.parse(error.message.match(/\{.*\}/)?.[0] || '{}');

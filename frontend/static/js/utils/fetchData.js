@@ -1,4 +1,3 @@
-
 /**
  * Robust fetch wrapper for API calls.
  * Throws on non-OK responses and parses JSON or text based on content-type.

@@ -1,8 +1,6 @@
-/* -----------------------------------------------------------
-   ORDER CONFIRMATION PAGE STYLES
------------------------------------------------------------ */
-
-/* Hero Section */
+/* =============================
+   ORDER CONFIRMATION PAGE LAYOUT & COMPONENTS
+   ============================= */
 .hero {
     width: 100%; 
     height: auto;
@@ -17,15 +15,9 @@
     position: relative;
 }
 
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: transparent;
-    z-index: 0;
-    pointer-events: none;
-}
-
+/* =============================
+   HERO CONTENT & SUMMARY BOX
+   ============================= */
 .hero-content {
     display: flex;
     align-items: flex-start;

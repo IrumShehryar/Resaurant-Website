@@ -1,10 +1,11 @@
+/* =============================
+   MAIN SITE LAYOUT & UTILITIES
+   ============================= */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
-/* Theme variables for modal styling */
 :root{
      --modal-bg: rgba(17,20,22,0.95);       /* modal box background (dark glass) */
      --modal-overlay: rgba(0,0,0,0.60);     /* backdrop / overlay */
@@ -14,7 +15,10 @@
      --danger: #ff6b6b;                     /* primary destructive (remove) */
      --danger-rgb: 255,107,107;
 }
-/* Shared button utilities (site-wide) */
+
+/* =============================
+   BUTTONS & UTILITIES
+   ============================= */
 .btn {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -27,8 +31,6 @@
      position: relative;
      z-index: 1;
 }
-
-/* Neon outline for buttons (uses site accent green) */
 .btn::after {
      content: '';
      position: absolute;
@@ -42,14 +44,14 @@
      transition: box-shadow 220ms ease, opacity 220ms ease;
      opacity: 1;
 }
-
 .btn:hover::after,
 .btn:focus::after {
      box-shadow: 0 0 2.5rem rgba(var(--modal-accent-rgb), 0.22), 0 0 0.5rem rgba(var(--modal-accent-rgb), 0.08) inset;
 }
 
-
-/* Primary = match cart remove button (danger) */
+/* =============================
+   PRIMARY BUTTONS
+   ============================= */
 .btn-primary, .filter-btn.active {
      background: var(--danger);
      color: #ffffff;
@@ -64,7 +66,9 @@
 }
 .btn-primary:hover, .filter-btn.active:hover { filter: brightness(0.95); transform: translateY(-2px); }
 
-/* Secondary = match cart Continue / Continue shopping */
+/* =============================
+   SECONDARY BUTTONS
+   ============================= */
 .btn-secondary, .filter-btn {
      background: transparent;
      color: var(--modal-accent);
@@ -81,7 +85,9 @@
      color: #0b0b0b;
 }
 
-/* Accent filled button (teal) for Add actions */
+/* =============================
+   ACCENT BUTTONS
+   ============================= */
 .btn-accent {
      background: var(--modal-accent);
      color: #0b0b0b;
@@ -96,9 +102,14 @@
 }
 .btn-accent:hover { background: rgba(var(--modal-accent-rgb), 0.85); transform: translateY(-2px); }
 
-/* Focus accessibility */
+/* =============================
+   FOCUS ACCESSIBILITY
+   ============================= */
 .btn:focus, .filter-btn:focus { outline: 3px solid rgba(0,255,136,0.14); outline-offset: 2px; }
 
+/* =============================
+   CONTAINER & LAYOUT
+   ============================= */
 .container{
     max-width: 100%;
     display: flex;
@@ -192,12 +203,13 @@ nav{
 .nav-links li:first-child { margin-left:2rem; }
 .nav-links li:last-child { margin-right:2rem; }
 
-/* Spacer to push Order Now to the right */
 .spacer {
     flex-grow: 1;
 }
 
-/* Language switcher styling */
+/* =============================
+   LANGUAGE SWITCHER
+   ============================= */
 .language-switcher {
     display: flex;
     align-items: center;
@@ -213,7 +225,9 @@ nav{
     margin: 0 0.25rem;
 }
 
-/* Order Now button styling */
+/* =============================
+   ORDER NOW BUTTON
+   ============================= */
 .btn-order-now {
     background: #00ff88 !important;
     color: #0b0b0b !important;
@@ -246,37 +260,26 @@ nav{
    
 .logo img{ height: 6rem; display: block;margin-left: 1rem; margin-top: 1rem;}
 
-/* Language Switcher Styles */
-
-.language-switcher {
-     display: flex;
-     align-items: center;
-     gap: 0;
-}
-
-.language-switcher a {
-     padding: 0.5rem 0.25rem;
-}
-
-.language-switcher span {
-     color: #a8d8ff;
-     margin: 0 0.25rem;
-}
-
-/* Main content area - grows to push footer to bottom */
+/* =============================
+   MAIN CONTENT AREA
+   ============================= */
 main {
     flex: 1;
     width: 100%;
     padding: 2rem 1rem;
 }
 
-/* Northern Lights Theme Colors */
+/* =============================
+   TYPOGRAPHY
+   ============================= */
 h1 { color: #00ff88; }
 h2 { color: #b366ff; }
 h3 { color: #7dd3e0; }
 p { color: #e0f4ff; }
 
-/* Minimal modal styles (unstyled functionality was added in JS) */
+/* =============================
+   MODAL STYLES
+   ============================= */
 #modal-root{
      position: fixed;
      inset: 0; /* top:0; right:0; bottom:0; left:0 */
@@ -307,7 +310,9 @@ p { color: #e0f4ff; }
      display:inline-block;margin-top:0.75rem;padding:0.375rem 0.625rem;border:none;background:var(--modal-accent);color:#0b0b0b;border-radius:0.25rem;cursor:pointer
 }
 
-/* === Sidebar & Filter Button Styles (moved from menu.css for global use) === */
+/* =============================
+   SIDEBAR & FILTER BUTTON STYLES
+   ============================= */
 .panel-layout {
   display: grid;
   grid-template-columns: 1fr;
@@ -342,7 +347,7 @@ p { color: #e0f4ff; }
   font-weight: 500;
   position: relative;
   z-index: 1;
-  transition: box-shadow 220ms ease, transform 120ms ease;
+  transition: box-shadow 220ms ease, transform 0.12s ease;
 }
 
 .filter-btn::after {
@@ -431,6 +436,9 @@ p { color: #e0f4ff; }
   display: inline-block;
 }
 
+/* =============================
+   MEDIA QUERIES
+   ============================= */
 @media (max-width: 1024px) {
   .panel-layout { grid-template-columns: 1fr; }
   .left-panel { position: static; flex-direction: row; overflow-x: auto; gap: .5rem; padding: .5rem; width: 100%; }
@@ -731,7 +739,7 @@ footer {
     padding: 2rem 1.5rem;
 }
 
-/* we keep the solid dark background behind text for non-image versions */
+/* we keep the solid dark background behind non-image versions */
 .about-hero::before {
     content: "";
     position: absolute;
@@ -894,5 +902,13 @@ footer {
     margin: 0 0.75rem;
     text-decoration: none;  
 }
+
+/* =============================
+   COMPONENTS
+   ============================= */
+
+/* =============================
+   RESPONSIVE STYLES
+   ============================= */
 
 

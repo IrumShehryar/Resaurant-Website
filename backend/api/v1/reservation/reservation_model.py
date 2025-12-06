@@ -1,3 +1,9 @@
+"""
+reservation_model.py
+
+MongoEngine model for reservations, including validation and custom logic.
+"""
+
 from datetime import datetime
 
 from mongoengine import (
@@ -11,6 +17,9 @@ from api.utils.validators import validate_reservation_fields
 
 
 class ReserveTable(Document):
+    """
+    MongoEngine document for table reservations, including user info, reservation details, and status.
+    """
     name = StringField(required=True, min_length=3, max_length=100)
     phone = StringField(required=True, min_length=7, max_length=15)
     email = StringField(required=True, max_length=100)
@@ -36,8 +45,7 @@ class ReserveTable(Document):
 
     def clean(self):
         """
-        Custom validation logic for reservation.
-        Runs automatically on .save()
+        Custom validation logic for reservation. Runs automatically on .save().
         """
         validate_reservation_fields(
             name=self.name,
@@ -58,7 +66,7 @@ def list_all_reservations():
 
 def get_reservation_by_id(reservation_id):
     """
-    Return a single reservation by id, or None if not found.
+    Return a single reservation by ID.
     """
     try:
         return ReserveTable.objects.get(id=reservation_id)

@@ -5,9 +5,11 @@ block styles %}
     href="{{ url_for('static', filename='css/admin-interface.css') }}"
 />
 {% endblock %} {% block content %}
+<!-- Admin Interface: Dashboard stats and sidebar navigation -->
 <div class="panel-layout">
     {% include "admin_sidebar.html" %}
     <main class="admin-section">
+        <!-- Dashboard group: shows stats for orders, reservations, menu, users -->
         <div class="dashboard-group">
             <h4 class="group-title">{{ t.dashboard }}</h4>
             <div class="dashboard-stats">
@@ -34,6 +36,7 @@ block styles %}
     </main>
 </div>
 {% endblock %} {% block scripts %}
+<!-- Admin scripts for dashboard and guard -->
 <script
     type="module"
     src="{{ url_for('static', filename='js/admin-guard.js') }}"

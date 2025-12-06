@@ -1,13 +1,12 @@
 {% extends "base.html" %} {% block title %}{{ t.about_us }} — Revontulet
 Flamehouse{% endblock %} {% block content %}
 
-<!-- ===== About Hero: text + burger image ===== -->
+<!-- About Hero Section: Text and burger image -->
 <section class="about-hero about-hero--with-image">
     <div class="about-hero-text">
         <h1>{{ t.about_us }}</h1>
         <p>{{ t.about_hero_intro }}</p>
     </div>
-
     <figure class="about-hero-photo">
         <img
             src="{{ url_for('static', filename='assets/about-burger.jpg') }}"
@@ -16,25 +15,22 @@ Flamehouse{% endblock %} {% block content %}
     </figure>
 </section>
 
-<!-- ===== Main layout: cards + drink image ===== -->
+<!-- Main Layout: Cards and drink image -->
 <section class="about-layout">
     <div class="about-cards">
         <div class="about-card">
             <h2>{{ t.our_story }}</h2>
             <p>{{ t.our_story_text }}</p>
         </div>
-
         <div class="about-card">
             <h2>{{ t.our_philosophy }}</h2>
             <p>{{ t.our_philosophy_text }}</p>
         </div>
-
         <div class="about-card">
             <h2>{{ t.nordic_ingredients }}</h2>
             <p>{{ t.nordic_ingredients_text }}</p>
         </div>
     </div>
-
     <aside class="about-side-image">
         <img
             src="{{ url_for('static', filename='assets/about-drink.jpg') }}"
@@ -43,7 +39,7 @@ Flamehouse{% endblock %} {% block content %}
     </aside>
 </section>
 
-<!-- ===== Call To Action (Buttons) ===== -->
+<!-- Call To Action: Menu and reservation buttons -->
 <div class="about-cta">
     <a href="{{ url_for('menu') }}" class="btn-accent"
         >{{ t.explore_our_menu }}</a

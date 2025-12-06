@@ -1,6 +1,11 @@
 import { apiUrl } from "./utils/config.js";
 import fetchData from "./utils/fetchData.js";
 
+/**
+ * Guards admin pages by verifying authentication and role.
+ * Redirects to login if not authenticated or not admin.
+ * @event DOMContentLoaded
+ */
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("authToken");
 

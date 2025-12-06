@@ -5,8 +5,20 @@ import fetchData from "./utils/fetchData.js";
 import { validateReservationFormFields } from "./utils/validation.js";
 import { extractErrorMessage } from "./utils/errorMessage.js";
 
+/**
+ * Handles reservation form submission and validation.
+ * Adds event listeners to the reservation form and displays messages.
+ *
+ * @event DOMContentLoaded
+ */
 document.addEventListener("DOMContentLoaded", () => {
+    /**
+     * @type {HTMLFormElement}
+     */
     const form = document.getElementById("reservation-form");
+    /**
+     * @type {HTMLElement}
+     */
     const messageBox = document.getElementById("reservation-message");
 
     if (!form) {
@@ -14,11 +26,28 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
+    /**
+     * Handles the reservation form submit event.
+     *
+     * @param {Event} event - The submit event object.
+     */
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
+        /**
+         * @type {FormData}
+         */
         const formData = new FormData(form);
 
+        /**
+         * @typedef {Object} ReservationPayload
+         * @property {string} name
+         * @property {string} email
+         * @property {string} phone
+         * @property {number} no_of_people
+         * @property {string} reservation_date - Format YYYY-MM-DD
+         * @property {string} reservation_time - Format HH:MM
+         */
         const payload = {
             name: formData.get("name"),
             email: formData.get("email"),
@@ -29,6 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         // Frontend validation
+        /**
+         * @type {{valid: boolean, message: string}}
+         */
         const validation = validateReservationFormFields(payload);
         if (!validation.valid) {
             messageBox.textContent = validation.message;
@@ -37,6 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
+            /**
+             * @type {Object}
+             * @description Response data from reservation API
+             */
             const data = await fetchData(apiUrl("reservation"), {
                 method: "POST",
                 headers: {

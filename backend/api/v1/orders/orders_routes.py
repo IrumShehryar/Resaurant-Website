@@ -1,3 +1,9 @@
+"""
+orders_routes.py
+
+Flask Blueprint exposing the orders JSON API. Handles routes for CRUD operations and user details.
+"""
+
 from flask import Blueprint
 from .orders_controller import (
     get_order,
@@ -15,6 +21,9 @@ orders_bp = Blueprint("orders", __name__, url_prefix='/api/v1/orders')
 # --------------------------------------------------------
 @orders_bp.route("/", methods=["GET"])
 def all_orders():
+    """
+    Returns all orders.
+    """
     return get_order()
 
 
@@ -23,6 +32,9 @@ def all_orders():
 # --------------------------------------------------------
 @orders_bp.route("/<order_id>", methods=["GET"])
 def single_order(order_id):
+    """
+    Returns a single order by ID.
+    """
     return get_order_controller(order_id)
 
 
@@ -31,7 +43,9 @@ def single_order(order_id):
 # --------------------------------------------------------
 @orders_bp.route("/", methods=["POST"])
 def create_order():
-    """Creates a new order from frontend data"""
+    """
+    Creates a new order from frontend data.
+    """
     return create_order_controller()
 
 
@@ -40,7 +54,9 @@ def create_order():
 # --------------------------------------------------------
 @orders_bp.route("/<order_id>", methods=["PUT"])
 def update_order(order_id):
-    """Updates an existing order, including payment method"""
+    """
+    Updates an existing order, including payment method.
+    """
     return update_order_controller(order_id)
 
 

@@ -1,3 +1,7 @@
+/**
+ * Handles order confirmation page logic, including cart totals, order number generation, and final order placement.
+ * @event DOMContentLoaded
+ */
 document.addEventListener("DOMContentLoaded", () => {
     // --------------------------------------------------------
     // LOAD CART TOTALS
@@ -24,6 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // --------------------------------------------------------
     // FINAL PLACE ORDER BUTTON
     // --------------------------------------------------------
+    /**
+     * Handles the final order placement when the button is clicked.
+     * @param {MouseEvent} event
+     */
     document.getElementById("place-order-final").addEventListener("click", async () => {
         // Get user info from page
         const name = document.getElementById("user-name").textContent;

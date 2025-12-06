@@ -7,6 +7,7 @@
  * @param {Array} items - Array of objects to display (e.g., menu items, orders, reservations)
  * @param {Array} columns - Array of field names to show (e.g., ['name', 'price', 'category'])
  * @param {HTMLElement} tbody - Target tbody element to populate
+ * @param {Object} [t={}] - Optional translation object for button labels
  * 
  * How it works:
  * - Takes configurable columns instead of hardcoding fields
@@ -20,7 +21,6 @@
  * Example usage in orders.js:
  *   renderTable(orders, ['id', 'customer', 'total', 'status'], ordersTbody)
  */
-// Accepts optional translation object for button labels
 export const renderTable = (items, columns, tbody, t = {}) => {
     const editLabel = t.edit || t.edit_button || 'Edit';
     const deleteLabel = t.delete || t.delete_button || 'Delete';

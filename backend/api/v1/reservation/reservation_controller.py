@@ -1,3 +1,9 @@
+"""
+reservation_controller.py
+
+Controller helpers for the reservation JSON API. Handles CRUD operations for reservations.
+"""
+
 from flask import request
 from .reservation_model import (
     list_all_reservations,
@@ -15,12 +21,20 @@ reservations_schema = ReservationSchema(many=True)
 
 
 def get_reservation():
+    """
+    Controller: GET /api/v1/reservation
+    Returns all reservations as JSON.
+    """
     items = list_all_reservations()
     items_json = reservations_schema.dump(items)
     return items_json, 200
 
 
 def get_reservation_controller(reservation_id):
+    """
+    Controller: GET /api/v1/reservation/<reservation_id>
+    Returns a single reservation by ID as JSON.
+    """
     try:
         item = get_reservation_by_id(reservation_id)
     except (ValueError, TypeError):
@@ -35,6 +49,10 @@ def get_reservation_controller(reservation_id):
 
 @simple_errors
 def create_reservation_controller():
+    """
+    Controller: POST /api/v1/reservation
+    Creates a new reservation.
+    """
     data = request.get_json() or {}
     item = add_reservation(data)
     nice_item = reservation_schema.dump(item)
@@ -43,6 +61,10 @@ def create_reservation_controller():
 
 @simple_errors
 def update_reservation_controller(reservation_id):
+    """
+    Controller: PUT /api/v1/reservation/<reservation_id>
+    Updates an existing reservation.
+    """
     data = request.get_json() or {}
     item = update_reservation(reservation_id, data)
 
@@ -55,6 +77,10 @@ def update_reservation_controller(reservation_id):
 
 @simple_errors
 def delete_reservation_controller(reservation_id):
+    """
+    Controller: DELETE /api/v1/reservation/<reservation_id>
+    Deletes a reservation by ID.
+    """
     deleted = delete_reservation(reservation_id)
 
     if not deleted:

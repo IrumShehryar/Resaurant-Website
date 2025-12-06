@@ -1,10 +1,17 @@
-# api/v1/menu/menu_schema.py
+"""
+menu_schema.py
+
+Defines Marshmallow schema for MenuItem model for API serialization.
+"""
 
 from marshmallow_mongoengine import ModelSchema
 from api.v1.menu.menu_model import MenuItem
 
 
 class MenuItemSchema(ModelSchema):
+    """
+    Marshmallow schema for serializing MenuItem objects for the API.
+    """
     class Meta:
         model = MenuItem
         # Only expose the fields you actually want in the API

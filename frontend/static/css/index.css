@@ -1,5 +1,7 @@
 /* Homepage-specific styles extracted from style.css */
-/* Hero Section */
+/* =============================
+   HOMEPAGE LAYOUT & HERO SECTION
+   ============================= */
 .hero {
     width: 100%; 
     height: auto;
@@ -14,7 +16,9 @@
     position: relative;
 }
 
-/* Aurora Glow Overlay (optional enhancement) */
+/* =============================
+   AURORA GLOW OVERLAY
+   ============================= */
 .hero::before {
     content: "";
     position: absolute;
@@ -28,6 +32,9 @@
     pointer-events: none;
 }
 
+/* =============================
+   HERO CONTENT LAYOUT
+   ============================= */
 .hero-content {
     display: flex;
     align-items: center;
@@ -47,7 +54,9 @@
     padding-right: 2rem;
 }
 
-/* Aurora tagline — cool icy blue */
+/* =============================
+   TAGLINE & TITLE
+   ============================= */
 .hero-tagline {
     color: #7de3ff;
     font-size: 0.95rem;
@@ -91,7 +100,6 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
 
 .hero-right {
     flex: 1;

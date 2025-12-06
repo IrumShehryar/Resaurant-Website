@@ -2,6 +2,12 @@
 // Single place to resolve a menu item's image URL.
 // Prefer `image_url`, then common filename fields, otherwise return hero fallback.
 
+/**
+ * Resolves a menu item's image URL.
+ * Prefers `image_url`, then common filename fields, otherwise returns fallback image.
+ * @param {Object} [item={}] - Menu item object.
+ * @returns {string} Resolved image URL.
+ */
 export const resolveImageUrl = (item = {}) => {
 
   const FALLBACK_IMAGE = '/static/assets/fallback-image.jpeg';

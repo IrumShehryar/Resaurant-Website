@@ -1,3 +1,11 @@
+/**
+ * Admin Reservation Management
+ * Handles loading, rendering, and CRUD operations for reservations in the admin interface.
+ * Utilizes reusable utilities for table rendering, modal management, notifications, and status counting.
+ *
+ * @module reservationAdmin
+ */
+
 // static/js/admin/reservationsAdmin.js
 
 import { getAllReservations } from "../services/reservationService.js";
@@ -33,6 +41,14 @@ let allReservations = [];
 
 // ========== Load & Render ==========
 
+/**
+ * Loads all reservations and updates the reservation table and stats in the admin dashboard.
+ * Fetches data from the reservation service and updates DOM elements for status counts.
+ *
+ * @async
+ * @function loadReservations
+ * @returns {Promise<void>}
+ */
 async function loadReservations() {
     try {
         const items = await getAllReservations();
@@ -75,7 +91,12 @@ async function loadReservations() {
     }
 }
 
-// Helper: get item from cached array by row data-id
+/**
+ * Helper to get a reservation object from a table row element.
+ *
+ * @param {HTMLElement} row - Table row element with data-id attribute.
+ * @returns {Object|undefined} The reservation object, or undefined if not found.
+ */
 const getReservationFromRow = (row) => {
     const id = row.dataset.id;
     return allReservations.find((r) => r.id === id);

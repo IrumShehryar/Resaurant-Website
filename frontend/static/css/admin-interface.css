@@ -1,3 +1,6 @@
+/* =============================
+   ADMIN DASHBOARD & MENU STYLES
+   ============================= */
 .dashboard-group{
     flex: 1;
     display: flex;
@@ -34,7 +37,10 @@
     min-width: 12rem;
     max-width: 15rem;
 }
-/* Menu dashboard panel and stat buttons (smaller, 6 columns) */
+
+/* =============================
+   MENU DASHBOARD PANEL
+   ============================= */
 .menu-dashboard-panel .menu-dashboard-stats {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));

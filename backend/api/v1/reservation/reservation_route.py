@@ -1,3 +1,9 @@
+"""
+reservation_route.py
+
+Flask Blueprint exposing the reservation JSON API. Handles routes for CRUD operations.
+"""
+
 from flask import Blueprint
 from .reservation_controller import (
     get_reservation,
@@ -13,13 +19,17 @@ reservation_bp = Blueprint("reservation", __name__, url_prefix="/api/v1/reservat
 
 @reservation_bp.route("/", methods=["GET"])
 def get_all_reservation_route():
-    
+    """
+    Returns all reservations.
+    """
     return get_reservation()
 
 
 @reservation_bp.route("/<reservation_id>", methods=["GET"])
 def get_reservation_route(reservation_id):
-   
+    """
+    Returns a specific reservation by ID.
+    """
     return get_reservation_controller(reservation_id)
 
 
@@ -27,7 +37,9 @@ def get_reservation_route(reservation_id):
 #@token_required
 #def create_reservation(current_user):
 def create_reservation():
-  
+    """
+    Creates a new reservation.
+    """
     #if current_user.role != "admin":
         #return {"message": "Forbidden"}, 403
 
@@ -39,9 +51,8 @@ def create_reservation():
 #def update_reservation(current_user, reservation_id):
 def update_reservation(reservation_id):
     """
-    
-    
     Admin-only: requires a valid JWT for a user with role "admin".
+    Updates an existing reservation.
     """
     #if current_user.role != "admin":
         #return {"message": "Forbidden"}, 403
@@ -55,9 +66,8 @@ def update_reservation(reservation_id):
 #def delete_reservation(current_user, reservation_id):
 def delete_reservation(reservation_id):
     """
-  
-    
     Admin-only: requires a valid JWT for a user with role "admin".
+    Deletes a reservation by ID.
     """
     #if current_user.role != "admin":
         #return {"message": "Forbidden"}, 403

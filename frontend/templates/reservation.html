@@ -5,64 +5,57 @@ Flamehouse{% endblock %} {% block styles %}
     href="{{ url_for('static', filename='css/reservation.css') }}"
 />
 {% endblock %} {% block content %}
+<!-- Reservation Page: Header, form, and instructions -->
 <div class="reservation-page">
     <div class="reservation-header">
+        <!-- Reservation title and description -->
         <h2>{{ t.reserve_a_table }}</h2>
         <p>{{ t.reserve_description }}</p>
     </div>
-
     <div class="reservation-flex">
-        <!-- <div class="reservation-image">
-            <img
-                class="reservation-photo"
-                src="{{ url_for('static', filename='assets/restaurant.jpeg') }}"
-                alt="Restaurant interior"
-            />
-            <img
-                class="reservation-photo"
-                src="{{ url_for('static', filename='assets/restaurant1.jpg') }}"
-                alt="Restaurant Exterior 2"
-            />
-        </div> -->
-
+        <!-- Reservation form -->
         <div class="reservation-box">
             <form id="reservation-form">
+                <!-- Name input -->
                 <label>
                     {{ t.name }}:
                     <input type="text" name="name" required />
                 </label>
 
+                <!-- Email input -->
                 <label>
                     {{ t.email }}:
                     <input type="email" name="email" required />
                 </label>
 
+                <!-- Phone input -->
                 <label>
                     {{ t.phone }}:
                     <input type="tel" name="phone" required />
                 </label>
 
+                <!-- Date input -->
                 <label>
                     {{ t.date }}:
                     <input type="date" name="date" required />
                 </label>
 
+                <!-- Time input -->
                 <label>
                     {{ t.time }}:
                     <input type="time" name="time" required />
                 </label>
 
+                <!-- Number of guests input -->
                 <label>
                     {{ t.number_of_guests }}:
                     <input type="number" name="guests" min="1" required />
                 </label>
 
                 <button type="submit" class="btn-accent">
-                    {{ t.reserve_button }}
+                    {{ t.reserve_submit }}
                 </button>
             </form>
-
-            <div id="reservation-message"></div>
         </div>
     </div>
 </div>

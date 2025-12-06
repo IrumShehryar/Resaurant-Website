@@ -6,7 +6,7 @@ Flamehouse {% endif %} {% endblock %} {% block styles %}
     href="{{ url_for('static', filename='css/customer-login.css') }}"
 />
 {% endblock %} {% block content %}
-
+<!-- Login Section: Authentication form and hero image -->
 <section class="hero">
     <div class="hero-content">
         <div class="hero-left">
@@ -21,16 +21,16 @@ Flamehouse {% endif %} {% endblock %} {% block styles %}
                     {% if role == "admin" %} {{ t.admin_login }} {% else %} {{
                     t.login }} {% endif %}
                 </h2>
-
                 <input type="hidden" id="next-url" value="{{ next_url }}" />
                 <input type="hidden" id="role" value="{{ role }}" />
-
                 <form id="auth-form">
+                    <!-- Username input -->
                     <label
                         >{{ t.username }}:
                         <input type="text" name="username" required />
                     </label>
 
+                    <!-- Password input -->
                     <label
                         >{{ t.password }}:
                         <input type="password" name="password" required />
@@ -41,7 +41,6 @@ Flamehouse {% endif %} {% endblock %} {% block styles %}
                         {{ t.login }} {% endif %}
                     </button>
                 </form>
-
                 {% if role != "admin" %}
                 <p id="toggle-text">
                     {{ t.no_account }}
@@ -50,8 +49,8 @@ Flamehouse {% endif %} {% endblock %} {% block styles %}
                 {% endif %}
             </div>
         </div>
-
         <div class="hero-right">
+            <!-- Hero image -->
             <img
                 class="hero-image"
                 src="{{ url_for('static', filename='assets/hero1.jpg') }}"
@@ -59,10 +58,7 @@ Flamehouse {% endif %} {% endblock %} {% block styles %}
             />
         </div>
     </div>
-
-    <div class="hero-fade"></div>
 </section>
-
 {% endblock %} {% block scripts %}
 <script
     type="module"

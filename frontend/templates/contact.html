@@ -1,30 +1,23 @@
-{% extends "base.html" %}
-
-{% block title %}{{ t.contact_title }} — Revontulet Flamehouse{% endblock %}
-
-{% block styles %}
+{% extends "base.html" %} {% block title %}{{ t.contact_title }} — Revontulet
+Flamehouse{% endblock %} {% block styles %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/contact.css') }}"
 />
-{% endblock %}
-
-{% block content %}
-
+{% endblock %} {% block content %}
+<!-- Contact Feature: Address, phone, email, map, and transport options -->
 <div class="contact-feature">
     <div class="contact-left">
+        <!-- Contact info -->
         <h2>{{ t.contact_us }}</h2>
-
         <p><strong>{{ t.address }}:</strong> Karaportti 2, Espoo, Finland</p>
         <p><strong>{{ t.phone }}:</strong> +358 (0) 123 456 789</p>
         <p><strong>{{ t.email }}:</strong> info@revontulet.com</p>
-
         <p>{{ t.contact_message }}</p>
     </div>
-
     <div class="contact-right">
+        <!-- Map and transport options -->
         <h3>🚌 {{ t.getting_here }}</h3>
-
         <iframe
             src="https://www.google.com/maps?q=Karaportti%202,Espoo,Finland&z=15&output=embed"
             loading="lazy"
@@ -33,7 +26,6 @@
             height="300"
             style="border: 0"
         ></iframe>
-
         <div class="transport-options">
             <p>
                 <a href="https://www.hsl.fi/" target="_blank" rel="noopener">

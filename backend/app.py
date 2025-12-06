@@ -1,3 +1,8 @@
+"""
+Main Flask application for Restaurant Website backend.
+Initializes app, configures session, registers blueprints, and sets up routes.
+"""
+
 import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from translations import translations
@@ -44,22 +49,44 @@ app.register_blueprint(menu_stats_bp)
 # Language switch
 @app.route("/set_language/<lang>")
 def set_language(lang):
+    """
+    Route to set the language for the session.
+    Args:
+        lang (str): Language code ('en' or 'fi').
+    Returns:
+        Redirect to previous page or home.
+    """
     if lang in ["en", "fi"]:
         session["lang"] = lang
     return redirect(request.referrer or url_for("home"))
 
 @app.context_processor
 def inject_translations():
+    """
+    Injects translation dictionary into templates based on session language.
+    Returns:
+        dict: Translation dictionary for current language.
+    """
     lang = session.get("lang", "en")
     return {"t": translations[lang]}
 
 # Basic pages
 @app.get("/")
 def home():
+    """
+    Renders the home page.
+    Returns:
+        Rendered index.html template.
+    """
     return render_template("index.html")
 
 @app.get("/menu")
 def menu():
+    """
+    Renders the menu page with the current highlight day.
+    Returns:
+        Rendered menu.html template.
+    """
     try:
         highlight_day = datetime.now().strftime('%A')
     except Exception:
@@ -68,51 +95,105 @@ def menu():
 
 @app.get("/menu/<int:item_id>")
 def menu_item(item_id):
+    """
+    Renders a specific menu item page.
+    Args:
+        item_id (int): ID of the menu item to display.
+    Returns:
+        Rendered menu.html template.
+    """
     return render_template("menu.html")
 
 @app.get("/about")
 def about():
+    """
+    Renders the about page.
+    Returns:
+        Rendered about.html template.
+    """
     return render_template("about.html")
 
 @app.get("/contact")
 def contact():
+    """
+    Renders the contact page.
+    Returns:
+        Rendered contact.html template.
+    """
     return render_template("contact.html")
 
 @app.get("/reservation")
 def reservation():
+    """
+    Renders the reservation page.
+    Returns:
+        Rendered reservation.html template.
+    """
     return render_template("reservation.html")
 
 @app.get("/cart")
 def cart_page():
+    """
+    Renders the cart page with the optionally added item.
+    Returns:
+        Rendered cart.html template.
+    """
     item_id = request.args.get("item")
     return render_template("cart.html", added_item_id=item_id)
 
 @app.get("/admin-login")
 def admin_login():
+    """
+    Renders the admin login page.
+    Returns:
+        Rendered login.html template for admin.
+    """
     next_url = url_for("admin_interface")
     return render_template("login.html", next_url=next_url, role="admin")
 
 @app.get("/admin-interface")
 def admin_interface():
+    """
+    Renders the admin interface page.
+    Returns:
+        Rendered admin-interface.html template.
+    """
     return render_template("admin-interface.html")
 
 @app.route('/admin-menu')
 def admin_menu():
-    # Determine language, default to English
-    lang = session.get('lang', 'en')
-    t = translations.get(lang, translations['en'])
-    return render_template('admin-menu.html', t=t)
+    """
+    Renders the admin menu page.
+    Returns:
+        Rendered admin-menu.html template.
+    """
+    return render_template('admin-menu.html')
 
 @app.route('/admin-orders')
 def admin_orders():
+    """
+    Renders the admin orders page.
+    Returns:
+        Rendered admin-orders.html template.
+    """
     return render_template('admin-orders.html')
 
 @app.route('/admin-reservations')
 def admin_reservations():
+    """
+    Renders the admin reservations page.
+    Returns:
+        Rendered admin-reservations.html template.
+    """
     return render_template('admin-reservations.html')
 
 @app.route('/admin-users')
 def admin_users():
+    """
+    Renders the admin users page.
+    Returns:
+        Rendered admin-users.html template.
+    """
     return render_template('admin-users.html')
 
 # -------------------------------
@@ -120,6 +201,10 @@ def admin_users():
 # -------------------------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    Logs in a user and starts a session.
+    Handles user authentication and redirects to the next page.
+    """
     next_url = request.args.get("next", "/")
 
     if "user_id" in session:
@@ -150,6 +235,10 @@ def login():
 # -------------------------------
 @app.route("/checkout")
 def checkout():
+    """
+    Redirects to the order confirmation page if the user is logged in.
+    If not logged in, redirects to the login page.
+    """
     if "user_id" not in session:
         return redirect(url_for("login", next=url_for("order_confirmation_page")))
     return redirect(url_for("order_confirmation_page"))
@@ -159,6 +248,11 @@ def checkout():
 # -------------------------------
 @app.get("/order-confirmation")
 def order_confirmation_page():
+    """
+    Renders the order confirmation page with user data.
+    Returns:
+        Rendered order-confirmation.html template.
+    """
     user_data = {
         "name": "Not provided",
         "phone": "Not provided",
@@ -184,6 +278,10 @@ def order_confirmation_page():
 # -------------------------------
 @app.route("/logout")
 def logout():
+    """
+    Logs out the user by clearing the session.
+    Redirects to the login page.
+    """
     session.clear()  # Clear session data
     return redirect(url_for("login"))
 

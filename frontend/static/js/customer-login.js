@@ -4,6 +4,10 @@ import { extractErrorMessage } from "./utils/errorMessage.js";
 import { validateUserFormFields } from "./utils/validation.js";
 import { showNotification } from "./utils/tableManager.js";
 
+/**
+ * Handles customer login and registration logic, including form toggling, validation, and authentication requests.
+ * @event DOMContentLoaded
+ */
 document.addEventListener("DOMContentLoaded", async () => {
     const authBox = document.getElementById("auth-box");
     const nextUrlInput = document.getElementById("next-url");
@@ -47,6 +51,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     // -----------------------------
     // LOGOUT HANDLER UTILITY
     // -----------------------------
+    /**
+     * Attaches logout handler to the logout button.
+     * @function attachLogoutHandler
+     */
     const attachLogoutHandler = () => {
         const logoutBtn = document.getElementById("logout-btn");
         if (logoutBtn) {
@@ -130,7 +138,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         attachFormSubmit();
     };
 
-    // ...existing code...
     // -----------------------------
     // LOGIN / REGISTER SUBMIT
     // -----------------------------

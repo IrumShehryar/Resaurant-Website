@@ -1,11 +1,15 @@
-/* Page wrapper to center the whole block */
+/* =============================
+   RESERVATION PAGE LAYOUT & COMPONENTS
+   ============================= */
 .reservation-page {
     max-width: 50rem;
     margin: 0 auto;
     padding: 2rem 1rem 4rem;
 }
 
-/* Heading + paragraph */
+/* =============================
+   HEADER & DESCRIPTION
+   ============================= */
 .reservation-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -21,28 +25,29 @@
     margin-bottom: 0;
 }
 
+/* =============================
+   FLEX LAYOUT
+   ============================= */
 .reservation-flex {
     display: flex;
-    flex-direction: row;      /* side by side */
+    flex-direction: row;
     align-items: flex-start;
     justify-content: center;
     gap: 3rem;
-    margin-top: 2rem;
-    max-width: 70rem;         /* overall width for the pair */
+    max-width: 70rem;
     margin-left: auto;
     margin-right: auto;
 }
 
-
-/* Left column with stacked images */
+/* =============================
+   IMAGES
+   ============================= */
 .reservation-image {
     flex: 3;
     display: flex;
     flex-direction: column;
     gap: 3rem;
 }
-
-/* Each individual photo */
 .reservation-photo {
     width: 100%;
     max-width: 70rem;
@@ -50,10 +55,9 @@
     box-shadow: 0 0.5rem 1.25rem rgba(0,0,0,0.15);
     object-fit: cover;
 }
-
 .reservation-image img {
     width: 100%;
-    max-width: 100rem;         /* bigger maximum */
+    max-width: 100rem;
     border-radius: 1rem;
     box-shadow: 0 0.5rem 1.25rem rgba(0,0,0,0.15);
     object-fit: cover;

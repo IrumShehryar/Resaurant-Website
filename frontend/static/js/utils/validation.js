@@ -1,4 +1,8 @@
-// User form validation
+/**
+ * Validates user form fields for registration/login.
+ * @param {Object} fields - User fields: name, email, phone, password.
+ * @returns {{valid: boolean, message?: string}} Validation result and message if invalid.
+ */
 export function validateUserFormFields({ name, email, phone, password }) {
     if (!name || name.trim().length < 3) {
         return { valid: false, message: "Name must be at least 3 characters" };
@@ -32,6 +36,12 @@ export function validateUserFormFields({ name, email, phone, password }) {
     }
     return { valid: true };
 }
+
+/**
+ * Validates reservation form fields.
+ * @param {Object} fields - Reservation fields: name, email, phone, no_of_people, reservation_date, reservation_time.
+ * @returns {{valid: boolean, message?: string}} Validation result and message if invalid.
+ */
 // Reservation form validation
 export function validateReservationFormFields({ name, email, phone, no_of_people, reservation_date, reservation_time }) {
     if (!name || name.trim().length < 3) {
@@ -63,6 +73,12 @@ export function validateReservationFormFields({ name, email, phone, no_of_people
     }
     return { valid: true };
 }
+
+/**
+ * Validates order form fields.
+ * @param {Object} fields - Order fields: name, email, phone, order_date, order_time, total, status, items.
+ * @returns {{valid: boolean, message?: string}} Validation result and message if invalid.
+ */
 // Order form validation
 export function validateOrderFormFields({ name, email, phone, order_date, order_time, total, status, items }) {
     if (!name || name.trim().length < 3) {
@@ -114,6 +130,11 @@ export function validateOrderFormFields({ name, email, phone, order_date, order_
     return { valid: true };
 }
 
+/**
+ * Validates menu item fields for adding/editing menu items.
+ * @param {Object} fields - Menu item fields: name, price, category, dietary, allergens, ingredients, days_of_week, active.
+ * @returns {{valid: boolean, message?: string}} Validation result and message if invalid.
+ */
 export function validateMenuItemFields({ name, price, category, dietary, allergens, ingredients, days_of_week, active }) {
     const allowedCategories = ["starter", "main", "dessert", "side", "drink", "special"];
     const allowedDietary = [

@@ -1,3 +1,9 @@
+"""
+menu_stats.py
+
+Provides statistics endpoints for menu items, including category and dietary counts, and hot selling item.
+"""
+
 from flask import Blueprint, jsonify
 from api.v1.menu.menu_model import MenuItem
 from api.v1.orders.orders_model import Orders
@@ -7,7 +13,9 @@ menu_stats_bp = Blueprint('menu_stats', __name__, url_prefix="/api/v1/menu")
 
 @menu_stats_bp.route('/stats')
 def menu_stats():
-
+    """
+    Returns statistics for menu categories, dietary options, and the hot selling item.
+    """
     # Category counts (normalize to lowercase)
     categories = ["starter", "main", "dessert", "side", "drink"]
     category_counts = {cat.capitalize(): MenuItem.objects(category__iexact=cat).count() for cat in categories}
