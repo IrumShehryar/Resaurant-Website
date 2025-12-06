@@ -1,6 +1,9 @@
     
 translations = {
     "en": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "no_items_yet": "No items yet",
                                         "menu_stats": "Menu Stats",
                                     "about_hero_intro": "Welcome to Revontulet Flamehouse — where Nordic cuisine meets fire, flavor, and the magic of the aurora borealis. Our restaurant blends traditional Finnish tastes with modern cooking techniques for a unique dining experience inspired by the northern lights.",
                                     "our_story": "Our Story",
@@ -237,6 +240,9 @@ translations = {
         "password": "Password",
     },
     "fi": {
+        "edit": "Muokkaa",
+        "delete": "Poista",
+        "no_items_yet": "Ei tuotteita",
                                                 "non_vegetarian": "Ei-kasvis",
                                             "admin_interface": "Ylläpitopaneeli",
                                         "menu_stats": "Menutilastot",
