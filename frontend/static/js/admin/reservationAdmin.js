@@ -57,10 +57,16 @@ async function loadReservations() {
         if (newTodayEl) newTodayEl.textContent = newReservationsToday;
 
         // Show main columns in table
+        // Pass translation keys for Edit/Delete/No items yet
         renderTable(
             items,
             ["name", "phone", "email", "reservation_date", "reservation_time", "no_of_people", "status"],
-            reservationTbody
+            reservationTbody,
+            {
+                edit: typeof t !== 'undefined' && t.edit ? t.edit : 'Muokkaa',
+                delete: typeof t !== 'undefined' && t.delete ? t.delete : 'Poista',
+                no_items_yet: typeof t !== 'undefined' && t.no_items_yet ? t.no_items_yet : 'Ei tietoja'
+            }
         );
     } catch (error) {
         console.error("Error loading reservation:", error);
