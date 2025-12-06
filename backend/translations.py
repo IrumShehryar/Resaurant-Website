@@ -128,6 +128,10 @@ translations = {
         "reservation_status_cancelled": "cancelled",
         "number_of_guests": "Number of Guests",
         "reserve_button": "Reserve",
+         "date": "Date",
+        "time": "Time",
+        "number_of_guests": "Number of Guests",
+        "reserve_button": "Reserve",
         
 
         # Admin/Management
@@ -445,6 +449,8 @@ translations = {
         "email": "Sähköposti",
         "date": "Päivä",
         "time": "Aika",
+        "number_of_guests": "Henkilömäärä",
+        "reserve_button": "Varaa",
         "people": "Henkilöitä",
         "status": "Tila",
 
@@ -452,9 +458,7 @@ translations = {
         "reservation_status_confirmed": "vahvistettu",
         "reservation_status_cancelled": "peruutettu",
 
-        "date": "Päivämäärä",
-        "number_of_guests": "Henkilömäärä",
-        "reserve_button": "Varaa",
+       
         "username": "Käyttäjätunnus",
         "password": "Salasana",
         "no_account": "Eikö sinulla ole tiliä?",

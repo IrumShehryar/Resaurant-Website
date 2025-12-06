@@ -5,6 +5,8 @@ import { showNotification, createModalManager } from "../utils/tableManager.js";
 import { renderTable } from "../utils/tableRenderer.js";
 import { createCrudManager } from "../services/crudServices.js";
 import { countStatuses, countCreatedToday } from "../utils/statusCounter.js";
+import { extractErrorMessage } from "../utils/errorMessage.js";
+import { validateReservationFormFields } from "../utils/validation.js";
 
 // ========== DOM Elements ==========
 const modal = document.getElementById("reservation-modal");
@@ -137,27 +139,12 @@ if (form) {
             status: formData.get("status"),
         };
 
-        // Simple validation
-        if (!data.name || data.name.length < 3) {
-            showNotification("Name must be at least 3 characters", "error", notificationElement);
-            return;
-        }
-        if (!data.phone) {
-            showNotification("Phone is required", "error", notificationElement);
-            return;
-        }
-        if (!data.reservation_date) {
-            showNotification("Reservation date is required", "error", notificationElement);
-            return;
-        }
-        if (!data.reservation_time) {
-            showNotification("Reservation time is required", "error", notificationElement);
-            return;
-        }
-        if (!data.no_of_people || data.no_of_people < 1) {
-            showNotification("Number of people must be at least 1", "error", notificationElement);
-            return;
-        }
+            // Frontend validation
+            const validation = validateReservationFormFields(data);
+            if (!validation.valid) {
+                showNotification(validation.message, "error", notificationElement);
+                return;
+            }
 
         try {
             if (currentEditId) {
@@ -175,7 +162,7 @@ if (form) {
             showNotification("Reservation saved successfully!", "success", notificationElement);
         } catch (error) {
             console.error(error);
-            showNotification("Error saving reservation", "error", notificationElement);
+            showNotification(extractErrorMessage(error, "Error saving reservation"), "error", notificationElement);
         }
     });
 }
@@ -195,7 +182,7 @@ if (reservationTbody) {
                 showNotification("Reservation deleted successfully!", "success", notificationElement);
             } catch (error) {
                 console.error(error);
-                showNotification("Error deleting reservation", "error", notificationElement);
+                showNotification(extractErrorMessage(error, "Error deleting reservation"), "error", notificationElement);
             }
         }
     });
