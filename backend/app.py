@@ -124,12 +124,21 @@ def contact():
 
 @app.get("/reservation")
 def reservation():
-    """
-    Renders the reservation page.
-    Returns:
-        Rendered reservation.html template.
-    """
-    return render_template("reservation.html")
+    user_data = {
+        "name": "",
+        "email": "",
+        "phone": ""
+    }
+    user_id = session.get("user_id")
+    if user_id:
+        user = User.objects(id=user_id).first()
+        if user:
+            user_data = {
+                "name": user.name or "",
+                "email": user.email or "",
+                "phone": user.phone or ""
+            }
+    return render_template("reservation.html", user=user_data)
 
 @app.get("/cart")
 def cart_page():
@@ -223,7 +232,9 @@ def login():
             session["user_id"] = str(user.id)
             session["user_name"] = user.name
             session["user_email"] = user.email
-
+            session["user_phone"] = user.phone
+            
+            print("LOGIN SESSION:", dict(session))
             return redirect(next_url)
         else:
             return render_template("login.html", error="Invalid credentials", next_url=next_url, role="user")

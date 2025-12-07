@@ -6,6 +6,7 @@ Flamehouse{% endblock %} {% block styles %}
 />
 {% endblock %} {% block content %}
 <!-- Reservation Page: Header, form, and instructions -->
+<div id="notification"></div>
 <div class="reservation-page">
     <div class="reservation-header">
         <!-- Reservation title and description -->
@@ -19,19 +20,35 @@ Flamehouse{% endblock %} {% block styles %}
                 <!-- Name input -->
                 <label>
                     {{ t.name }}:
-                    <input type="text" name="name" required />
+                    <input
+                        type="text"
+                        name="name"
+                        value="{{ user.name }}"
+                        required
+                    />
                 </label>
 
                 <!-- Email input -->
                 <label>
                     {{ t.email }}:
-                    <input type="email" name="email" required />
+                    <input
+                        type="email"
+                        name="email"
+                        value="{{ user.email  }}"
+                        required
+                        autocomplete="email"
+                    />
                 </label>
 
                 <!-- Phone input -->
                 <label>
                     {{ t.phone }}:
-                    <input type="tel" name="phone" required />
+                    <input
+                        type="tel"
+                        name="phone"
+                        value="{{ user.phone if user else '' }}"
+                        required
+                    />
                 </label>
 
                 <!-- Date input -->
@@ -56,6 +73,7 @@ Flamehouse{% endblock %} {% block styles %}
                     {{ t.reserve_submit }}
                 </button>
             </form>
+            <div id="reservation-message"></div>
         </div>
     </div>
 </div>
@@ -64,5 +82,5 @@ Flamehouse{% endblock %} {% block styles %}
     type="module"
     src="{{ url_for('static', filename='js/reservation.js') }}"
 ></script>
-<script src="{{ url_for('static', filename='js/order-confirmation.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='js/order-confirmation.js') }}"></script>-->
 {% endblock %}
