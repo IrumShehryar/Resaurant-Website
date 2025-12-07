@@ -1,7 +1,9 @@
 /**
  * Validates user form fields for registration/login.
  * @param {Object} fields - User fields: name, email, phone, password.
- * @returns {{valid: boolean, message?: string}} Validation result and message if invalid.
+ * @returns {Object} result - Validation result object.
+ * @returns {boolean} result.valid - Whether the input is valid.
+ * @returns {string} [result.message] - Message if invalid.
  */
 export function validateUserFormFields({ name, email, phone, password }) {
     if (!name || name.trim().length < 3) {
@@ -40,7 +42,9 @@ export function validateUserFormFields({ name, email, phone, password }) {
 /**
  * Validates reservation form fields.
  * @param {Object} fields - Reservation fields: name, email, phone, no_of_people, reservation_date, reservation_time.
- * @returns {{valid: boolean, message?: string}} Validation result and message if invalid.
+ * @returns {Object} result - Validation result object.
+ * @returns {boolean} result.valid - Whether the input is valid.
+ * @returns {string} [result.message] - Message if invalid.
  */
 // Reservation form validation
 export function validateReservationFormFields({ name, email, phone, no_of_people, reservation_date, reservation_time }) {

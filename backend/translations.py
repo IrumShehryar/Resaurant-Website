@@ -215,6 +215,10 @@ translations = {
         # Common Actions
         "edit": "Edit",
         "delete": "Delete",
+        "order_history": "Order History",
+        "no_orders_found": "No orders found.",
+        "booking_summary": "Booking Summary",
+        "booking_history": "Booking History",
     },
     "fi": {
             "reservation_success": "Varaus luotu onnistuneesti!",
@@ -419,6 +423,10 @@ translations = {
         "view_cart": "Näytä ostoskori",
         # Common Actions
         "edit": "Muokkaa",
-        "delete": "Poista"
+        "delete": "Poista",
+        "order_history": "Tilaushistoria",
+        "no_orders_found": "Ei tilauksia löytynyt.",
+        "booking_summary": "Varausyhteenveto",
+        "booking_history": "Varaushistoria",
     }
 }

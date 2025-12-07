@@ -6,49 +6,100 @@ Flamehouse{% endblock %} {% block styles %}
 />
 {% endblock %} {% block content %}
 <div class="user-dashboard-container">
-    <h2 class="dashboard-title">{{ t.dashboard }} — {{ user.name }}</h2>
-    <div class="user-card">
-        <h3>{{ t.name }}: {{ user.name }}</h3>
-        <p><strong>{{ t.email }}:</strong> {{ user.email }}</p>
-        <p><strong>{{ t.phone }}:</strong> {{ user.phone }}</p>
-        <p><strong>{{ t.address }}:</strong> {{ user.address }}</p>
-        <!--<p><strong>{{ t.role }}:</strong> {{ user.role }}</p> -->
+    {# ========================== USER INFO CARD Shows basic profile information
+    from `user` dict ========================== #}
+    <div class="user-card card">
+        <h3 class="section-title">{{ t.name }}: {{ user.name }}</h3>
+        <div class="user-info-list">
+            <div><strong>{{ t.email }}:</strong> {{ user.email }}</div>
+            <div><strong>{{ t.phone }}:</strong> {{ user.phone }}</div>
+            <div><strong>{{ t.address }}:</strong> {{ user.address }}</div>
+        </div>
     </div>
-    <div class="dashboard-section">
-        <h4>{{ t.reservation_management }}</h4>
-        {% if reservations and reservations|length > 0 %}
-        <ul class="reservation-list">
-            {% for r in reservations %}
-            <li>
-                {{ t.date }}: {{ r.reservation_date }} | {{ t.time }}: {{
-                r.reservation_time }} | {{ t.number_of_guests }}: {{
-                r.no_of_people }} | {{ t.status }}: {{ r.status }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>
-            {{ t.no_reservations_found if t.no_reservations_found else "No
-            reservations found." }}
-        </p>
-        {% endif %}
+
+    {# ========================== BOOKING HISTORY (RESERVATIONS) Data: list
+    `reservations` from backend Highlight: reservations with status
+    pending/confirmed ========================== #}
+    <div class="dashboard-section reservation-section">
+        <div class="card">
+            <h3 class="section-title">{{ t.booking_history }}</h3>
+
+            {% if reservations and reservations|length > 0 %}
+            <ul class="history-list">
+                {% for r in reservations %} {# Add .current-reservation class
+                for "active" bookings #}
+                <li
+                    class="{% if r.status in ['pending', 'confirmed'] %}current-reservation{% endif %}"
+                >
+                    <strong>{{ t.date }}:</strong> {{ r.reservation_date }}
+                    <strong>{{ t.time }}:</strong> {{ r.reservation_time }} |
+                    <strong>{{ t.number_of_guests }}:</strong> {{ r.no_of_people
+                    }} | <strong>{{ t.status }}:</strong> {{ r.status }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="empty-message">
+                {{ t.no_reservations_found if t.no_reservations_found else "No
+                reservations found." }}
+            </p>
+            {% endif %}
+        </div>
     </div>
-    <div class="dashboard-section">
-        <h4>{{ t.order_stats }}</h4>
-        {% if orders and orders|length > 0 %}
-        <ul class="order-list">
-            {% for o in orders %}
-            <li>
-                {{ t.order_no }}: {{ o.order_number }} | {{ t.order_date }}: {{
-                o.order_date }} | {{ t.total_euro }}: {{ o.total_amount }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>
-            {{ t.no_orders_found if t.no_orders_found else "No orders found." }}
-        </p>
-        {% endif %}
+
+    {# ========================== ORDER HISTORY Data: list `orders` from backend
+    Highlight: orders with status pending/ready ========================== #}
+    <div class="dashboard-section order-section">
+        <div class="card">
+            <h3 class="section-title">{{ t.order_history }}</h3>
+
+            {% if orders and orders|length > 0 %}
+            <ul class="history-list">
+                {% for o in orders %} {# Add .current-order class for active
+                (pending/ready) orders #}
+                <li
+                    class="{% if o.status in ['pending', 'ready'] %}current-order{% endif %}"
+                >
+                    <ul class="history-info-list">
+                        <li><strong>{{ t.order_no }}:</strong> {{ o.id }}</li>
+                        <li>
+                            <strong>{{ t.order_date }}:</strong> {{ o.order_date
+                            }} <strong>{{ t.order_time }}:</strong> {{
+                            o.order_time }}
+                        </li>
+                        <li>
+                            <strong>{{ t.total_euro }}:</strong> {{ o.total }} €
+                        </li>
+                        <li><strong>{{ t.status }}:</strong> {{ o.status }}</li>
+                        <li>
+                            <strong>{{ t.payment_method }}:</strong> {{
+                            o.payment_method }}
+                        </li>
+                        <li><strong>Items:</strong></li>
+                        <li>
+                            <ul class="order-items-list">
+                                {% for item in o.items %}
+                                <li>
+                                    {# Try translation key for item.item_name,
+                                    fall back to raw name #} {{
+                                    t[item.item_name] if item.item_name in t
+                                    else item.item_name }} ({{ t.quantity }}: {{
+                                    item.quantity }})
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="empty-message">
+                {{ t.no_orders_found if t.no_orders_found else "No orders
+                found." }}
+            </p>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

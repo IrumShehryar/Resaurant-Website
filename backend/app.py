@@ -1,6 +1,12 @@
+
 """
 Main Flask application for Restaurant Website backend.
-Initializes app, configures session, registers blueprints, and sets up routes.
+
+This file initializes the Flask app, configures session management, registers blueprints, and sets up routes for the restaurant website backend.
+
+Author: Irum Shehryar ,Kanwaljit Singh ,Farhan Ashraf, Saba Akbar
+Created: 2025-12-07
+Description: Flask backend for restaurant website, handles routing, sessions, and API integration.
 """
 
 import os
@@ -41,7 +47,10 @@ app.permanent_session_lifetime = timedelta(days=7)
 # Proxy fix if behind nginx or other proxy
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_prefix=1)
 
-# Register API blueprints
+
+"""
+Register API blueprints for different modules (menu, users, auth, reservation, orders, admin stats, menu stats).
+"""
 app.register_blueprint(menu_bp)
 app.register_blueprint(users_bp)
 app.register_blueprint(auth_bp)
@@ -50,7 +59,9 @@ app.register_blueprint(orders_bp)
 app.register_blueprint(admin_stats_bp)
 app.register_blueprint(menu_stats_bp)
 
+## -----------------------------------
 # Language switch
+## -----------------------------------
 @app.route("/set_language/<lang>")
 def set_language(lang):
     """
@@ -64,6 +75,9 @@ def set_language(lang):
         session["lang"] = lang
     return redirect(request.referrer or url_for("home"))
 
+## -----------------------------------
+# Inject translations into templates
+## -----------------------------------
 @app.context_processor
 def inject_translations():
     """
@@ -74,7 +88,9 @@ def inject_translations():
     lang = session.get("lang", "en")
     return {"t": translations[lang]}
 
+## -----------------------------------
 # Basic pages
+## -----------------------------------
 @app.get("/")
 def home():
     """
@@ -300,11 +316,17 @@ def logout():
     session.clear()  # Clear session data
     return redirect(url_for("login"))
 
-# -------------------------------
-# User dashboard
-# -------------------------------
+
+## -----------------------------------
+# User dashboard page
+## -----------------------------------
 @app.get("/user-dashboard")
 def user_dashboard():
+    """
+    Renders the user dashboard page with user data, reservations, and orders.
+    Returns:
+        Rendered user-dashboard.html template.
+    """
     user_data = {"name": "", "email": "", "phone": "", "address": "", "role": ""}
     reservations = []
     orders = []
@@ -327,6 +349,10 @@ def user_dashboard():
 # -------------------------------
 # Run server
 # -------------------------------
+
+# -----------------------------------
+# Run server
+# -----------------------------------
 if __name__ == "__main__":
     mongo_connect()
     app.run(

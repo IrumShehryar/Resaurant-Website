@@ -1,39 +1,255 @@
+/* ===============================
+   USER DASHBOARD LAYOUT
+   =============================== */
+
+/* Main wrapper for the dashboard content */
 .user-dashboard-container {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    max-width: 900px;            /* limit width so content doesn't stretch too wide */
+    margin: 2rem auto;           /* center horizontally, add vertical spacing */
+    padding: 0 1rem;             /* small side padding */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;                 /* space between cards/sections */
 }
+
+/* Optional page title (not used now, but ready if you add one) */
 .dashboard-title {
-    margin-bottom: 1.5rem;
-    color: #7c4dff;
+    color: #00cc6f;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    font-size: 2rem;
+    font-weight: 700;
     text-align: center;
+    margin-bottom: 1.5rem;
 }
-.user-card {
-    padding: 2rem 1.5rem;
+
+/* Generic section wrapper (reservations, orders, etc.) */
+.dashboard-section {
+    width: 100%;
+}
+
+/* ===============================
+   CARDS & TITLES
+   =============================== */
+
+/* Generic card style used for user info, bookings, orders */
+.card {
     background: rgba(34, 34, 34, 0.92);
     border-radius: 1rem;
-    box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.18);
-    margin-bottom: 2rem;
-    color: #e0f4ff;
-}
-.user-card h3, .user-card p {
-    color: #e0f4ff;
-}
-.dashboard-section {
-    margin-top: 2rem;
-}
-.reservation-list, .order-list {
-    list-style: disc inside;
-    margin: 0.5rem 0 0 1rem;
-    padding: 0;
-}
-.reservation-list li, .order-list li {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    padding: 1.5rem;
     margin-bottom: 0.5rem;
-    background: rgba(34, 34, 34, 0.85);
+    color: #e0f4ff;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+/* Section titles: "Booking History", "Order History", etc. */
+.section-title {
+    color: #00cc6f;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    text-align: left;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* ===============================
+   USER INFO
+   =============================== */
+
+/* Explicit hook if you want to customize user card later */
+.user-card {
+    /* currently just uses .card styles */
+}
+
+/* Container for user details (name, email, phone, address) */
+.user-info-list {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
+
+/* Individual user info lines */
+.user-info-list > div {
+    color: #e0f4ff;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+/* ===============================
+   HISTORY LIST BASE STYLES
+   (shared by reservations & orders)
+   =============================== */
+
+/* List that holds multiple history items */
+.history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Each history entry as a rounded rectangle */
+.history-list > li {
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.6rem;
+    background: rgba(26, 26, 26, 0.9);
+    border-radius: 0.6rem;
+    color: #c4d8e0;
+    font-size: 0.95rem;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+/* Inner list used in order history to show multiple lines of info */
+.history-info-list {
+    margin: 0.25rem 0 0.25rem 0;
+    padding: 0;
+    list-style: none;
+}
+
+.history-info-list li {
+    color: #e0f4ff;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+}
+
+/* ===============================
+   BOOKING HISTORY (RESERVATIONS)
+   =============================== */
+
+/* Layout for booking history list:
+   we use flex so each <li> can size to its content width */
+.reservation-section .history-list {
+    display: block
+}
+
+/* Make each booking entry only as wide as its text,
+   keep it on a single line, and allow horizontal scroll if needed */
+.reservation-section .history-list > li {
+    display: block;
+    white-space: nowrap;       /* keep date/time/guests/status on one line */
+    max-width: 100%;
+    overflow-x: auto;          /* if it's too long, scroll horizontally */
+}
+
+/* ===============================
+   CURRENT / HIGHLIGHTED ITEMS
+   =============================== */
+
+/* Highlight "current" reservation:
+   here we define "current" as status = pending or confirmed.
+   (HTML will add class="current-reservation" based on that) */
+.current-reservation {
+    background: rgba(0, 0, 0, 0.9);
+    border-color: #00cc6f;
+    box-shadow: 0 0 12px rgba(0, 204, 111, 0.5);
+    font-weight: 600;
+}
+
+/* Highlight "current" orders:
+   here we define "current" as status = pending or ready */
+.current-order {
+    background: rgba(20, 20, 20, 0.95);
+    border-color: #ffb347;
+    box-shadow: 0 0 12px rgba(255, 179, 71, 0.5);
+    font-weight: 600;
+}
+
+/* ===============================
+   CURRENT ORDER DETAILS (if you
+   ever use a separate box)
+   =============================== */
+
+/* Not strictly needed with current HTML, but useful if you add a
+   separate "current order" box later */
+.current-order-box-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+.current-order-box {
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #00cc6f;
+    box-shadow: 0 0 12px rgba(0, 204, 111, 0.35);
+}
+
+.current-order-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #00cc6f;
+}
+
+/* ===============================
+   ORDER INFO & ITEMS
+   =============================== */
+
+/* Grid layout for showing basic order info (id, date, total, etc.)
+   Used if you later add a dedicated current order box. */
+.order-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+    background: rgba(34, 34, 34, 0.5);
     border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem;
+}
+
+.order-info-grid > div {
+    font-size: 0.95rem;
     color: #e0f4ff;
 }
-.dashboard-section h4 {
-    color: #7c4dff;
+
+/* Item list inside each order */
+.order-items-list {
+    list-style: none;
+    margin: 0.5rem 0 0.25rem 0;
+    padding-left: 1rem;
+}
+
+.order-items-list li {
+    color: #e0f4ff;
+    font-size: 0.95r;
+    margin-bottom: 0.2rem;
+}
+
+/* Wrapper for full order history block */
+.order-history-box {
+    margin-top: 0.5rem;
+}
+
+/* ===============================
+   EMPTY STATES
+   =============================== */
+
+/* When no reservations / orders are found */
+.empty-message {
+    color: #999;
+    font-style: italic;
+    margin: 0.75rem 0 0;
+    font-size: 0.95rem;
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+@media (max-width: 768px) {
+    .user-dashboard-container {
+        padding: 0 0.75rem;
+    }
+
+    /* On small screens, grid-based blocks can stack vertically */
+    .order-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 1.25rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
 }
