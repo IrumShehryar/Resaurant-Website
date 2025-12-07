@@ -9,6 +9,10 @@ from translations import translations
 from datetime import datetime, timedelta
 from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
+
+ # Fetch reservations and orders for this user
+from api.v1.reservation.reservation_model import ReserveTable
+from api.v1.orders.orders_model import Orders
 from api.v1.menu.menu_routes import menu_bp
 from api.v1.users.users_routes import users_bp
 from api.v1.auth.auth_routes import auth_bp
@@ -295,6 +299,30 @@ def logout():
     """
     session.clear()  # Clear session data
     return redirect(url_for("login"))
+
+# -------------------------------
+# User dashboard
+# -------------------------------
+@app.get("/user-dashboard")
+def user_dashboard():
+    user_data = {"name": "", "email": "", "phone": "", "address": "", "role": ""}
+    reservations = []
+    orders = []
+    user_id = session.get("user_id")
+    if user_id:
+        user = User.objects(id=user_id).first()
+        if user:
+            user_data = {
+                "name": user.name or "",
+                "email": user.email or "",
+                "phone": user.phone or "",
+                "address": user.address or "",
+            
+            }
+           
+            reservations = ReserveTable.objects(email=user.email)
+            orders = Orders.objects(email=user.email)
+    return render_template("user-dashboard.html", user=user_data, reservations=reservations, orders=orders)
 
 # -------------------------------
 # Run server

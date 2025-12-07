@@ -1,0 +1,54 @@
+{% extends "base.html" %} {% block title %}{{ t.dashboard }} — Revontulet
+Flamehouse{% endblock %} {% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/user-dashboard.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="user-dashboard-container">
+    <h2 class="dashboard-title">{{ t.dashboard }} — {{ user.name }}</h2>
+    <div class="user-card">
+        <h3>{{ t.name }}: {{ user.name }}</h3>
+        <p><strong>{{ t.email }}:</strong> {{ user.email }}</p>
+        <p><strong>{{ t.phone }}:</strong> {{ user.phone }}</p>
+        <p><strong>{{ t.address }}:</strong> {{ user.address }}</p>
+        <!--<p><strong>{{ t.role }}:</strong> {{ user.role }}</p> -->
+    </div>
+    <div class="dashboard-section">
+        <h4>{{ t.reservation_management }}</h4>
+        {% if reservations and reservations|length > 0 %}
+        <ul class="reservation-list">
+            {% for r in reservations %}
+            <li>
+                {{ t.date }}: {{ r.reservation_date }} | {{ t.time }}: {{
+                r.reservation_time }} | {{ t.number_of_guests }}: {{
+                r.no_of_people }} | {{ t.status }}: {{ r.status }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>
+            {{ t.no_reservations_found if t.no_reservations_found else "No
+            reservations found." }}
+        </p>
+        {% endif %}
+    </div>
+    <div class="dashboard-section">
+        <h4>{{ t.order_stats }}</h4>
+        {% if orders and orders|length > 0 %}
+        <ul class="order-list">
+            {% for o in orders %}
+            <li>
+                {{ t.order_no }}: {{ o.order_number }} | {{ t.order_date }}: {{
+                o.order_date }} | {{ t.total_euro }}: {{ o.total_amount }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>
+            {{ t.no_orders_found if t.no_orders_found else "No orders found." }}
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

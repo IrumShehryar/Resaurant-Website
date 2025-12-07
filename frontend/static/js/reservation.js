@@ -91,8 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             console.log("Reservation created:", data);
             alert("Your table has been reserved!");
+            // Redirect to user dashboard after reservation
+            window.location.href = "/user-dashboard";
 
-           /* showNotification((window.t && window.t.reservation_success) ? window.t.reservation_success : "Reservation created successfully!", "success", notificationElement);
+            /* showNotification((window.t && window.t.reservation_success) ? window.t.reservation_success : "Reservation created successfully!", "success", notificationElement);
             messageBox.textContent = "";
             messageBox.style.color = "";*/
             form.reset();

@@ -1,0 +1,39 @@
+.user-dashboard-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+.dashboard-title {
+    margin-bottom: 1.5rem;
+    color: #7c4dff;
+    text-align: center;
+}
+.user-card {
+    padding: 2rem 1.5rem;
+    background: rgba(34, 34, 34, 0.92);
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.18);
+    margin-bottom: 2rem;
+    color: #e0f4ff;
+}
+.user-card h3, .user-card p {
+    color: #e0f4ff;
+}
+.dashboard-section {
+    margin-top: 2rem;
+}
+.reservation-list, .order-list {
+    list-style: disc inside;
+    margin: 0.5rem 0 0 1rem;
+    padding: 0;
+}
+.reservation-list li, .order-list li {
+    margin-bottom: 0.5rem;
+    background: rgba(34, 34, 34, 0.85);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: #e0f4ff;
+}
+.dashboard-section h4 {
+    color: #7c4dff;
+}
