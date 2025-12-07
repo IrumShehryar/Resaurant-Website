@@ -3,7 +3,7 @@ orders_routes.py
 
 Flask Blueprint exposing the orders JSON API. Handles routes for CRUD operations and user details.
 """
-
+from api.utils.auth_utils import admin_required
 from flask import Blueprint
 from .orders_controller import (
     get_order,
@@ -52,7 +52,9 @@ def create_order():
 # --------------------------------------------------------
 # Update order
 # --------------------------------------------------------
+
 @orders_bp.route("/<order_id>", methods=["PUT"])
+#@admin_required
 def update_order(order_id):
     """
     Updates an existing order, including payment method.
@@ -64,6 +66,7 @@ def update_order(order_id):
 # Delete order
 # --------------------------------------------------------
 @orders_bp.route("/<order_id>", methods=["DELETE"])
+@admin_required
 def delete_order(order_id):
     return delete_order_controller(order_id)
 
