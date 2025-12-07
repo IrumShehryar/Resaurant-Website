@@ -12,22 +12,21 @@ block styles %}
         <!-- Dashboard group: shows stats for orders, reservations, menu, users -->
         <div class="dashboard-group">
             <h4 class="group-title">{{ t.dashboard }}</h4>
-            <div class="dashboard-stats">
-                <span class="stat-label">{{ t.stats }}</span>
-                <div class="dashboard-stat">
+            <div class="admin-stats-box">
+                <div class="stat">
                     <span class="stat-label">{{ t.active_orders }}</span>
                     <span class="stat-value" id="dashboard-orders"></span>
                 </div>
-                <div class="dashboard-stat">
-                    <span class="stat-label">{{ t.active_reservations }}</span>
+                <div class="stat">
+                    <span class="stat-label">{{ t.total_reservations }}</span>
                     <span class="stat-value" id="dashboard-reservations"></span>
                 </div>
-                <div class="dashboard-stat">
+                <div class="stat">
                     <span class="stat-label">{{ t.menu_items }}</span>
                     <span class="stat-value" id="dashboard-menu"></span>
                 </div>
-                <div class="dashboard-stat">
-                    <span class="stat-label">{{ t.active_users }}</span>
+                <div class="stat">
+                    <span class="stat-label">{{ t.total_users }}</span>
                     <span class="stat-value" id="dashboard-users"></span>
                 </div>
             </div>

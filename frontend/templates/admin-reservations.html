@@ -14,14 +14,14 @@ endblock %} {% block styles %}
             <h4 class="group-title" style="text-align: center">
                 {{ t.reservation_stats }}
             </h4>
-            <div class="dashboard-stats">
-                <div class="dashboard-stat">
+            <div class="admin-stats-box">
+                <div class="stat">
                     <span class="stat-label"
                         >{{ t.reservation_status_pending }}</span
                     >
                     <span class="stat-value" id="reservations-pending">0</span>
                 </div>
-                <div class="dashboard-stat">
+                <div class="stat">
                     <span class="stat-label"
                         >{{ t.reservation_status_confirmed }}</span
                     >
@@ -29,7 +29,7 @@ endblock %} {% block styles %}
                         >0</span
                     >
                 </div>
-                <div class="dashboard-stat">
+                <div class="stat">
                     <span class="stat-label"
                         >{{ t.reservation_status_cancelled }}</span
                     >
@@ -37,7 +37,7 @@ endblock %} {% block styles %}
                         >0</span
                     >
                 </div>
-                <div class="dashboard-stat">
+                <div class="stat">
                     <span class="stat-label">{{ t.new_reservations }}</span>
                     <span class="stat-value" id="reservations-new">0</span>
                 </div>
