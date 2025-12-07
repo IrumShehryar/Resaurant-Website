@@ -4,6 +4,7 @@ import { apiUrl } from "./utils/config.js";
 import fetchData from "./utils/fetchData.js";
 import { validateReservationFormFields } from "./utils/validation.js";
 import { extractErrorMessage } from "./utils/errorMessage.js";
+import { showNotification } from "./utils/tableManager.js";
 
 /**
  * Handles reservation form submission and validation.
@@ -20,6 +21,13 @@ document.addEventListener("DOMContentLoaded", () => {
      * @type {HTMLElement}
      */
     const messageBox = document.getElementById("reservation-message");
+    // Use or create a notification element for toast
+    let notificationElement = document.getElementById("notification");
+    if (!notificationElement) {
+        notificationElement = document.createElement("div");
+        notificationElement.id = "notification";
+        document.body.appendChild(notificationElement);
+    }
 
     if (!form) {
         console.warn("reservation-form not found in DOM");
@@ -82,9 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             console.log("Reservation created:", data);
+            alert("Your table has been reserved!");
+            // Redirect to user dashboard after reservation
+            window.location.href = "/user-dashboard";
 
-            messageBox.textContent = "Reservation created successfully!";
-            messageBox.style.color = "green";
+            /* showNotification((window.t && window.t.reservation_success) ? window.t.reservation_success : "Reservation created successfully!", "success", notificationElement);
+            messageBox.textContent = "";
+            messageBox.style.color = "";*/
             form.reset();
         } catch (error) {
             console.error("Reservation error:", error);

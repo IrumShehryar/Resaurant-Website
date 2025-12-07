@@ -331,7 +331,7 @@ p { color: #e0f4ff; }
   border: 0.0625rem solid rgba(255,255,255,0.06);
   box-shadow: 0 0.375rem 1.125rem rgba(0,0,0,0.45);
   position: sticky;
-  margin-top:3rem;
+  margin-top:5rem;
   top: 10rem;
   z-index: 40;
 }

@@ -1,6 +1,12 @@
+
 """
 Main Flask application for Restaurant Website backend.
-Initializes app, configures session, registers blueprints, and sets up routes.
+
+This file initializes the Flask app, configures session management, registers blueprints, and sets up routes for the restaurant website backend.
+
+Author: Irum Shehryar ,Kanwaljit Singh ,Farhan Ashraf, Saba Akbar
+Created: 2025-12-07
+Description: Flask backend for restaurant website, handles routing, sessions, and API integration.
 """
 
 import os
@@ -9,6 +15,10 @@ from translations import translations
 from datetime import datetime, timedelta
 from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
+
+ # Fetch reservations and orders for this user
+from api.v1.reservation.reservation_model import ReserveTable
+from api.v1.orders.orders_model import Orders
 from api.v1.menu.menu_routes import menu_bp
 from api.v1.users.users_routes import users_bp
 from api.v1.auth.auth_routes import auth_bp
@@ -37,7 +47,10 @@ app.permanent_session_lifetime = timedelta(days=7)
 # Proxy fix if behind nginx or other proxy
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_prefix=1)
 
-# Register API blueprints
+
+"""
+Register API blueprints for different modules (menu, users, auth, reservation, orders, admin stats, menu stats).
+"""
 app.register_blueprint(menu_bp)
 app.register_blueprint(users_bp)
 app.register_blueprint(auth_bp)
@@ -46,7 +59,9 @@ app.register_blueprint(orders_bp)
 app.register_blueprint(admin_stats_bp)
 app.register_blueprint(menu_stats_bp)
 
+## -----------------------------------
 # Language switch
+## -----------------------------------
 @app.route("/set_language/<lang>")
 def set_language(lang):
     """
@@ -60,6 +75,9 @@ def set_language(lang):
         session["lang"] = lang
     return redirect(request.referrer or url_for("home"))
 
+## -----------------------------------
+# Inject translations into templates
+## -----------------------------------
 @app.context_processor
 def inject_translations():
     """
@@ -70,7 +88,9 @@ def inject_translations():
     lang = session.get("lang", "en")
     return {"t": translations[lang]}
 
+## -----------------------------------
 # Basic pages
+## -----------------------------------
 @app.get("/")
 def home():
     """
@@ -124,12 +144,21 @@ def contact():
 
 @app.get("/reservation")
 def reservation():
-    """
-    Renders the reservation page.
-    Returns:
-        Rendered reservation.html template.
-    """
-    return render_template("reservation.html")
+    user_data = {
+        "name": "",
+        "email": "",
+        "phone": ""
+    }
+    user_id = session.get("user_id")
+    if user_id:
+        user = User.objects(id=user_id).first()
+        if user:
+            user_data = {
+                "name": user.name or "",
+                "email": user.email or "",
+                "phone": user.phone or ""
+            }
+    return render_template("reservation.html", user=user_data)
 
 @app.get("/cart")
 def cart_page():
@@ -223,7 +252,9 @@ def login():
             session["user_id"] = str(user.id)
             session["user_name"] = user.name
             session["user_email"] = user.email
-
+            session["user_phone"] = user.phone
+            
+            print("LOGIN SESSION:", dict(session))
             return redirect(next_url)
         else:
             return render_template("login.html", error="Invalid credentials", next_url=next_url, role="user")
@@ -285,9 +316,43 @@ def logout():
     session.clear()  # Clear session data
     return redirect(url_for("login"))
 
+
+## -----------------------------------
+# User dashboard page
+## -----------------------------------
+@app.get("/user-dashboard")
+def user_dashboard():
+    """
+    Renders the user dashboard page with user data, reservations, and orders.
+    Returns:
+        Rendered user-dashboard.html template.
+    """
+    user_data = {"name": "", "email": "", "phone": "", "address": "", "role": ""}
+    reservations = []
+    orders = []
+    user_id = session.get("user_id")
+    if user_id:
+        user = User.objects(id=user_id).first()
+        if user:
+            user_data = {
+                "name": user.name or "",
+                "email": user.email or "",
+                "phone": user.phone or "",
+                "address": user.address or "",
+            
+            }
+           
+            reservations = ReserveTable.objects(email=user.email)
+            orders = Orders.objects(email=user.email)
+    return render_template("user-dashboard.html", user=user_data, reservations=reservations, orders=orders)
+
 # -------------------------------
 # Run server
 # -------------------------------
+
+# -----------------------------------
+# Run server
+# -----------------------------------
 if __name__ == "__main__":
     mongo_connect()
     app.run(

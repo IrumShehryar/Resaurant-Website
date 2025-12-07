@@ -6,6 +6,7 @@ Grouped by page/feature for easy maintenance.
 
 translations = {
     "en": {
+            "reservation_success": "Reservation created successfully!",
         # Home Page
         "home_title": "Revontulet Flamehouse — Where Aurora Meets Culinary Art",
         "hero_tagline": "ARCTIC • AURORA • FLAME",
@@ -102,6 +103,7 @@ translations = {
         "reservation_status_cancelled": "cancelled",
         "number_of_guests": "Number of Guests",
         "reserve_button": "Reserve",
+        "reserve_submit": "Reserve",
         "date": "Date",
         "time": "Time",
         # Orders Page
@@ -213,8 +215,13 @@ translations = {
         # Common Actions
         "edit": "Edit",
         "delete": "Delete",
+        "order_history": "Order History",
+        "no_orders_found": "No orders found.",
+        "booking_summary": "Booking Summary",
+        "booking_history": "Booking History",
     },
     "fi": {
+            "reservation_success": "Varaus luotu onnistuneesti!",
         # Home Page
         "home_title": "Revontulet Flamehouse — Missä Revontulet Kohtaavat Kulinaarisen Taiteen",
         "hero_tagline": "ARKTINEN • REVONTULET • LIEKKI",
@@ -311,6 +318,7 @@ translations = {
         "reservation_status_cancelled": "peruutettu",
         "number_of_guests": "Henkilömäärä",
         "reserve_button": "Varaa",
+        "reserve_submit": "Varaa",
         "date": "Päivä",
         "time": "Aika",
         # Orders Page
@@ -415,6 +423,10 @@ translations = {
         "view_cart": "Näytä ostoskori",
         # Common Actions
         "edit": "Muokkaa",
-        "delete": "Poista"
+        "delete": "Poista",
+        "order_history": "Tilaushistoria",
+        "no_orders_found": "Ei tilauksia löytynyt.",
+        "booking_summary": "Varausyhteenveto",
+        "booking_history": "Varaushistoria",
     }
 }

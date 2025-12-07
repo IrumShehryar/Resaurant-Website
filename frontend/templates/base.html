@@ -68,6 +68,11 @@
                         <li id="admin-panel-link" style="display:none;">
                             <a href="/admin-interface" class="btn-outline{% if request.endpoint == 'admin_interface' %} active{% endif %}">{{ t.admin_panel }}</a>
                         </li>
+                        {% if session.get('role') == 'user' and session.get('user_id') %}
+                            <li id="user-dashboard-link">
+                                <a href="/user-dashboard" class="btn-outline{% if request.endpoint == 'user_dashboard' %} active{% endif %}">{{ t.dashboard }}</a>
+                            </li>
+                        {% endif %}
                         <li>
                             <a
                                 href="{{ url_for('reservation') }}"
@@ -77,21 +82,20 @@
                             </a>
                         </li>
                         <li>
-                                {% if session.get('user_id') %}
-                                    <!-- User logged in → show name and Logout button -->
-                                   <!-- <span class="user-name" style="margin-right: 10px; font-weight: 600; color: #2d7a2d;">{{ session.get('user_name') }}</span>-->
-                                    <a href="{{ url_for('logout') }}" class="btn-logout" id="logout-link" data-logout-label="{{ t.logout or 'Logout' }}">
-                                        {{ t.logout or "Logout" }}
-                                    </a>
-                                {% else %}
-                                    <!-- User not logged in → show Login button -->
-                                    <a
-                                        href="{{ url_for('login') }}"
-                                        {% if request.endpoint == 'login' %}class="active"{% endif %}
-                                    >
-                                        {{ t.login }}
-                                    </a>
-                                {% endif %}
+                            {% if session.get('user_id') %}
+                                <!-- User logged in → show name and Logout button -->
+                                <a href="{{ url_for('logout') }}" class="btn-logout" id="logout-link" data-logout-label="{{ t.logout or 'Logout' }}">
+                                    {{ t.logout or "Logout" }}
+                                </a>
+                            {% else %}
+                                <!-- User not logged in → show Login button -->
+                                <a
+                                    href="{{ url_for('login') }}"
+                                    {% if request.endpoint == 'login' %}class="active"{% endif %}
+                                >
+                                    {{ t.login }}
+                                </a>
+                            {% endif %}
                         </li>
                         <li class="language-switcher">
                             <a href="{{ url_for('set_language', lang='fi') }}">FI</a>
@@ -173,6 +177,7 @@
             // Show Admin Panel button if admin token exists and handle admin logout
             document.addEventListener("DOMContentLoaded", () => {
                 const adminPanelLink = document.getElementById("admin-panel-link");
+                const userDashboardLink = document.getElementById("user-dashboard-link");
                 const loginLink = document.querySelector('a[href="{{ url_for('login') }}"]');
                 const orderNowBtn = document.querySelector('a[href="{{ url_for('cart_page') }}"]');
                 const adminToken = localStorage.getItem("authToken");
@@ -196,6 +201,8 @@
                             window.location.href = "{{ url_for('home') }}";
                         });
                     }
+                } else if (userDashboardLink && !adminToken) {
+                    userDashboardLink.style.display = "inline-block";
                 }
             });
         </script>
