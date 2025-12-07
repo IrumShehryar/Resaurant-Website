@@ -23,6 +23,33 @@ const applyFilters = () => {
             if (diets.includes(activeDietKey)) {
                 const wrapper = c.closest('.menu-row__card') || c;
                 const clone = wrapper.cloneNode(true);
+                // Restore event listeners for details and add-to-cart buttons
+                // Details button
+                const btnDetail = clone.querySelector('.btn-detail');
+                if (btnDetail) {
+                    btnDetail.addEventListener('click', () => {
+                        clone.dispatchEvent(new CustomEvent('show-detail', {
+                            bubbles: true,
+                            detail: { id: c.dataset.id }
+                        }));
+                    });
+                }
+                // Add to cart button
+                const btnAdd = clone.querySelector('.btn-add');
+                if (btnAdd) {
+                    btnAdd.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        // Find the original item data from the original card
+                        if (window.addToCart && c.__itemData) {
+                            window.addToCart(c.__itemData);
+                        } else if (window.addToCart && c.dataset) {
+                            // fallback: try to get minimal info from dataset
+                            window.addToCart({ id: c.dataset.id, name: c.querySelector('.menu-card__title')?.textContent });
+                        }
+                    });
+                }
+                // Attach original item data for addToCart
+                if (c.__itemData) clone.__itemData = c.__itemData;
                 grid.appendChild(clone);
                 matchCount += 1;
             }
