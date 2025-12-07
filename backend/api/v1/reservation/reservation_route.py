@@ -34,7 +34,7 @@ def get_reservation_route(reservation_id):
 
 
 @reservation_bp.route("/", methods=["POST"])
-#@token_required
+
 #def create_reservation(current_user):
 def create_reservation():
     """
@@ -47,7 +47,7 @@ def create_reservation():
 
 
 @reservation_bp.route("/<reservation_id>", methods=["PUT"])
-#@token_required
+
 #def update_reservation(current_user, reservation_id):
 def update_reservation(reservation_id):
     """
@@ -61,7 +61,6 @@ def update_reservation(reservation_id):
 
 
 @reservation_bp.route("/<reservation_id>", methods=["DELETE"])
-#@token_required
 
 #def delete_reservation(current_user, reservation_id):
 def delete_reservation(reservation_id):
