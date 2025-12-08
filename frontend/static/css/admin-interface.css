@@ -361,6 +361,3 @@ fieldset input[type="checkbox"] {
         margin-top: 1rem;
     }
 }
-
-/* Large dashboard stat size for reservations, orders, users */
-/* No need for specific overrides: default .dashboard-stats and .dashboard-stat handle reservations, orders, users (4 columns). */

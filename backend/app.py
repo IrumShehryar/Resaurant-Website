@@ -11,23 +11,23 @@ Description: Flask backend for restaurant website, handles routing, sessions, an
 
 import os
 from flask import Flask, render_template, request, redirect, url_for, session
-from translations import translations
+from backend.translations import translations
 from datetime import datetime, timedelta
 from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
 
  # Fetch reservations and orders for this user
-from api.v1.reservation.reservation_model import ReserveTable
-from api.v1.orders.orders_model import Orders
-from api.v1.menu.menu_routes import menu_bp
-from api.v1.users.users_routes import users_bp
-from api.v1.auth.auth_routes import auth_bp
-from api.v1.reservation.reservation_route import reservation_bp
-from api.v1.orders.orders_routes import orders_bp
-from api.v1.users.users_model import User
-from api.utils.db import mongo_connect
-from api.utils.admin_stats import admin_stats_bp
-from api.v1.menu.menu_stats import menu_stats_bp
+from backend.api.v1.reservation.reservation_model import ReserveTable
+from backend.api.v1.orders.orders_model import Orders
+from backend.api.v1.menu.menu_routes import menu_bp
+from backend.api.v1.users.users_routes import users_bp
+from backend.api.v1.auth.auth_routes import auth_bp
+from backend.api.v1.reservation.reservation_route import reservation_bp
+from backend.api.v1.orders.orders_routes import orders_bp
+from backend.api.v1.users.users_model import User
+from backend.api.utils.db import mongo_connect
+from backend.api.utils.admin_stats import admin_stats_bp
+from backend.api.v1.menu.menu_stats import menu_stats_bp
 
 from werkzeug.security import check_password_hash
 from bson import ObjectId

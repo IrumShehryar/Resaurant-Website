@@ -81,7 +81,9 @@ export function validateReservationFormFields({ name, email, phone, no_of_people
 /**
  * Validates order form fields.
  * @param {Object} fields - Order fields: name, email, phone, order_date, order_time, total, status, items.
- * @returns {{valid: boolean, message?: string}} Validation result and message if invalid.
+ * @returns {Object} result - Validation result object.
+ * @returns {boolean} result.valid - Whether the input is valid.
+ * @returns {string} [result.message] - Message if invalid.
  */
 // Order form validation
 export function validateOrderFormFields({ name, email, phone, order_date, order_time, total, status, items }) {
@@ -137,7 +139,9 @@ export function validateOrderFormFields({ name, email, phone, order_date, order_
 /**
  * Validates menu item fields for adding/editing menu items.
  * @param {Object} fields - Menu item fields: name, price, category, dietary, allergens, ingredients, days_of_week, active.
- * @returns {{valid: boolean, message?: string}} Validation result and message if invalid.
+ * @returns {Object} result - Validation result object.
+ * @returns {boolean} result.valid - Whether the input is valid.
+ * @returns {string} [result.message] - Message if invalid.
  */
 export function validateMenuItemFields({ name, price, category, dietary, allergens, ingredients, days_of_week, active }) {
     const allowedCategories = ["starter", "main", "dessert", "side", "drink", "special"];

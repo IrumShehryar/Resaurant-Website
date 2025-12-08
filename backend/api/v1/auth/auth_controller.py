@@ -1,9 +1,9 @@
 
 from flask import request, session
-from api.utils.auth_utils import get_jwt_secret
+from backend.api.utils.auth_utils import get_jwt_secret
 import jwt
-from api.v1.users.users_model import User
-from api.utils.simple_errors import simple_errors
+from backend.api.v1.users.users_model import User
+from backend.api.utils.simple_errors import simple_errors
 
 # Shared JWT token generator
 def generate_jwt_token(user):

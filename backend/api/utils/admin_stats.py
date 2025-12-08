@@ -5,10 +5,10 @@ Provides admin statistics endpoints for orders, reservations, users, and menu it
 """
 
 from flask import Blueprint, jsonify
-from api.v1.orders.orders_model import Orders
-from api.v1.reservation.reservation_model import ReserveTable
-from api.v1.users.users_model import User
-from api.v1.menu.menu_model import MenuItem
+from backend.api.v1.orders.orders_model import Orders
+from backend.api.v1.reservation.reservation_model import ReserveTable
+from backend.api.v1.users.users_model import User
+from backend.api.v1.menu.menu_model import MenuItem
 
 admin_stats_bp = Blueprint('admin_stats', __name__, url_prefix="/api/v1/admin")
 

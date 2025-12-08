@@ -5,7 +5,7 @@ Defines Marshmallow schema for ReserveTable model for API serialization.
 """
 
 from marshmallow_mongoengine import ModelSchema
-from api.v1.reservation.reservation_model import ReserveTable
+from backend.api.v1.reservation.reservation_model import ReserveTable
 
 class ReservationSchema(ModelSchema):
     """

@@ -35,9 +35,105 @@ A restaurant website inspired by the Northern Lights (“Revontulet”), with a 
     ```
 4. **Run the Flask app**
     ```sh
-    python backend/app.py
+    python -m backend.app
     ```
     Then open http://127.0.0.1:5000 in your browser.
+
+---
+
+## 🛠️ Full Setup & Usage
+
+### 1. Clone the repository
+
+```sh
+git clone https://github.com/IrumShehryar/Restaurant-Website.git
+cd Restaurant-Website
+```
+
+### 2. Create and activate a virtual environment
+
+-   **Windows:**
+    ```sh
+    python -m venv .venv
+    .\.venv\Scripts\activate
+    ```
+-   **macOS/Linux:**
+    ```sh
+    python3 -m venv .venv
+    source .venv/bin/activate
+    ```
+
+### 3. Install dependencies
+
+```sh
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### 4. Set up environment variables
+
+Create a `.env` file or set the following variables as needed:
+
+-   `MONGODB_URI` (your MongoDB connection string)
+-   `JWT_SECRET_KEY` (for authentication)
+
+### 5. Run the backend (Flask app)
+
+```sh
+python -m backend.app
+```
+
+The app will be available at http://127.0.0.1:5000
+
+### 6. Run the frontend
+
+Open `frontend/templates/index.html` or other HTML files in your browser, or serve with a static server if needed.
+
+---
+
+## 📚 Documentation
+
+### Python backend docs (pdoc)
+
+Generate HTML docs for backend code:
+
+```sh
+pdoc backend/app.py -o docs/pdoc
+```
+
+Open the generated HTML files in `docs/pdoc/` in your browser.
+
+### JavaScript frontend docs (JSDoc)
+
+Generate docs for JS files:
+
+```sh
+npx jsdoc frontend/static/js -r -d docs/jsdoc
+```
+
+Open the generated HTML files in `docs/jsdoc/` in your browser.
+
+### API documentation
+
+-   See `backend/apidoc.json` (static JSON, not interactive)
+
+---
+
+## 🚀 Deployment
+
+### Local/Development
+
+-   Run the backend as above.
+-   Serve frontend files with a static server or from Flask if desired.
+
+### Production (basic)
+
+1. Set up a production WSGI server (e.g., Gunicorn or uWSGI) to run the Flask app.
+2. Use a reverse proxy (e.g., Nginx) to serve static files and forward API requests.
+3. Set all environment variables securely.
+4. (Optional) Deploy to a cloud platform (Heroku, AWS, Azure, etc.)
+
+---
 
 ---
 
@@ -127,4 +223,4 @@ Each screenshot is named after the corresponding page or stylesheet for easy ref
 
 ## 👥 Authors
 
-Irum Shehryar and team
+Irum Shehryar ,Kanwaljit Singh ,Farhan Ashraf ,Saba Akbar

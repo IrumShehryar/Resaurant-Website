@@ -13,7 +13,7 @@ from mongoengine import (
     DateTimeField,
 )
 
-from api.utils.validators import validate_reservation_fields
+from backend.api.utils.validators import validate_reservation_fields
 
 
 class ReserveTable(Document):

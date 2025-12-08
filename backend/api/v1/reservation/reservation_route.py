@@ -12,7 +12,7 @@ from .reservation_controller import (
     update_reservation_controller,
     delete_reservation_controller,
 )
-from api.utils.auth_utils import token_required
+from backend.api.utils.auth_utils import token_required
 
 reservation_bp = Blueprint("reservation", __name__, url_prefix="/api/v1/reservation")
 

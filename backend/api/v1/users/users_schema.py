@@ -5,7 +5,7 @@ Defines Marshmallow schema for User model for API serialization.
 """
 
 from marshmallow_mongoengine import ModelSchema
-from api.v1.users.users_model import User
+from backend.api.v1.users.users_model import User
 
 
 class UserSchema(ModelSchema):

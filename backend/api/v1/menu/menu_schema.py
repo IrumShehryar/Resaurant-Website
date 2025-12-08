@@ -5,7 +5,7 @@ Defines Marshmallow schema for MenuItem model for API serialization.
 """
 
 from marshmallow_mongoengine import ModelSchema
-from api.v1.menu.menu_model import MenuItem
+from backend.api.v1.menu.menu_model import MenuItem
 
 
 class MenuItemSchema(ModelSchema):
