@@ -12,7 +12,7 @@ from .reservation_model import (
     update_reservation,
     delete_reservation,
 )
-from api.utils.simple_errors import simple_errors
+from backend.api.utils.simple_errors import simple_errors
 from .reservation_schema import ReservationSchema
 
 # Reusable schema instances (like you do with UserSchema)

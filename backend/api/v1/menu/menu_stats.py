@@ -5,8 +5,8 @@ Provides statistics endpoints for menu items, including category and dietary cou
 """
 
 from flask import Blueprint, jsonify
-from api.v1.menu.menu_model import MenuItem
-from api.v1.orders.orders_model import Orders
+from backend.api.v1.menu.menu_model import MenuItem
+from backend.api.v1.orders.orders_model import Orders
 from collections import Counter
 
 menu_stats_bp = Blueprint('menu_stats', __name__, url_prefix="/api/v1/menu")

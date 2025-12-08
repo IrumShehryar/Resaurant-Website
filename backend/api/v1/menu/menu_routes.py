@@ -19,7 +19,7 @@ from .menu_controller import (
     update_menu_item_controller,
     delete_menu_item_controller,
 )
-from api.utils.auth_utils import token_required, admin_required
+from backend.api.utils.auth_utils import token_required, admin_required
 
 menu_bp = Blueprint("menu", __name__, url_prefix="/api/v1/menu")
 

@@ -1,7 +1,7 @@
 # File: api/v1/auth/auth_routes.py
 
 from flask import Blueprint, session, redirect
-from api.v1.auth.auth_controller import post_login, register
+from backend.api.v1.auth.auth_controller import post_login, register
 
 # Blueprint for auth routes
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/v1/auth')

@@ -8,7 +8,7 @@ from mongoengine import Document , StringField, DateTimeField,ValidationError,si
 from datetime import datetime
 from bson import ObjectId
 import bcrypt
-from api.utils.validators import validate_user_fields
+from backend.api.utils.validators import validate_user_fields
 
 class User(Document):
     """

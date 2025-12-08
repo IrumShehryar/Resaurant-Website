@@ -13,7 +13,7 @@ from .menu_model import (
     update_menu_item,
     delete_menu_item,
 )
-from api.utils.simple_errors import simple_errors
+from backend.api.utils.simple_errors import simple_errors
 from .menu_schema import MenuItemSchema
 
 # Schema instances

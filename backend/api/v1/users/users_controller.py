@@ -7,8 +7,8 @@ Controller helpers for the users JSON API. Handles CRUD operations and registrat
 from flask import request
 from .users_model import list_all_users,find_user_by_id, update_user,delete_user,User
 from .users_schema import UserSchema
-from api.utils.simple_errors import simple_errors
-from api.utils.validators import validate_user_fields
+from backend.api.utils.simple_errors import simple_errors
+from backend.api.utils.validators import validate_user_fields
 
 
 @simple_errors

@@ -3,7 +3,7 @@ orders_routes.py
 
 Flask Blueprint exposing the orders JSON API. Handles routes for CRUD operations and user details.
 """
-from api.utils.auth_utils import admin_required
+from backend.api.utils.auth_utils import admin_required
 from flask import Blueprint
 from .orders_controller import (
     get_order,

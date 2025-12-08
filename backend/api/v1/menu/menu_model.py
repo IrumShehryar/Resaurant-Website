@@ -10,7 +10,7 @@ The dataset is intentionally small and self-contained so the project can
 run without a database during development and testing.
 """
 from mongoengine import Document , StringField, FloatField, ListField, BooleanField, ValidationError
-from api.utils.validators import validate_menu_item_fields
+from backend.api.utils.validators import validate_menu_item_fields
 from bson import ObjectId
 import re
 # Mock data (16 items) for Revontulet Flamehouse

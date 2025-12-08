@@ -5,7 +5,7 @@ Defines Marshmallow schemas for Orders and OrderItem models for API serializatio
 """
 
 from marshmallow_mongoengine import ModelSchema
-from api.v1.orders.orders_model import Orders, OrderItem
+from backend.api.v1.orders.orders_model import Orders, OrderItem
 
 
 # ------------------------------

@@ -9,7 +9,7 @@ from flask import request, jsonify
 import os
 import jwt
 from jwt import ExpiredSignatureError, InvalidTokenError
-from api.v1.users.users_model import User
+from backend.api.v1.users.users_model import User
 
 
 def get_jwt_secret():

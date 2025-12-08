@@ -6,10 +6,13 @@ endblock %} {% block styles %}
 />
 {% endblock %} {% block content %}
 
-<!-- Panel Layout: Contains filter navigation and menu items -->
-<div class="panel-layout">
+<!-- Panel Layout: filters + menu items -->
+<div class="panel-layout menu-panel">
     <!-- Left Panel: Category and diet filters -->
-    <nav class="left-panel" aria-label="Diet and category filters">
+    <nav
+        class="left-panel menu-filter-panel"
+        aria-label="Diet and category filters"
+    >
         <div class="filter-group">
             <h4 class="group-title">{{ t.category }}</h4>
 
@@ -44,6 +47,7 @@ endblock %} {% block styles %}
 
         <div class="filter-group">
             <h4 class="group-title">{{ t.diet }}</h4>
+
             <button class="filter-btn diet" data-diet="non-vegetarian">
                 {{ t.non_vegetarian }}
             </button>
@@ -67,11 +71,13 @@ endblock %} {% block styles %}
             <button class="filter-btn diet" data-diet="non alcoholic">
                 {{ t.non_alcoholic }}
             </button>
+
             <button class="filter-btn diet" data-diet="alcoholic">
                 {{ t.alcoholic }}
             </button>
         </div>
     </nav>
+
     <!-- Main Menu Items: Displayed here -->
     <div class="menu-main">
         <div class="highlight-wrapper">
@@ -83,6 +89,7 @@ endblock %} {% block styles %}
             <script>
                 window.t = {{ t|tojson }};
             </script>
+
             <section
                 id="highlight-root"
                 class="page-highlight"

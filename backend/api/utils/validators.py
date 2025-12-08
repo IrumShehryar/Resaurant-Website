@@ -44,7 +44,7 @@ def validate_user_fields(
     if not password:
         raise ValidationError("Password cannot be empty")
     # Use model password validation for consistency
-    from api.v1.users.users_model import User
+    from backend.api.v1.users.users_model import User
     User.validate_password(password)
     if phone and (not isinstance(phone, str) or len(phone.strip()) < 7):
         raise ValidationError("Phone number must be at least 7 digits")

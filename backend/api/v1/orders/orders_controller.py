@@ -12,8 +12,8 @@ from .orders_model import (
     update_order,
     delete_order,
 )
-from api.utils.simple_errors import simple_errors
-from api.v1.users.users_model import User
+from backend.api.utils.simple_errors import simple_errors
+from backend.api.v1.users.users_model import User
 from .orders_schema import OrdersSchema
 
 # Schema instances
