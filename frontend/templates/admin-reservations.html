@@ -59,12 +59,13 @@ endblock %} {% block styles %}
             <th>{{ t.reservation_time }}</th>
             <th>{{ t.people }}</th>
             <th>{{ t.status }}</th>
+            <th>{{ t.created_at }}</th>
             <th>{{ t.actions }}</th>
         </tr>
     </thead>
     <tbody id="reservation-tbody">
         <tr>
-            <td colspan="8">{{ t.loading }}</td>
+            <td colspan="9">{{ t.loading }}</td>
         </tr>
     </tbody>
 </table>
@@ -120,6 +121,7 @@ endblock %} {% block styles %}
                     </option>
                 </select></label
             >
+
             <button type="submit" class="btn-accent">{{ t.save }}</button>
         </form>
     </div>

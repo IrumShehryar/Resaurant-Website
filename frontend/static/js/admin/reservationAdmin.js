@@ -74,9 +74,11 @@ async function loadReservations() {
 
         // Show main columns in table
         // Pass translation keys for Edit/Delete/No items yet
+        // For reservations
+        items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         renderTable(
             items,
-            ["name", "phone", "email", "reservation_date", "reservation_time", "no_of_people", "status"],
+            ["name", "phone", "email", "reservation_date", "reservation_time", "no_of_people", "status","created_at"],
             reservationTbody,
             {
                 edit: typeof t !== 'undefined' && t.edit ? t.edit : 'Muokkaa',
@@ -87,7 +89,7 @@ async function loadReservations() {
     } catch (error) {
         console.error("Error loading reservation:", error);
         reservationTbody.innerHTML =
-            '<tr><td colspan="8">Error loading reservations</td></tr>';
+            '<tr><td colspan="9">Error loading reservations</td></tr>';
     }
 }
 
@@ -182,14 +184,14 @@ if (form) {
                 await reservationCrud.create(data);
             }
 
+            showNotification("Reservation saved successfully!", "success", notificationElement);
             modal.style.display = "none";
             form.reset();
 
             await loadReservations();
-            showNotification("Reservation saved successfully!", "success", notificationElement);
         } catch (error) {
-            console.error(error);
             showNotification(extractErrorMessage(error, "Error saving reservation"), "error", notificationElement);
+            console.error(error);
         }
     });
 }
@@ -205,11 +207,11 @@ if (reservationTbody) {
         if (item && confirm(`Are you sure you want to delete reservation for "${item.name}"?`)) {
             try {
                 await reservationCrud.deleteItem(item.id);
-                await loadReservations();
                 showNotification("Reservation deleted successfully!", "success", notificationElement);
+                await loadReservations();
             } catch (error) {
-                console.error(error);
                 showNotification(extractErrorMessage(error, "Error deleting reservation"), "error", notificationElement);
+                console.error(error);
             }
         }
     });

@@ -29,6 +29,29 @@ export const showNotification = (message, type = 'success', notificationElement)
 };
 
 /**
+ * Check for new pending items and show notification if found
+ * 
+ * @param {Array} items - Array of items to check
+ * @param {string} itemType - Type of item ('order' or 'reservation')
+ * @param {HTMLElement} notificationElement - Target element for notification
+ * @param {number} minutes - Time window in minutes to check (default: 5)
+ * 
+ * Usage:
+ *   checkNewPendingItems(orders, 'order', notificationElement)
+ *   checkNewPendingItems(reservations, 'reservation', notificationElement, 10)
+ */
+export const checkNewPendingItems = (items, itemType, notificationElement, minutes = 5) => {
+    const newItems = items.filter(item => 
+        item.status === 'pending' && 
+        new Date(item.created_at) > new Date(Date.now() - minutes * 60 * 1000)
+    );
+    
+    if (newItems.length > 0) {
+        showNotification(`${newItems.length} new ${itemType}(s) pending approval!`, "info", notificationElement);
+    }
+};
+
+/**
  * Create a modal manager for handling modal operations
  * 
  * Returns object with 3 methods:

@@ -1,3 +1,6 @@
+import { formatDateTime} from './dateUtils.js';
+
+
 /**
  * Generic Table Renderer Utility
  * 
@@ -13,6 +16,7 @@
  * - Takes configurable columns instead of hardcoding fields
  * - Adds data-id attribute to each row for fast item lookup (no API calls needed)
  * - Auto-generates Edit/Delete buttons for each row
+ * - Formats created_at and similar date columns automatically
  * - Handles empty state gracefully
  * 
  * Example usage in admin.js:
@@ -30,7 +34,14 @@ export const renderTable = (items, columns, tbody, t = {}) => {
     }
     tbody.innerHTML = items.map(item => `
         <tr data-id="${item.id}">
-            ${columns.map(col => `<td>${item[col]}</td>`).join('')}
+            ${columns.map(col => {
+                const value = item[col];
+                // Format created_at and similar date fields
+                if (col === 'created_at' || col === 'updated_at') {
+                    return `<td>${formatDateTime(value)}</td>`;
+                }
+                return `<td>${value}</td>`;
+            }).join('')}
             <td>
                 <button class="btn-edit">${editLabel}</button>
                 <button class="btn-delete">${deleteLabel}</button>
