@@ -73,9 +73,11 @@ async function loadOrders() {
 
         // Show main columns in table
         // Pass translation keys for Edit/Delete/No items yet
+        // For orders
+        items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         renderTable(
             items,
-            ["id", "name", "phone", "total", "status"],
+            ["id", "name", "phone", "total", "status","created_at"],
             orderTbody,
             {
                 edit: typeof t !== 'undefined' && t.edit ? t.edit : 'Muokkaa',
@@ -86,7 +88,7 @@ async function loadOrders() {
     } catch (error) {
         console.error("Error loading order:", error);
         orderTbody.innerHTML =
-            '<tr><td colspan="6">Error loading order</td></tr>';
+            '<tr><td colspan="7">Error loading order</td></tr>';
     }
 }
 
@@ -229,14 +231,14 @@ if (form) {
                 await orderCrud.create(data);
             }
 
+            showNotification("Order saved successfully!", "success", notificationElement);
             modal.style.display = "none";
             form.reset();
 
             await loadOrders();
-            showNotification("Order saved successfully!", "success", notificationElement);
         } catch (error) {
+            showNotification(extractErrorMessage(error, "Error saving order"), "error", notificationElement);
             console.error(error);
-            showNotification(extractErrorMessage(error, "Error saving Order"), "error", notificationElement);
         }
     });
 }
@@ -252,11 +254,11 @@ if (orderTbody) {
         if (item && confirm(`Are you sure you want to delete order for "${item.name}"?`)) {
             try {
                 await orderCrud.deleteItem(item.id);
+                showNotification("Order deleted successfully!", "success", notificationElement);
                 await loadOrders();
-                showNotification("order deleted successfully!", "success", notificationElement);
             } catch (error) {
+                showNotification(extractErrorMessage(error, "Error deleting order"), "error", notificationElement);
                 console.error(error);
-                showNotification("Error deleting order", "error", notificationElement);
             }
         }
     });

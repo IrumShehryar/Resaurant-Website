@@ -77,7 +77,7 @@ def put_user (id):
 @users_bp.route('/<id>',methods=['DELETE'])
 @admin_required
 def delete_user(id):
-    """
+    """s
     Controller: DELETE /api/v1/users/<id>
     Admin-only: Deletes a user by ID.
     """

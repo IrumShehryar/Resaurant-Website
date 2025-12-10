@@ -241,7 +241,8 @@ fieldset input[type="checkbox"] {
 }
 
 .notification.success,
-.notification.error {
+.notification.error,
+.notification.info {
     opacity: 1;
 }
 
@@ -251,6 +252,10 @@ fieldset input[type="checkbox"] {
 
 .notification.success {
     background-color: #00cc6f;
+}
+
+.notification.info {
+    background-color: #4a90e2;
 }
 
 @keyframes slideIn {

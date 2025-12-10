@@ -140,3 +140,48 @@
         max-width: 100%;
     }
 }
+
+/* ========== NOTIFICATIONS ========== */
+.notification {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+    display: none;
+    z-index: 10000;
+    animation: slideIn 0.3s ease;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.notification.success,
+.notification.error,
+.notification.info {
+    opacity: 1;
+    display: block;
+}
+
+.notification.error {
+    background-color: #ff6b6b;
+}
+
+.notification.success {
+    background-color: #00cc6f;
+}
+
+.notification.info {
+    background-color: #4a90e2;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(25rem);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

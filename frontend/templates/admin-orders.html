@@ -47,12 +47,13 @@
             <th>{{ t.phone }}</th>
             <th>{{ t.total_euro }}</th>
             <th>{{ t.status }}</th>
+            <th>{{ t.created_at }}</th>
             <th>{{ t.actions }}</th>
         </tr>
     </thead>
     <tbody id="orders-tbody">
         <tr>
-            <td colspan="6">{{ t.loading }}</td>
+            <td colspan="7">{{ t.loading }}</td>
         </tr>
     </tbody>
 </table>
@@ -166,10 +167,7 @@
                     <option value="cancelled">{{ t.cancelled }}</option>
                 </select>
             </label>
-            <!--<label>
-                {{ t.created_at }}:
-                <input type="text" name="created_at" id="editOrderCreated" />
-            </label>-->
+
             <button type="submit" class="btn-accent">{{ t.save }}</button>
         </form>
     </div>
