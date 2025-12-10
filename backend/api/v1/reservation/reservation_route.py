@@ -12,7 +12,7 @@ from .reservation_controller import (
     update_reservation_controller,
     delete_reservation_controller,
 )
-from backend.api.utils.auth_utils import token_required
+from backend.api.utils.auth_utils import admin_required
 
 reservation_bp = Blueprint("reservation", __name__, url_prefix="/api/v1/reservation")
 
@@ -47,9 +47,8 @@ def create_reservation():
 
 
 @reservation_bp.route("/<reservation_id>", methods=["PUT"])
-
-#def update_reservation(current_user, reservation_id):
-def update_reservation(reservation_id):
+@admin_required
+def update_reservation(reservation_id,current_user):
     """
     Admin-only: requires a valid JWT for a user with role "admin".
     Updates an existing reservation.
@@ -60,10 +59,10 @@ def update_reservation(reservation_id):
     return update_reservation_controller(reservation_id)
 
 
-@reservation_bp.route("/<reservation_id>", methods=["DELETE"])
 
-#def delete_reservation(current_user, reservation_id):
-def delete_reservation(reservation_id):
+@reservation_bp.route("/<reservation_id>", methods=["DELETE"])
+@admin_required
+def delete_reservation(reservation_id,current_user):
     """
     Admin-only: requires a valid JWT for a user with role "admin".
     Deletes a reservation by ID.

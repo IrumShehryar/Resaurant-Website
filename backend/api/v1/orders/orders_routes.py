@@ -54,8 +54,8 @@ def create_order():
 # --------------------------------------------------------
 
 @orders_bp.route("/<order_id>", methods=["PUT"])
-#@admin_required
-def update_order(order_id):
+@admin_required
+def update_order(order_id,current_user):
     """
     Updates an existing order, including payment method.
     """
@@ -67,7 +67,7 @@ def update_order(order_id):
 # --------------------------------------------------------
 @orders_bp.route("/<order_id>", methods=["DELETE"])
 @admin_required
-def delete_order(order_id):
+def delete_order(order_id,current_user):
     return delete_order_controller(order_id)
 
 
