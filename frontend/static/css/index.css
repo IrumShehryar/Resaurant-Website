@@ -24,8 +24,21 @@
     width: 100%;
     height: 100%;
     object-fit: cover; /* Maintains aspect ratio while filling entire container */
-    opacity: 0.7; /* Adjust transparency so text is readable over video */
+    opacity: 1; /* Full opacity for brighter video */
     z-index: 1;
+    animation: slowZoom 60s ease-in-out infinite; /* Very slow zoom effect */
+    mask-image: radial-gradient(ellipse 80% 70% at center, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at center, black 40%, transparent 100%);
+}
+
+/* Very slow zoom animation for video */
+@keyframes slowZoom {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.03);
+    }
 }
 
 /* =============================
