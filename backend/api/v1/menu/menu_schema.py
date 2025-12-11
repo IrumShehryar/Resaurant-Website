@@ -29,4 +29,3 @@ class MenuItemSchema(ModelSchema):
             "active",
         )
 
-
