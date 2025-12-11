@@ -155,9 +155,9 @@ export function addToCart(item) {
 
   saveCartToStorage();
 
-  // Update cart total
- /* const totalPrice = cart.reduce((sum, i) => sum + (i.price || 0) * (i.quantity || 1), 0);
-  localStorage.setItem("cartTotal", totalPrice.toFixed(2));*/
+  // Update cart total (with safeguard for missing price)
+  const totalPrice = cart.reduce((sum, i) => sum + (i.price || 0) * (i.quantity || 1), 0);
+  localStorage.setItem("cartTotal", totalPrice.toFixed(2));
 
   showCartButton();
   showNotification(`${item.name} ${window.t && window.t.added_to_cart ? window.t.added_to_cart : 'added to cart!'}`);

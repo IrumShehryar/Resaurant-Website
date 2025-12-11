@@ -60,7 +60,9 @@ Flamehouse{% endblock %} {% block styles %}
             let cartHTML = "";
 
             cart.forEach((item, index) => {
-                const itemTotal = item.price * (item.quantity || 1);
+                // Safeguard: if price is missing, default to 0 (prevents crash)
+                const price = item.price || 0;
+                const itemTotal = price * (item.quantity || 1);
                 totalPrice += itemTotal;
 
                 const imgSrc = item.image_url
@@ -83,7 +85,7 @@ Flamehouse{% endblock %} {% block styles %}
 
                     <p class="cart-item__price">${
                         t.price
-                    }: <span class="amount">€${item.price.toFixed(2)}</span></p>
+                    }: <span class="amount">€${price.toFixed(2)}</span></p>
 
                     <div class="cart-item__controls">
                         <label class="cart-item__label">${t.qty}:
@@ -126,14 +128,15 @@ Flamehouse{% endblock %} {% block styles %}
             cart[index].quantity = parseInt(newQuantity);
             localStorage.setItem("cart", JSON.stringify(cart));
 
-            // Update subtotal and total live
-            const itemTotal = cart[index].price * cart[index].quantity;
+            // Update subtotal and total live (with safeguard for missing price)
+            const price = cart[index].price || 0;
+            const itemTotal = price * cart[index].quantity;
             document.querySelectorAll(".cart-item__subtotal")[
                 index
             ].textContent = `Subtotal: €${itemTotal.toFixed(2)}`;
 
             const totalPrice = cart.reduce(
-                (sum, item) => sum + item.price * item.quantity,
+                (sum, item) => sum + (item.price || 0) * item.quantity,
                 0
             );
             document.getElementById(
@@ -153,9 +156,9 @@ Flamehouse{% endblock %} {% block styles %}
         const cartItemDiv = document.querySelectorAll(".cart-item")[index];
         cartItemDiv.remove();
 
-        // Update total
+        // Update total (with safeguard for missing price)
         const totalPrice = cart.reduce(
-            (sum, item) => sum + item.price * item.quantity,
+            (sum, item) => sum + (item.price || 0) * item.quantity,
             0
         );
         document.getElementById(
