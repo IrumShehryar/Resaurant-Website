@@ -32,13 +32,19 @@
 
 /* ========== TABLE STYLES (ALL ADMIN TABLES) ========== */
 
+/* Table wrapper for horizontal scroll */
+.table-wrapper {
+    width: 90%;
+    margin: 0 auto 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .admin-table {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    min-width: 600px;
     border-collapse: collapse;
     background-color: #1a1a1a;
-    margin-bottom: 1.5rem;
 }
 
 .admin-table thead {
@@ -364,5 +370,64 @@ fieldset input[type="checkbox"] {
     .dashboard-group {
         align-items: center;
         margin-top: 1rem;
+    }
+}
+
+/* ========== RESPONSIVE TABLE ADJUSTMENTS ========== */
+
+@media (max-width: 768px) {
+    .table-wrapper {
+        width: 95%;
+    }
+    
+    .admin-table {
+        min-width: 500px;
+        font-size: 0.85rem;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 0.5rem 0.4rem;
+    }
+    
+    /* Hide less important columns on mobile */
+    .admin-table th:nth-child(3),
+    .admin-table td:nth-child(3) {
+        display: none; /* Email in reservations, Phone in orders */
+    }
+    
+    .admin-table th:nth-child(8),
+    .admin-table td:nth-child(8) {
+        display: none; /* Created_at timestamp */
+    }
+    
+    .btn-edit,
+    .btn-delete {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.75rem;
+        margin: 0.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .table-wrapper {
+        width: 100%;
+    }
+    
+    .admin-table {
+        min-width: 400px;
+        font-size: 0.8rem;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 0.4rem 0.3rem;
+    }
+    
+    .admin-add-btn {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
     }
 }

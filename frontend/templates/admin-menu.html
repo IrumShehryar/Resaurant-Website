@@ -71,22 +71,24 @@
 <button id="btn-add-item" class="btn-accent admin-add-btn">
     {{ t.add_new_item }}
 </button>
-<table class="admin-table">
-    <thead>
-        <tr>
-            <th>{{ t.name }}</th>
-            <th>{{ t.category }}</th>
-            <th>{{ t.price }}</th>
-            <th>{{ t.dietary_info }}</th>
-            <th>{{ t.actions }}</th>
-        </tr>
-    </thead>
-    <tbody id="menu-tbody">
-        <tr>
-            <td colspan="5">{{ t.loading }}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="table-wrapper">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>{{ t.name }}</th>
+                <th>{{ t.category }}</th>
+                <th>{{ t.price }}</th>
+                <th>{{ t.dietary_info }}</th>
+                <th>{{ t.actions }}</th>
+            </tr>
+        </thead>
+        <tbody id="menu-tbody">
+            <tr>
+                <td colspan="5">{{ t.loading }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <div id="notification"></div>
 <!-- Menu Modal -->
 <div id="admin-modal" class="modal admin-modal">

@@ -49,26 +49,28 @@ endblock %} {% block styles %}
 <button id="btn-add-reservation" class="btn-accent admin-add-btn">
     {{ t.add_new_reservation }}
 </button>
-<table class="admin-table">
-    <thead>
-        <tr>
-            <th>{{ t.name }}</th>
-            <th>{{ t.phone }}</th>
-            <th>{{ t.email }}</th>
-            <th>{{ t.reservation_date }}</th>
-            <th>{{ t.reservation_time }}</th>
-            <th>{{ t.people }}</th>
-            <th>{{ t.status }}</th>
-            <th>{{ t.created_at }}</th>
-            <th>{{ t.actions }}</th>
-        </tr>
-    </thead>
-    <tbody id="reservation-tbody">
-        <tr>
-            <td colspan="9">{{ t.loading }}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="table-wrapper">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>{{ t.name }}</th>
+                <th>{{ t.phone }}</th>
+                <th>{{ t.email }}</th>
+                <th>{{ t.reservation_date }}</th>
+                <th>{{ t.reservation_time }}</th>
+                <th>{{ t.people }}</th>
+                <th>{{ t.status }}</th>
+                <th>{{ t.created_at }}</th>
+                <th>{{ t.actions }}</th>
+            </tr>
+        </thead>
+        <tbody id="reservation-tbody">
+            <tr>
+                <td colspan="9">{{ t.loading }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <div id="notification"></div>
 <!-- Reservation Modal -->
 <div id="reservation-modal" class="modal admin-modal">
