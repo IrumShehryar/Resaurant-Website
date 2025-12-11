@@ -171,14 +171,14 @@ const proceedToCheckout = () => {
     .then(res => res.json())
     .then(data => {
       if (!data.error) {
-        window.location.href = "/revontulet/order-confirmation";
+        window.location.href = "/revontulet/cart";
       } else {
-        window.location.href = "/revontulet/login?next=/revontulet/order-confirmation";
+        window.location.href = "/revontulet/login?next=/revontulet/cart";
       }
     })
     .catch(err => {
       console.error("Failed to check login:", err);
-      window.location.href = "/revontulet/login?next=/revontulet/order-confirmation";
+      window.location.href = "/revontulet/login?next=/revontulet/cart";
     });
 };
 

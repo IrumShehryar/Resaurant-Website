@@ -216,7 +216,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     body: JSON.stringify({ name, username, email, phone, address, password })
                 });
                 showNotification("Registration successful!", "success", notificationElement);
-                setTimeout(() => window.location.reload(), 1200);
+                setTimeout(() => {
+                    window.location.href = "/revontulet/";
+                }, 1200);
             } catch (err) {
                 console.error(err);
                 showNotification(extractErrorMessage(err, "Registration failed"), "error", notificationElement);
