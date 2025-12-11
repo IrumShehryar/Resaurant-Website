@@ -261,6 +261,11 @@ def login():
 
     return render_template("login.html", next_url=next_url, role="user")
 
+# Prefixed login route for reverse proxy deployments under /revontulet
+@app.route("/revontulet/login", methods=["GET", "POST"])
+def login_prefixed():
+    return login()
+
 # -------------------------------
 # Checkout route
 # -------------------------------
@@ -273,6 +278,11 @@ def checkout():
     if "user_id" not in session:
         return redirect(url_for("login", next=url_for("order_confirmation_page")))
     return redirect(url_for("order_confirmation_page"))
+
+# Prefixed checkout route for reverse proxy deployments under /revontulet
+@app.route("/revontulet/checkout")
+def checkout_prefixed():
+    return checkout()
 
 # -------------------------------
 # Order confirmation page
@@ -303,6 +313,11 @@ def order_confirmation_page():
             }
 
     return render_template("order-confirmation.html", user=user_data)
+
+# Prefixed order confirmation route for reverse proxy deployments under /revontulet
+@app.get("/revontulet/order-confirmation")
+def order_confirmation_page_prefixed():
+    return order_confirmation_page()
 
 # -------------------------------
 # Logout route
@@ -345,6 +360,11 @@ def user_dashboard():
             reservations = ReserveTable.objects(email=user.email)
             orders = Orders.objects(email=user.email)
     return render_template("user-dashboard.html", user=user_data, reservations=reservations, orders=orders)
+
+# Prefixed route for reverse proxy setups serving under /revontulet
+@app.get("/revontulet/user-dashboard")
+def user_dashboard_prefixed():
+    return user_dashboard()
 
 # -------------------------------
 # Run server
