@@ -33,6 +33,10 @@ translations = {
         "our_philosophy_text": "We believe in honest food, clean flavors, and seasonal ingredients. Every dish is crafted with respect for Nordic heritage, flame-cooking techniques, and the beauty of Finland’s landscapes.",
         "nordic_ingredients": "Nordic Ingredients",
         "nordic_ingredients_text": "We source fresh produce from local farms, Finnish lakes, and trusted Nordic suppliers. From smoked salmon to wild berries, every plate celebrates the taste of the north.",
+        "customer_love": "Customer Love",
+        "customer_love_text": "Rated 4.8/5 by our guests for authentic Nordic flavors, cozy ambiance, and exceptional service. Join our community of food lovers celebrating the magic of the north.",
+        "menu_variety": "Our Menu",
+        "menu_variety_text": "Discover flame-grilled burgers with Nordic twists, fresh salads with local ingredients, hearty main courses featuring Finnish fish and game, artisan desserts, and signature drinks inspired by the aurora. From classic comfort food to adventurous flavor combinations, every dish tells a story of the north.",
         # Navigation
         "home": "Home",
         "menu": "Menu",
@@ -249,6 +253,10 @@ translations = {
         "our_philosophy_text": "Uskomme rehelliseen ruokaan, puhtaisiin makuihin ja kauden raaka-aineisiin. Jokainen annos valmistetaan kunnioittaen pohjoismaista perinnettä, avotulella kypsentämistä ja Suomen luonnon kauneutta.",
         "nordic_ingredients": "Pohjoismaiset raaka-aineet",
         "nordic_ingredients_text": "Hankimme tuoreet raaka-aineet paikallisilta tiloilta, suomalaisista järvistä ja luotettavilta pohjoismaisilta toimittajilta. Savustetusta lohesta villimarjoihin jokainen annos juhlistaa pohjoisen makua.",
+        "customer_love": "Asiakkaiden suosikki",
+        "customer_love_text": "Vieraamme ovat arvioineet meidät 4.8/5 aidoista pohjoismaisista mauista, viihtyisästä tunnelmasta ja erinomaisesta palvelusta. Liity yhteisöömme, jossa juhlitaan pohjoisen taikaa.",
+        "menu_variety": "Ruokalistamme",
+        "menu_variety_text": "Tutustu grillattuihin hampurilaisiin pohjoismaisella twistillä, tuoreisiin salaatteihin paikallisilla raaka-aineilla, runsaisiin pääruokiin suomalaisilla kaloilla ja riistalla, käsityöläisjälkiruokiin ja revontulista inspiroituihin erikoisjuomiin. Klassisesta mukavuusruoasta seikkailullisiin makuyhdistelmiin, jokainen annos kertoo tarinan pohjoisesta.",
         # Navigation
         "home": "Etusivu",
         "menu": "Ruokalista",

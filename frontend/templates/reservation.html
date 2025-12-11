@@ -8,6 +8,13 @@ Flamehouse{% endblock %} {% block styles %}
 <!-- Reservation Page: Header, form, and instructions -->
 <div id="notification"></div>
 <div class="reservation-page">
+    <!-- Blue animation background covering full page -->
+    <video class="reservation-video" autoplay muted loop playsinline>
+        <source
+            src="{{ url_for('static', filename='videos/blue_animation.mp4') }}"
+            type="video/mp4"
+        />
+    </video>
     <div class="reservation-header">
         <!-- Reservation title and description -->
         <h2>{{ t.reserve_a_table }}</h2>
