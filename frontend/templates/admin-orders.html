@@ -39,24 +39,26 @@
 <button id="btn-add-order" class="btn-accent admin-add-btn">
     {{ t.add_new_order }}
 </button>
-<table class="admin-table">
-    <thead>
-        <tr>
-            <th>{{ t.order_no }}</th>
-            <th>{{ t.name }}</th>
-            <th>{{ t.phone }}</th>
-            <th>{{ t.total_euro }}</th>
-            <th>{{ t.status }}</th>
-            <th>{{ t.created_at }}</th>
-            <th>{{ t.actions }}</th>
-        </tr>
-    </thead>
-    <tbody id="orders-tbody">
-        <tr>
-            <td colspan="7">{{ t.loading }}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="table-wrapper">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>{{ t.order_no }}</th>
+                <th>{{ t.name }}</th>
+                <th>{{ t.phone }}</th>
+                <th>{{ t.total_euro }}</th>
+                <th>{{ t.status }}</th>
+                <th>{{ t.created_at }}</th>
+                <th>{{ t.actions }}</th>
+            </tr>
+        </thead>
+        <tbody id="orders-tbody">
+            <tr>
+                <td colspan="7">{{ t.loading }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <div id="notification"></div>
 <!-- Add your orders management modal here if needed -->
 <!-- Order Edit Modal -->
