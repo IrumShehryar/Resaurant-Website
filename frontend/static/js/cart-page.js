@@ -4,10 +4,10 @@
  */
 document.getElementById("checkout-btn").addEventListener("click", () => {
     const token = localStorage.getItem("authToken");
-    const redirectTo = "/order-confirmation";
+    const redirectTo = "/revontulet/order-confirmation";
 
     if (!token) {
-        window.location.href = `/login?next=${encodeURIComponent(redirectTo)}`;
+        window.location.href = `/revontulet/login?next=${encodeURIComponent(redirectTo)}`;
     } else {
         window.location.href = redirectTo;
     }

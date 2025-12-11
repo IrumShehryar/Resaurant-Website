@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Reservation created:", data);
             alert("We have received your reservation. Your booking will be confirmed shortly!");
             // Redirect to user dashboard after reservation
-            window.location.href = "/user-dashboard";
+            window.location.href = "/revontulet/user-dashboard";
 
             /* showNotification((window.t && window.t.reservation_success) ? window.t.reservation_success : "Reservation created successfully!", "success", notificationElement);
             messageBox.textContent = "";

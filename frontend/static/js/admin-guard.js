@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Not logged in at all → send to admin login
     if (!token) {
-        window.location.href = "/admin-login";
+        window.location.href = "/revontulet/admin-login";
         return;
     }
 
@@ -31,12 +31,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (!isAdmin) {
             // Logged in but not admin → send to normal login/home
-            window.location.href = "/login";
+            window.location.href = "/revontulet/login";
         }
         // If admin, do nothing – page stays visible
     } catch (err) {
         console.error("Failed to verify admin token", err);
         // Token invalid/expired → go to admin login
-        window.location.href = "/admin-login";
+        window.location.href = "/revontulet/admin-login";
     }
 });
