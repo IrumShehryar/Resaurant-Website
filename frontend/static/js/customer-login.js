@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const password = formData.get("password");
 
             try {
-                const data = await fetchData(apiUrl("auth/login"), {
+                const data = await fetchData(apiUrl("/revontulet/auth/login"), {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     credentials: "same-origin",
@@ -173,6 +173,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <\/div>
                     `;
                     attachLogoutHandler();
+                    console.log("Redirecting to:", nextUrl);
                     setTimeout(() => {
                         window.location.href = nextUrl;
                     }, 1000);

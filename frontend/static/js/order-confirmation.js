@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         try {
-            const response = await fetch("/api/v1/orders/", {
+            const response = await fetch("/revontulet/api/v1/orders/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(orderData)
