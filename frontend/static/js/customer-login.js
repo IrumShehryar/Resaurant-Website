@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     attachLogoutHandler();
                     console.log("Redirecting to:", nextUrl);
                     setTimeout(() => {
-                        window.location.href = nextUrl;
+                        window.location.href = "/revontulet"+nextUrl;
                     }, 1000);
                     revealAuthBox();
                     return;
