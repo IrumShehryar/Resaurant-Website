@@ -17,34 +17,29 @@ A restaurant website inspired by the Northern Lights (“Revontulet”), with a 
 
 ---
 
-## 🚀 Quick Start
+## 🎤 Presentation highlights
 
-1. **Get the code**
-    ```sh
-    git clone https://github.com/IrumShehryar/Restaurant-Website.git
-    cd Restaurant-Website
-    ```
-2. **Create & activate a virtual environment**
-    - Windows:
-        ```sh
-        python -m venv .venv
-        .\.venv\Scripts\activate
-        ```
-    - macOS/Linux:
-        ```sh
-        python3 -m venv .venv
-        source .venv/bin/activate
-        ```
-3. **Install dependencies**
-    ```sh
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-    ```
-4. **Run the Flask app**
-    ```sh
-    python -m backend.app
-    ```
-    Then open https://10.120.32.85/revontulet/ in your browser.
+-   **Team roles**
+    -   **Irum Shehryar:** End-to-end menu flow (frontend ↔ backend), admin dashboard/menu management, admin auth, base layout, customer dashboard, deployment, Lighthouse/performance, HTML/CSS validation, JSDoc/ApiDoc, validation.
+    -   **Kanwaljit Singh:** Cart + order flow (frontend ↔ backend), customer login/registration, session management, language translations, UI enhancements.
+    -   **Farhan Ashraf:** Reservation flow (frontend ↔ backend), About/Contact design, admin reservation + order management documentation.
+    -   **Saba Akbar:** CSS styling, feedback form, menu theme/selection, menu modal enhancements, image curation, MongoDB data insertion.
+-   **Helper utilities**
+    -   Shared CRUD services and table manager/renderer centralize fetch calls and table rendering, so admin views reuse the same data plumbing instead of bespoke AJAX/DOM code—faster delivery and fewer bugs.
+-   **Accomplished**
+    -   Live deployment, JSDoc + ApiDoc generated, validation evidence captured; full flows for menu, cart/checkout, reservations, admin CRUD, login/registration, today’s menu highlighting, pricing and dietary flags, fi/en scaffolding.
+-   **Problems faced**
+    -   Keeping language dictionaries current across pages was tedious; Metropolia deployment (SSL/reverse proxy) was tricky; aligning auth/session checks for protected routes needed care.
+-   **Lessons learned**
+    -   Better Git workflow, deployment pipeline know-how, and code reuse patterns (shared services/components) saved time and bugs.
+-   **AI disclosure (GitHub Copilot)**
+    -   Used for comments/descriptions, debugging ideas, learning when stuck. Avoid over-relying: ask it what could be wrong before letting it change code; keep review in the loop.
+-   **Future enhancements**
+    -   Complete user management polish; sorting/filtering in admin panels (pending/confirmed/etc.); real-time notifications for new orders/reservations; more animations/responsiveness; improved user dashboard layout; richer API integrations.
+
+## 🚀 Quick Start (local)
+
+Clone, create a venv, `pip install -r requirements.txt`, then run `python -m backend.app`. Access the app via the server URL (VPN required): https://10.120.32.85/revontulet/. For detailed commands, see **Full Setup & Usage**; for production, see **Deployment**.
 
 ---
 
@@ -94,7 +89,7 @@ The app will be available at https://10.120.32.85/revontulet/
 
 ### 6. Run the frontend
 
-Open `frontend/templates/index.html` or other HTML files in your browser, or serve with a static server if needed.
+Access via the Flask server at https://10.120.32.85/revontulet/ (VPN required). Prefer server routes so auth/API calls work correctly.
 
 ---
 
