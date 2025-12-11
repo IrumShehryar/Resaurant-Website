@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const password = formData.get("password");
 
             try {
-                const data = await fetchData(apiUrl("/revontulet/auth/login"), {
+                const data = await fetchData(apiUrl("auth/login"), {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     credentials: "same-origin",
