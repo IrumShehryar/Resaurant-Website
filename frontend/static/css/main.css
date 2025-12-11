@@ -1078,3 +1078,49 @@ footer {
   padding: 0.5rem 0.25rem;
   min-width: 6;
 }
+
+/* ========== RESPONSIVE ADMIN STATS BOX ========== */
+
+@media (max-width: 768px) {
+  .admin-stats-box {
+    width: 90%;
+    max-width: 100%;
+    margin: 1rem auto;
+    padding: 1rem;
+    justify-content: center;
+  }
+  
+  .admin-stats-box .stat {
+    flex: 0 0 calc(50% - 1rem);
+    min-width: auto;
+    font-size: 0.95rem;
+    padding: 0.8rem 1rem;
+  }
+  
+  .admin-stats-box.menu-stats .stat {
+    flex: 0 0 calc(33.33% - 1rem);
+    font-size: 0.85rem;
+    padding: 0.6rem 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-stats-box {
+    width: 95%;
+    margin: 0.5rem auto;
+    padding: 0.75rem;
+  }
+  
+  .admin-stats-box .stat {
+    flex: 0 0 100%;
+    margin: 0.25rem;
+    font-size: 0.9rem;
+    padding: 0.7rem 1rem;
+  }
+  
+  .admin-stats-box.menu-stats .stat {
+    flex: 0 0 calc(50% - 0.5rem);
+    font-size: 0.8rem;
+    padding: 0.5rem 0.3rem;
+  }
+}

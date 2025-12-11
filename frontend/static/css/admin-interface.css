@@ -407,6 +407,24 @@ fieldset input[type="checkbox"] {
         font-size: 0.75rem;
         margin: 0.1rem;
     }
+    
+    /* Responsive stats bar */
+    .dashboard-group {
+        width: 100%;
+    }
+    
+    .dashboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 95vw;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .dashboard-stat {
+        padding: 0.8rem 1rem;
+        min-width: auto;
+        font-size: 1rem;
+    }
 }
 
 @media (max-width: 480px) {

@@ -66,7 +66,7 @@
                         <li class="spacer"></li>
                         <!-- Admin Panel button, centered, hidden by default -->
                         <li id="admin-panel-link" style="display:none;">
-                            <a href="/admin-interface" class="btn-outline{% if request.endpoint == 'admin_interface' %} active{% endif %}">{{ t.admin_panel }}</a>
+                            <a href="{{ url_for('admin_interface') }}" class="btn-outline{% if request.endpoint == 'admin_interface' %} active{% endif %}">{{ t.admin_panel }}</a>
                         </li>
                         {% if session.get('role') == 'user' and session.get('user_id') %}
                             <li id="user-dashboard-link">
