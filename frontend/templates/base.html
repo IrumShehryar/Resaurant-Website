@@ -70,7 +70,7 @@
                         </li>
                         {% if session.get('role') == 'user' and session.get('user_id') %}
                             <li id="user-dashboard-link">
-                                <a href="/user-dashboard" class="btn-outline{% if request.endpoint == 'user_dashboard' %} active{% endif %}">{{ t.dashboard }}</a>
+                                <a href="/revontulet/user-dashboard" class="btn-outline{% if request.endpoint == 'user_dashboard' %} active{% endif %}">{{ t.dashboard }}</a>
                             </li>
                         {% endif %}
                         <li>

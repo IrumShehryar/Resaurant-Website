@@ -31,4 +31,4 @@ def logout():
     Clears the session and redirects to login page.
     """
     session.clear()
-    return redirect("/login")
+    return redirect("/revontulet/login")

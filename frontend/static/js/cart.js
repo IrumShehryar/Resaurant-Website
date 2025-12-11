@@ -171,7 +171,7 @@ const proceedToCheckout = () => {
     .then(res => res.json())
     .then(data => {
       if (!data.error) {
-        window.location.href = "/revontulet/cart";
+        window.location.href = "/revontulet/order-confirmation";
       } else {
         window.location.href = "/revontulet/login?next=/revontulet/order-confirmation";
       }
