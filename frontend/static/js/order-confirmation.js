@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.removeItem("cartTotal");
 
             // Redirect to menu or success page
-            window.location.href = "/revontulet/menu";
+            window.location.href = "/revontulet/user-dashboard";
         } catch (error) {
             console.error(error);
             alert("An error occurred while placing your order.");
