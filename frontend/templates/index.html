@@ -8,6 +8,13 @@ block styles %}
 
 <!-- Hero Section: Main landing content, tagline, features, and hero image -->
 <section class="hero">
+    <!-- Animated green northern lights background video -->
+    <video class="hero-video" autoplay muted loop>
+        <source
+            src="{{ url_for('static', filename='videos/green_animation.mp4') }}"
+            type="video/mp4"
+        />
+    </video>
     <div class="hero-content">
         <div class="hero-left">
             <!-- Tagline and main title -->
