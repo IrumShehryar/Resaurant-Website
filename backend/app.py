@@ -170,6 +170,11 @@ def cart_page():
     item_id = request.args.get("item")
     return render_template("cart.html", added_item_id=item_id)
 
+# Prefixed cart route for deployments under /revontulet
+@app.get("/revontulet/cart")
+def cart_page_prefixed():
+    return cart_page()
+
 @app.get("/admin-login")
 def admin_login():
     """
@@ -366,9 +371,7 @@ def user_dashboard():
 def user_dashboard_prefixed():
     return user_dashboard()
 
-# -------------------------------
-# Run server
-# -------------------------------
+
 
 # -----------------------------------
 # Run server
