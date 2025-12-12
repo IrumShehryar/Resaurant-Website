@@ -29,9 +29,15 @@ A restaurant website inspired by the Northern Lights (“Revontulet”), with a 
 -   **Accomplished**
     -   Live deployment, JSDoc + ApiDoc generated, validation evidence captured; full flows for menu, cart/checkout, reservations, admin CRUD, login/registration, today’s menu highlighting, pricing and dietary flags, fi/en scaffolding.
 -   **Problems faced**
-    -   Keeping language dictionaries current across pages was tedious; Metropolia deployment (SSL/reverse proxy) was tricky; aligning auth/session checks for protected routes needed care.
+    -   Keeping language dictionaries current across pages was tedious;
+    -   Metropolia deployment (SSL/reverse proxy) was tricky;
+    -   aligning auth/session checks for protected routes needed care.
+    - 
 -   **Lessons learned**
-    -   Better Git workflow, deployment pipeline know-how, and code reuse patterns (shared services/components) saved time and bugs.
+    -   Better Git workflow,
+    -   deployment pipeline know-how,
+    -    and code reuse patterns (shared services/components) saved time and bugs.
+      
 -   **AI disclosure (GitHub Copilot)**
     -   Used for comments/descriptions, debugging ideas, learning when stuck. Avoid over-relying: ask it what could be wrong before letting it change code; keep review in the loop.
 -   **Future enhancements**
