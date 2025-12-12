@@ -45,9 +45,9 @@ Fast food Lovers
     -   aligning auth/session checks for protected routes needed care.
       
 -   **Lessons learned**
-    -   Better Git workflow,
-    -   deployment pipeline know-how,
-    -    and code reuse patterns (shared services/components) saved time and bugs.
+    - Better Git workflow,
+    - deployment  know-how,
+    - code reuse patterns (shared services/components) saved time and bugs.
       
 -   **AI disclosure (GitHub Copilot)**
     - Used for comments,
