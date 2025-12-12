@@ -1,5 +1,7 @@
 # Revontulet Flamehouse — Restaurant Website
 
+The application is deployed on a server at **https://10.120.32.85/revontulet/**
+
 Full stack project  
 **Frontend:** HTML / CSS / JavaScript  
 **Backend:** Python (Flask) + MongoDB
@@ -64,6 +66,8 @@ Fast food Lovers
     -   improved user dashboard layout; richer API integrations.
     -   Search bar
     -   Secure Payment integration
+    -   Right now our website is slow because the pictures we uploaded are of high quality so website is taking the time to load,we aim
+        to do On-page SEO for it which comes later after the websites completion. we didnt got time for it but we will do it in future.
 
 ## 🚀 Setup & Run (local)
 
@@ -146,11 +150,8 @@ Open the generated HTML files in `docs/jsdoc/` in your browser.
 ### Local/Development
 
 -   Run the backend as above.
--   Serve frontend files with a static server or from Flask if desired.
+-   Serve frontend files with a static server or from Flask if desired
 
-### Production Deployment
-
-The application is deployed on a server at **https://10.120.32.85/revontulet/**
 
 **Deployment Steps:**
 
