@@ -27,7 +27,18 @@ Fast food Lovers
     -   **Saba Akbar:** CSS styling, feedback form, menu theme/selection, menu modal enhancements, image curation, MongoDB data insertion.
   
 -   **Accomplished**
-    -   Live deployment, JSDoc + ApiDoc generated, validation evidence captured; full flows for menu, cart/checkout, reservations, admin CRUD, login/registration, today’s menu highlighting, pricing and dietary flags, fi/en scaffolding.
+    
+    - Live deployment,
+    - JSDoc + ApiDoc generated, 
+    - Validation evidence captured;
+    - Full flows for menu, cart/checkout, reservations,User,
+    - Full admin CRUD operations,
+    - login/registration,
+    - Today’s menu highlighting,
+    - Allergens and dietary flags,
+    - Language Translations fi/en
+      
+      
 -   **Problems faced**
     -   Keeping language dictionaries current across pages was tedious;
     -   Metropolia deployment  was tricky;
