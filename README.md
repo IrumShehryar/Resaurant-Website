@@ -32,7 +32,7 @@ Fast food Lovers
     -   Keeping language dictionaries current across pages was tedious;
     -   Metropolia deployment (SSL/reverse proxy) was tricky;
     -   aligning auth/session checks for protected routes needed care.
-    - 
+      
 -   **Lessons learned**
     -   Better Git workflow,
     -   deployment pipeline know-how,
@@ -45,7 +45,7 @@ Fast food Lovers
       when we get stuck on a bug, we ask AI for ideas on what might be wrong.
     - learning when stuck.
     - Avoid over-relying: ask it what could be wrong before letting it change code; keep review in the loop.
-    - 
+      
 -   **Future enhancements**
     -   Complete user management;
     -   sorting/filtering in admin panels (pending/confirmed/etc.);
