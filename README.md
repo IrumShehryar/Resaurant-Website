@@ -40,7 +40,9 @@ Fast food Lovers
       
 -   **AI disclosure (GitHub Copilot)**
     - Used for comments,
+      we use AI to help write clear comments and description in our code.This make the code easier to understand for everyone on the team.
     - debugging,
+      when we get stuck on a bug, we ask AI for ideas on what might be wrong.
     - learning when stuck.
     - Avoid over-relying: ask it what could be wrong before letting it change code; keep review in the loop.
     - 
