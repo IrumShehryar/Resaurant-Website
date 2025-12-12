@@ -24,8 +24,7 @@ A restaurant website inspired by the Northern Lights (“Revontulet”), with a 
     -   **Kanwaljit Singh:** Cart + order flow (frontend ↔ backend), customer login/registration, session management, language translations, UI enhancements.
     -   **Farhan Ashraf:** Reservation flow (frontend ↔ backend), About/Contact design, admin reservation + order management documentation.
     -   **Saba Akbar:** CSS styling, feedback form, menu theme/selection, menu modal enhancements, image curation, MongoDB data insertion.
--   **Helper utilities**
-    -   Shared CRUD services and table manager/renderer centralize fetch calls and table rendering, so admin views reuse the same data plumbing instead of bespoke AJAX/DOM code—faster delivery and fewer bugs.
+  
 -   **Accomplished**
     -   Live deployment, JSDoc + ApiDoc generated, validation evidence captured; full flows for menu, cart/checkout, reservations, admin CRUD, login/registration, today’s menu highlighting, pricing and dietary flags, fi/en scaffolding.
 -   **Problems faced**
