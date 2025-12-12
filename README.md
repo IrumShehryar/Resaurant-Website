@@ -30,7 +30,7 @@ Fast food Lovers
     -   Live deployment, JSDoc + ApiDoc generated, validation evidence captured; full flows for menu, cart/checkout, reservations, admin CRUD, login/registration, today’s menu highlighting, pricing and dietary flags, fi/en scaffolding.
 -   **Problems faced**
     -   Keeping language dictionaries current across pages was tedious;
-    -   Metropolia deployment (SSL/reverse proxy) was tricky;
+    -   Metropolia deployment  was tricky;
     -   aligning auth/session checks for protected routes needed care.
       
 -   **Lessons learned**
