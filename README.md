@@ -39,9 +39,18 @@ A restaurant website inspired by the Northern Lights (“Revontulet”), with a 
     -    and code reuse patterns (shared services/components) saved time and bugs.
       
 -   **AI disclosure (GitHub Copilot)**
-    -   Used for comments/descriptions, debugging ideas, learning when stuck. Avoid over-relying: ask it what could be wrong before letting it change code; keep review in the loop.
+    - Used for comments,
+    - debugging,
+    - learning when stuck.
+    - Avoid over-relying: ask it what could be wrong before letting it change code; keep review in the loop.
+    - 
 -   **Future enhancements**
-    -   Complete user management polish; sorting/filtering in admin panels (pending/confirmed/etc.); real-time notifications for new orders/reservations; more animations/responsiveness; improved user dashboard layout; richer API integrations.
+    -   Complete user management;
+    -   sorting/filtering in admin panels (pending/confirmed/etc.);
+    -   real-time notifications for new orders/reservations;
+    -   improved user dashboard layout; richer API integrations.
+    -   Search bar
+    -   Secure Payment integration
 
 ## 🚀 Setup & Run (local)
 
