@@ -42,7 +42,8 @@ A restaurant website inspired by the Northern Lights (“Revontulet”), with a 
     - Used for comments,
     - debugging,
     - learning when stuck.
-    - Avoid over-relying: ask it what could be wrong before letting it change code; keep review in the loop.
+    - We don’t let ChatGPT change our code right away. First, we ask it what the possible problem might be.
+Only after we understand the issue, we decide how to fix it.
     - 
 -   **Future enhancements**
     -   Complete user management;
