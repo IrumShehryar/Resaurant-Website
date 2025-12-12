@@ -15,7 +15,8 @@ Full stack project
 
 A restaurant website inspired by the Northern Lights (“Revontulet”), with a warm “flamehouse” vibe. Users can browse the menu, add items to a cart, and place orders; admins manage menu items, reservations, users, and orders.
 
----
+## 👥 Target Audience
+Fast food Lovers
 
 ## 🎤 Presentation highlights
 
