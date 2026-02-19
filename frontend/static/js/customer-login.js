@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Track current form mode (login/register)
     let mode = "login";
 
-    const getNextUrl = () => nextUrlInput && nextUrlInput.value ? nextUrlInput.value : "/revontulet/order-confirmation";
+    const getNextUrl = () => nextUrlInput && nextUrlInput.value ? nextUrlInput.value : "/order-confirmation";
 
     const revealAuthBox = () => {
         authBox.classList.remove("hidden-auth");
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     method: "GET",
                     credentials: "same-origin" // send session cookie
                 })
-                .then(() => window.location.href = "/revontulet/login")
+                .then(() => window.location.href = "/login")
                 .catch(err => console.error(err));
             });
         }
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 if (role === "admin" && data.token) {
                     localStorage.setItem("authToken", data.token);
-                    window.location.href = "/revontulet/admin-interface";
+                    window.location.href = "/admin-interface";
                     return;
                 }
 
@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     attachLogoutHandler();
                     console.log("Redirecting to:", nextUrl);
                     setTimeout(() => {
-                        window.location.href = "/revontulet"+nextUrl;
+                        window.location.href = nextUrl;
                     }, 1000);
                     revealAuthBox();
                     return;
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
                 showNotification("Registration successful!", "success", notificationElement);
                 setTimeout(() => {
-                    window.location.href = "/revontulet/";
+                    window.location.href = "/";
                 }, 1200);
             } catch (err) {
                 console.error(err);
