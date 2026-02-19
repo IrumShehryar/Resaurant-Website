@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         try {
-            const response = await fetch("/revontulet/api/v1/orders/", {
+            const response = await fetch("/api/v1/orders/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(orderData)
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.removeItem("cartTotal");
 
             // Redirect to menu or success page
-            window.location.href = "/revontulet/user-dashboard";
+            window.location.href = "/user-dashboard";
         } catch (error) {
             console.error(error);
             alert("An error occurred while placing your order.");
