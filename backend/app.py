@@ -170,8 +170,7 @@ def cart_page():
     item_id = request.args.get("item")
     return render_template("cart.html", added_item_id=item_id)
 
-# Prefixed cart route for deployments under /revontulet
-@app.get("/revontulet/cart")
+@app.get("/cart")
 def cart_page_prefixed():
     return cart_page()
 
@@ -266,8 +265,8 @@ def login():
 
     return render_template("login.html", next_url=next_url, role="user")
 
-# Prefixed login route for reverse proxy deployments under /revontulet
-@app.route("/revontulet/login", methods=["GET", "POST"])
+
+@app.route("/login", methods=["GET", "POST"])
 def login_prefixed():
     return login()
 
@@ -284,8 +283,7 @@ def checkout():
         return redirect(url_for("login", next=url_for("order_confirmation_page")))
     return redirect(url_for("order_confirmation_page"))
 
-# Prefixed checkout route for reverse proxy deployments under /revontulet
-@app.route("/revontulet/checkout")
+@app.route("/checkout")
 def checkout_prefixed():
     return checkout()
 
@@ -319,8 +317,8 @@ def order_confirmation_page():
 
     return render_template("order-confirmation.html", user=user_data)
 
-# Prefixed order confirmation route for reverse proxy deployments under /revontulet
-@app.get("/revontulet/order-confirmation")
+
+@app.get("/order-confirmation")
 def order_confirmation_page_prefixed():
     return order_confirmation_page()
 
@@ -366,8 +364,8 @@ def user_dashboard():
             orders = Orders.objects(email=user.email)
     return render_template("user-dashboard.html", user=user_data, reservations=reservations, orders=orders)
 
-# Prefixed route for reverse proxy setups serving under /revontulet
-@app.get("/revontulet/user-dashboard")
+
+@app.get("/user-dashboard")
 def user_dashboard_prefixed():
     return user_dashboard()
 
