@@ -379,7 +379,7 @@ def user_dashboard_prefixed():
 if __name__ == "__main__":
     mongo_connect()
     app.run(
-        host="127.0.0.1",
+        host="0.0.0.0",
         port=int(os.getenv("PORT", 5000)),
         debug=os.getenv("FLASK_DEBUG") == "1",
         use_reloader=os.getenv("FLASK_RELOADER") == "1",
