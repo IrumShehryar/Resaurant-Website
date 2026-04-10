@@ -370,4 +370,4 @@ $RECYCLE.BIN/
 docs/jsdoc/
 docs/apidoc/
 
-
+node_modules/
