@@ -1,6 +1,8 @@
 # Revontulet Flamehouse — Restaurant Website
 
-The application is deployed on a server at **https://10.120.32.85/revontulet/**. (The website is deployed at university server ,use Metropolia vpn to get access to it"
+Current link: https://restaurant-website-7ss5.onrender.com/
+
+The application was previously deployed on a server at **https://10.120.32.85/revontulet/**. (The website is deployed at university server ,use Metropolia vpn to get access to it"
 
 Full stack project  
 **Frontend:** HTML / CSS / JavaScript  
